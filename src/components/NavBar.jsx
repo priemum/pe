@@ -166,7 +166,231 @@ const NavBar = ({setActiveNav}) => {
             route: "mandoobtaswia",
           },
         ],
-      },
+    },
+    {
+      text: "الحسابات",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "تحصيل مبالغ بوالص الشحن فى شيت معين",
+          route: "company",
+        },
+        {
+          text: "تحديث حالات بوالص الشحن بارقام متعددة(حسابات)",
+          route: "multi",
+        },
+        {
+          text: "اضافه فاتورة جديدة",
+          route: "invoicedata",
+        },
+        {
+          text: "فواتير العملاء",
+          route: "invoices",
+        },
+        {
+          text: "تعريف السنة المالية",
+          route: "financialyear",
+        },
+        {
+          text: "انواع المصروفات",
+          route: "masroufat",
+        },
+        {
+          text: "شجرة الحسابات",
+          route: "acctree",
+        },
+        {
+          text: "القيود اليومية",
+          route: "segals",
+        },
+        {
+          text: "اضافة اذن صرف جديد",
+          route: "safeoutData",
+        },
+        {
+          text: "اذونات الصرف من الخزينة",
+          route: "safeout",
+        },
+        {
+          text: "اضافة اذن توريد جديد",
+          route: "safeinData",
+        },
+        {
+          text: "اذونات التوريد للخزينة",
+          route: "safein",
+        },
+        {
+          text: "اغلاق السنة المالية",
+          route: "closeyear",
+        },
+      ],
+    },
+    {
+        text: "خدمة العملاء",
+        navRoute: "initialdata",
+        items: [
+          {
+            text: "البحث",
+            route: "shipmentdata",
+          },
+          {
+            text: "مراجعة حالات بوليصة الشحن",
+            route: "shipments",
+          },
+          {
+            text: "انواع الشكاوى",
+            route: "import",
+          },
+          {
+            text: "جهات الشكاوى",
+            route: "multi",
+          },
+          {
+            text: "اضافة شكوى/اقتراح جديد",
+            route: "shipmentstatus",
+          },
+          {
+            text: "الشكاوى",
+            route: "shipmentstatus",
+          },
+          {
+            text: "ارشيف الشكاوى",
+            route: "shipmentstatus",
+          },
+        ],
+    },
+    {
+      text: "تقارير",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "بوالص الشحن خلال فترة معينة",
+          route: "company",
+        },
+        {
+          text: "طباعة شيت يومى لمندوب",
+          route: "multi",
+        },
+        {
+          text: "ارصدة العملاء المستحقة",
+          route: "invoicedata",
+        },
+        {
+          text: "تقارير المدفوعات للعملاء",
+          route: "invoices",
+        },
+        {
+          text: "بيان بالمصروفات خلال فترة معينة",
+          route: "financialyear",
+        },
+        {
+          text: "القيود اليومية خلال فترة",
+          route: "masroufat",
+        },
+        {
+          text: "كشف حركة حساب خلال فترة",
+          route: "acctree",
+        },
+        {
+          text: "حساب الاستاذ العام",
+          route: "segals",
+        },
+        {
+          text: "ارصدة الحسابات",
+          route: "safeoutData",
+        },
+        {
+          text: "ميزان المراجعة",
+          route: "safeout",
+        },
+        {
+          text: "الميزانية العمومية",
+          route: "safeinData",
+        },
+        {
+          text: "قائمة الدخل",
+          route: "safein",
+        }
+      ],
+    },
+    {
+      text: "احصائيات",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "احصائيات عامة",
+          route: "company",
+        },
+        {
+          text: "احصائيات طلبات الشحن خلال فترة",
+          route: "multi",
+        },
+        {
+          text: "احصائيات بوالص الشحن خلال فترة",
+          route: "invoicedata",
+        },
+        {
+          text: "احصائيات عدد بوالص الشحن حسب الحالة",
+          route: "invoices",
+        },
+        {
+          text: "احصائيات بوالص الشحن للعملاء",
+          route: "financialyear",
+        },
+        {
+          text: "احصائيات عدد البوالص لمدخلين البيانات",
+          route: "masroufat",
+        },
+        {
+          text: "احصائيات الحالات فى الفروع",
+          route: "acctree",
+        },
+      ],
+    },
+    {
+      text: "اعدادات",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "مجموعات المستخدمين",
+          route: "company",
+        },
+        {
+          text: "اضافة اسم مستخدم جديد",
+          route: "multi",
+        },
+        {
+          text: "المستخدمين",
+          route: "invoicedata",
+        },
+        {
+          text: "صلاحيات الظهور",
+          route: "invoices",
+        },
+        {
+          text: "صلاحيات الاضافة والتعديل و الحذف",
+          route: "financialyear",
+        },
+        {
+          text: "logs",
+          route: "masroufat",
+        },
+      ],
+    },
+    {
+      text: "اقسام البرنامج",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "اقسام البرنامج",
+          route: "company",
+        },
+        {
+          text: "الصفحات",
+          route: "multi",
+        },
+      ],
+    },
   ];
   return (
     <Navbar bg="light" expand="lg">
@@ -190,6 +414,7 @@ const NavBar = ({setActiveNav}) => {
                   }
                 }}
                 onMouseLeave={(e) => {
+                  if (window.innerWidth >= 992) {
                   const dropdown = e.target.offsetParent,
                     dropdownMenu = e.target.offsetParent.children[1],
                     dropdownLink = document.querySelector(
@@ -197,7 +422,7 @@ const NavBar = ({setActiveNav}) => {
                     );
                   dropdown.classList.remove("show");
                   dropdownMenu.classList.remove("show");
-                }}
+                }}}
                 title={nav.text}
                 id="basic-nav-dropdown"
               >
