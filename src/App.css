@@ -1,0 +1,50 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+.navbar, footer{
+  background: url('./images/motif.jpg');
+}
+.footer{
+  position: absolute;
+  bottom: 0;
+}
+.dropdown{
+  color: #fff;
+}
+.dropdown-menu {
+  padding: 0;
+  border: none;
+}
+#basic-navbar-nav a{
+  text-align: right;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  color: inherit;
+}
+#basic-navbar-nav a:hover{
+  background: #fff;
+  color: #000;
+}
+
+.dropdown-menu[data-bs-popper]{
+  left: unset;
+  right: 0;
+  padding: 0;
+  margin: -2% 0 0;
+}
+.active-nav{
+  font-size: 15px;
+  padding: 10px;
+  top: -5%;
+  right: 2%;
+  transform: translate(0, 2%);
+}
+@media screen and (min-width: 992px) {
+  .show{
+    background: #fff;
+    color: #000;
+  }
+}

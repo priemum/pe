@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 
-const NavBar = ({setActiveNav}) => {
+const NavBar = ({ setActiveNav }) => {
   const navs = [
     {
       text: "بيانات اوليه",
@@ -64,108 +64,108 @@ const NavBar = ({setActiveNav}) => {
       ],
     },
     {
-        text: "اسعار الشحن",
-        navRoute: "initialdata",
-        items: [
-          {
-            text: "اسعار الشحن الافتراضية",
-            route: "defultprices",
-          },
-          {
-            text: "اسعار الشحن العملاء",
-            route: "customerprices",
-          }
-        ],
+      text: "اسعار الشحن",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "اسعار الشحن الافتراضية",
+          route: "defultprices",
+        },
+        {
+          text: "اسعار الشحن العملاء",
+          route: "customerprices",
+        },
+      ],
     },
     {
-        text: "ادوات البيك اب",
-        navRoute: "initialdata",
-        items: [
-          {
-            text: "اضافة اذن بيك اب جديد",
-            route: "pickupdata",
-          },
-          {
-            text: "مراجعة جميع اذونات البيك اب",
-            route: "pickuplist",
-          },
-          {
-            text: "طلبات الشحن المرسلة اون لاين",
-            route: "customersrequsts",
-          },
-          {
-            text: "مصروفات العملاء من الفلايرز",
-            route: "customersflyers",
-          },
-          {
-            text: "ارصدة العملاء من الفلايرز",
-            route: "flyersbalances",
-          },
-        ],
+      text: "ادوات البيك اب",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "اضافة اذن بيك اب جديد",
+          route: "pickupdata",
+        },
+        {
+          text: "مراجعة جميع اذونات البيك اب",
+          route: "pickuplist",
+        },
+        {
+          text: "طلبات الشحن المرسلة اون لاين",
+          route: "customersrequsts",
+        },
+        {
+          text: "مصروفات العملاء من الفلايرز",
+          route: "customersflyers",
+        },
+        {
+          text: "ارصدة العملاء من الفلايرز",
+          route: "flyersbalances",
+        },
+      ],
     },
     {
-        text: "بوالص الشحن",
-        navRoute: "initialdata",
-        items: [
-          {
-            text: "اضافة بوليصة شحن جديدة",
-            route: "shipmentdata",
-          },
-          {
-            text: "مراجعة بوالص الشحن",
-            route: "shipments",
-          },
-          {
-            text: "استيراد بوالص الشحن من ملف اكسل",
-            route: "import",
-          },
-          {
-            text: "تحديث حالات بوالص الشحن بارقام متعددة",
-            route: "multi",
-          },
-          {
-            text: "حذف سجل حركات بوليصة",
-            route: "shipmentstatus",
-          },
-        ],
+      text: "بوالص الشحن",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "اضافة بوليصة شحن جديدة",
+          route: "shipmentdata",
+        },
+        {
+          text: "مراجعة بوالص الشحن",
+          route: "shipments",
+        },
+        {
+          text: "استيراد بوالص الشحن من ملف اكسل",
+          route: "import",
+        },
+        {
+          text: "تحديث حالات بوالص الشحن بارقام متعددة",
+          route: "multi",
+        },
+        {
+          text: "حذف سجل حركات بوليصة",
+          route: "shipmentstatus",
+        },
+      ],
     },
     {
-        text: "شيتات العمل اليومية",
-        navRoute: "initialdata",
-        items: [
-          {
-            text: "اضافة شيت تسليم جديد",
-            route: "company",
-          },
-          {
-            text: "شيتات تسليم اوردارات",
-            route: "zones",
-          },
-          {
-            text: "اضافة شيت مرتجع جديد",
-            route: "areas",
-          },
-          {
-            text: "شيتات تسليم مرتجع",
-            route: "courierdata",
-          },
-          {
-            text: "عودة مندوب وتحديث حالات البوالص",
-            route: "returnstatusupdate",
-          },
-          {
-            text: "شيتات لم يتم تحديثها",
-            route: "pendingsheets",
-          },
-          {
-            text: "مراجعة بوالص الشحن للمندوبين",
-            route: "courierstatusupdate",
-          },
-          {
-            text: "تسوية حسابات شيتات عمل المندوبين",
-            route: "mandoobtaswia",
-          },
-        ],
+      text: "شيتات العمل اليومية",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "اضافة شيت تسليم جديد",
+          route: "company",
+        },
+        {
+          text: "شيتات تسليم اوردارات",
+          route: "zones",
+        },
+        {
+          text: "اضافة شيت مرتجع جديد",
+          route: "areas",
+        },
+        {
+          text: "شيتات تسليم مرتجع",
+          route: "courierdata",
+        },
+        {
+          text: "عودة مندوب وتحديث حالات البوالص",
+          route: "returnstatusupdate",
+        },
+        {
+          text: "شيتات لم يتم تحديثها",
+          route: "pendingsheets",
+        },
+        {
+          text: "مراجعة بوالص الشحن للمندوبين",
+          route: "courierstatusupdate",
+        },
+        {
+          text: "تسوية حسابات شيتات عمل المندوبين",
+          route: "mandoobtaswia",
+        },
+      ],
     },
     {
       text: "الحسابات",
@@ -226,38 +226,38 @@ const NavBar = ({setActiveNav}) => {
       ],
     },
     {
-        text: "خدمة العملاء",
-        navRoute: "initialdata",
-        items: [
-          {
-            text: "البحث",
-            route: "shipmentdata",
-          },
-          {
-            text: "مراجعة حالات بوليصة الشحن",
-            route: "shipments",
-          },
-          {
-            text: "انواع الشكاوى",
-            route: "import",
-          },
-          {
-            text: "جهات الشكاوى",
-            route: "multi",
-          },
-          {
-            text: "اضافة شكوى/اقتراح جديد",
-            route: "shipmentstatus",
-          },
-          {
-            text: "الشكاوى",
-            route: "shipmentstatus",
-          },
-          {
-            text: "ارشيف الشكاوى",
-            route: "shipmentstatus",
-          },
-        ],
+      text: "خدمة العملاء",
+      navRoute: "initialdata",
+      items: [
+        {
+          text: "البحث",
+          route: "shipmentdata",
+        },
+        {
+          text: "مراجعة حالات بوليصة الشحن",
+          route: "shipments",
+        },
+        {
+          text: "انواع الشكاوى",
+          route: "import",
+        },
+        {
+          text: "جهات الشكاوى",
+          route: "multi",
+        },
+        {
+          text: "اضافة شكوى/اقتراح جديد",
+          route: "shipmentstatus",
+        },
+        {
+          text: "الشكاوى",
+          route: "shipmentstatus",
+        },
+        {
+          text: "ارشيف الشكاوى",
+          route: "shipmentstatus",
+        },
+      ],
     },
     {
       text: "تقارير",
@@ -310,7 +310,7 @@ const NavBar = ({setActiveNav}) => {
         {
           text: "قائمة الدخل",
           route: "safein",
-        }
+        },
       ],
     },
     {
@@ -392,42 +392,69 @@ const NavBar = ({setActiveNav}) => {
       ],
     },
   ];
-  return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            {navs.map((nav) => (
-              <NavDropdown
-                onMouseOver={(e) => {
-                  if (window.innerWidth >= 992) {
-                    const dropdown = e.target.offsetParent,
-                      dropdownMenu = e.target.offsetParent.children[1],
-                      dropdownLink = document.querySelector(
-                        ".dropdown-toggle.nav-link"
-                      );
+  const [show, setShow] = useState({});
+  const showDropdown = (e)=>{
+    if(window.innerWidth > 992){
+    setShow({[e.target.text]: true});
+    console.log(show);
+    }
+}
+const hideDropdown = e => {
+  setShow({});
+}
+  // useEffect(() => {
+  //   console.log(document.querySelector('.dropmenu'))
+  // },[])
+  // const showDropdown = (e) => {
+  //   const dropdown = e.target.offsetParent,
+  //     dropdownMenu = e.target.offsetParent.children[1],
+  //     dropdownLink = document.querySelector(
+  //       ".dropdown-toggle.nav-link"
+  //     );
+  //   if (window.innerWidth >= 992) {
+      
+  //     dropdown.classList.add("show");
+  //     dropdownMenu.classList.add("show");
+  //   }
+  // }
+  // const hideDropdown = (e) => {
+  //   const dropdown = e.target.offsetParent,
+  //   dropdownMenu = e.target.offsetParent.children[1],
+  //   dropdownLink = document.querySelector(
+  //     ".dropdown-toggle.nav-link"
+  //   );
+  //   if (window.innerWidth >= 992) {
+  //   dropdown.classList.remove("show");
+  //   dropdownMenu.classList.remove("show");
+  // }}
 
-                    dropdown.classList.add("show");
-                    dropdownMenu && dropdownMenu.classList.add("show");
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (window.innerWidth >= 992) {
-                  const dropdown = e.target.offsetParent,
-                    dropdownMenu = e.target.offsetParent.children[1],
-                    dropdownLink = document.querySelector(
-                      ".dropdown-toggle.nav-link"
-                    );
-                  dropdown.classList.remove("show");
-                  dropdownMenu.classList.remove("show");
-                }}}
+  return (
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Container className="flex-row-reverse" fluid>
+        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto flex-lg-row-reverse">
+            {navs.map((nav, index) => (
+              <NavDropdown
+              key={index}
+                show={show[`${nav.text}`]}
+   onMouseOver={showDropdown} 
+   onMouseLeave={hideDropdown}
+                renderMenuOnMount={true}
                 title={nav.text}
                 id="basic-nav-dropdown"
               >
-                {nav.items.map((item) => (
-                  <NavDropdown.Item onClick={() => setActiveNav(item.text)} href="#action/3.1">
+                {nav.items.map((item, index) => (
+                  <NavDropdown.Item
+                    className="bg-dark text-light"
+                    key={index}
+
+   onMouseOver={showDropdown} 
+   onMouseLeave={hideDropdown}
+                    onClick={() => setActiveNav(item.text)}
+                    href="#action/3.1"
+                  >
                     {item.text}
                   </NavDropdown.Item>
                 ))}
