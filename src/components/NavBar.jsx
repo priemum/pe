@@ -187,42 +187,6 @@ const NavBar = ({ setActiveNav }) => {
           text: "فواتير العملاء",
           route: "invoices",
         },
-        {
-          text: "تعريف السنة المالية",
-          route: "financialyear",
-        },
-        {
-          text: "انواع المصروفات",
-          route: "masroufat",
-        },
-        {
-          text: "شجرة الحسابات",
-          route: "acctree",
-        },
-        {
-          text: "القيود اليومية",
-          route: "segals",
-        },
-        {
-          text: "اضافة اذن صرف جديد",
-          route: "safeoutData",
-        },
-        {
-          text: "اذونات الصرف من الخزينة",
-          route: "safeout",
-        },
-        {
-          text: "اضافة اذن توريد جديد",
-          route: "safeinData",
-        },
-        {
-          text: "اذونات التوريد للخزينة",
-          route: "safein",
-        },
-        {
-          text: "اغلاق السنة المالية",
-          route: "closeyear",
-        },
       ],
     },
     {
@@ -392,16 +356,24 @@ const NavBar = ({ setActiveNav }) => {
       ],
     },
   ];
-  const [show, setShow] = useState({});
-  const showDropdown = (e)=>{
-    if(window.innerWidth > 992){
-    setShow({[e.target.text]: true});
-    console.log(show);
-    }
-}
-const hideDropdown = e => {
-  setShow({});
-}
+//   const [show, setShow] = useState({});
+//   useEffect(() => {
+    
+  
+//     return () => {
+//       d
+//     }
+//   }, [third])
+  
+// //   const showDropdown = (e)=>{
+// //     if(window.innerWidth > 992){
+// //     setShow({[e.target.text]: true});
+// //     console.log(show);
+// //     }
+// // }
+// // const hideDropdown = e => {
+// //   setShow({});
+// // }
   // useEffect(() => {
   //   console.log(document.querySelector('.dropmenu'))
   // },[])
@@ -432,26 +404,26 @@ const hideDropdown = e => {
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container className="flex-row-reverse" fluid>
         <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0" />
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 " />
+        <Navbar.Collapse id="basic-navbar-nav" >
           <Nav className="ms-auto flex-lg-row-reverse">
             {navs.map((nav, index) => (
               <NavDropdown
+              className='text-light'
               key={index}
-                show={show[`${nav.text}`]}
-   onMouseOver={showDropdown} 
-   onMouseLeave={hideDropdown}
+  //               show={show[`${nav.text}`]}
+  //  onMouseOver={showDropdown} 
+  //  onMouseLeave={hideDropdown}
                 renderMenuOnMount={true}
                 title={nav.text}
                 id="basic-nav-dropdown"
               >
                 {nav.items.map((item, index) => (
                   <NavDropdown.Item
-                    className="bg-dark text-light"
                     key={index}
-
-   onMouseOver={showDropdown} 
-   onMouseLeave={hideDropdown}
+                  
+  //  onMouseOver={showDropdown} 
+  //  onMouseLeave={hideDropdown}
                     onClick={() => setActiveNav(item.text)}
                     href="#action/3.1"
                   >
