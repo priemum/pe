@@ -1,14 +1,27 @@
 *{
   padding: 0;
   margin: 0;
+  text-align: right;
+}
+.App{
+  height: 100vh;
+  overflow: scroll;
 }
 .navbar, footer{
   background: url('./images/motif.jpg');
-}
-.footer{
   position: absolute;
-  bottom: 0;
+  width: 100%;
 }
+main{
+}
+main .container-fluid{
+  margin: 100px 0;
+}
+footer{
+  bottom: 0;
+  z-index: 3;
+}
+
 .dropdown-menu {
   padding: 0;
   border: none;
@@ -35,6 +48,26 @@
   top: -5%;
   right: 2%;
   transform: translate(0, 2%);
+}
+.my-form{
+  background: #efefef;
+  padding: 5px 20px;
+  border-radius: 10px;
+}
+.form-label{
+  width: max(105px ,20%);
+}
+.form-group{
+  width: 75%;
+  height: min(45px, auto);
+  margin-left: auto;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.form-control{
+  width: 75%;
+  height: 35px;
+  border-radius: 10px;
 }
 @media screen and (min-width: 992px) {
   #basic-navbar-nav a:hover{

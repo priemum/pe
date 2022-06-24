@@ -2,23 +2,28 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import bg from './images/motif.jpg'
 import { Badge, Container } from 'react-bootstrap';
 import { useState } from 'react';
+import Company from './pages/Company';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
   return (
+  <Router>
     <div className="App">
       <header>
         <NavBar setActiveNav={setActiveNav} />
       </header>
-      <main style={{width: '100%', height: '100vh'}}>
+      <main style={{width: '100%'}}>
         <Container className='d-flex h-100 ' fluid>
-          <Container className='m-auto border border-dark rounded h-75 position-relative'>
+          <Container className='m-auto border border-dark rounded py-5 position-relative'>
             <Badge className = 'active-nav position-absolute'>{activeNav}</Badge>
-                <h1 className='text-center my-auto'>{ activeNav === 'مرحبا'? ' ' : 'SOON!!!!!!!!!!!!!'}</h1>
+                <Routes>
+                  <Route path='/company' element={<Company/>}/>
+                  <Route  element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
+                </Routes>
           </Container>
           
         </Container>
@@ -27,6 +32,7 @@ function App() {
        <Footer />
       </footer>
     </div>
+  </Router>
   );
 }
 

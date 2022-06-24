@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const NavBar = ({ setActiveNav }) => {
   const navs = [
@@ -356,52 +357,9 @@ const NavBar = ({ setActiveNav }) => {
       ],
     },
   ];
-//   const [show, setShow] = useState({});
-//   useEffect(() => {
-    
-  
-//     return () => {
-//       d
-//     }
-//   }, [third])
-  
-// //   const showDropdown = (e)=>{
-// //     if(window.innerWidth > 992){
-// //     setShow({[e.target.text]: true});
-// //     console.log(show);
-// //     }
-// // }
-// // const hideDropdown = e => {
-// //   setShow({});
-// // }
-  // useEffect(() => {
-  //   console.log(document.querySelector('.dropmenu'))
-  // },[])
-  // const showDropdown = (e) => {
-  //   const dropdown = e.target.offsetParent,
-  //     dropdownMenu = e.target.offsetParent.children[1],
-  //     dropdownLink = document.querySelector(
-  //       ".dropdown-toggle.nav-link"
-  //     );
-  //   if (window.innerWidth >= 992) {
-      
-  //     dropdown.classList.add("show");
-  //     dropdownMenu.classList.add("show");
-  //   }
-  // }
-  // const hideDropdown = (e) => {
-  //   const dropdown = e.target.offsetParent,
-  //   dropdownMenu = e.target.offsetParent.children[1],
-  //   dropdownLink = document.querySelector(
-  //     ".dropdown-toggle.nav-link"
-  //   );
-  //   if (window.innerWidth >= 992) {
-  //   dropdown.classList.remove("show");
-  //   dropdownMenu.classList.remove("show");
-  // }}
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg" sticky='top'>
       <Container className="flex-row-reverse" fluid>
         <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 " />
@@ -411,24 +369,20 @@ const NavBar = ({ setActiveNav }) => {
               <NavDropdown
               className='text-light'
               key={index}
-  //               show={show[`${nav.text}`]}
-  //  onMouseOver={showDropdown} 
-  //  onMouseLeave={hideDropdown}
                 renderMenuOnMount={true}
                 title={nav.text}
                 id="basic-nav-dropdown"
               >
                 {nav.items.map((item, index) => (
+                  <Link to={`/${item.route}`}>
                   <NavDropdown.Item
                     key={index}
-                  
-  //  onMouseOver={showDropdown} 
-  //  onMouseLeave={hideDropdown}
                     onClick={() => setActiveNav(item.text)}
                     href="#action/3.1"
                   >
                     {item.text}
                   </NavDropdown.Item>
+                  </Link>
                 ))}
               </NavDropdown>
             ))}
