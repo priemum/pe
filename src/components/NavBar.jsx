@@ -359,7 +359,7 @@ const NavBar = ({ setActiveNav }) => {
   ];
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" sticky='top'>
+    <Navbar bg="dark" variant="dark" expand="lg" sticky='top' collapseOnSelect={true}>
       <Container className="flex-row-reverse" fluid>
         <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 " />

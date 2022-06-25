@@ -7,6 +7,7 @@ import bg from './images/motif.jpg'
 import { Badge, Container } from 'react-bootstrap';
 import { useState } from 'react';
 import Company from './pages/Company';
+import Zones from './pages/Zones';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -22,7 +23,8 @@ function App() {
             <Badge className = 'active-nav position-absolute'>{activeNav}</Badge>
                 <Routes>
                   <Route path='/company' element={<Company/>}/>
-                  <Route  element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
+                  <Route path='/zones' element={<Zones />}/>
+                  <Route element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>
           </Container>
           

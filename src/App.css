@@ -69,6 +69,19 @@ footer{
   height: 35px;
   border-radius: 10px;
 }
+.add-btn{
+  margin-right: auto;
+  width: 200px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  border-radius: 8px;
+}
+.add-card{
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.493);
+}
 @media screen and (min-width: 992px) {
   #basic-navbar-nav a:hover{
     background: #fff;
