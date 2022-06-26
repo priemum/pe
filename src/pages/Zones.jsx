@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Container } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import AddBtn from '../components/AddBtn'
-import AddingCard from '../components/AddingCard'
-import TableCompo from '../components/TableCompo'
+import {ZoneTable} from '../components/TableCompo'
+import { ZonesContext, ZonesProvider } from '../contexts/ZonesContext'
 const Zones = () => {
-  const [overlayShow, setOverlayShow] = useState({})
+  const [zones, setZones] = useContext(ZonesContext)
   return (
     <Container>
-      <AddingCard />
-        <AddBtn />
-        <TableCompo />
+        <Link to='/zones/add'><AddBtn/></Link>
+        <ZoneTable data={zones}/>
     </Container>
   )
 }

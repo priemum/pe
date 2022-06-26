@@ -3,9 +3,13 @@
   margin: 0;
   text-align: right;
 }
+a{
+  text-decoration: none;
+}
 .App{
   height: 100vh;
   overflow: scroll;
+  position: relative;
 }
 .navbar, footer{
   background: url('./images/motif.jpg');
@@ -16,6 +20,7 @@ main{
 }
 main .container-fluid{
   margin: 100px 0;
+  height: 60vh;
 }
 footer{
   bottom: 0;
@@ -58,10 +63,8 @@ footer{
   width: max(105px ,20%);
 }
 .form-group{
-  width: 75%;
   height: min(45px, auto);
   margin-left: auto;
-  flex-wrap: wrap;
   align-items: center;
 }
 .form-control{
@@ -77,10 +80,13 @@ footer{
   align-items: center;
   border-radius: 8px;
 }
-.add-card{
+main .add-card{
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.493);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media screen and (min-width: 992px) {
   #basic-navbar-nav a:hover{

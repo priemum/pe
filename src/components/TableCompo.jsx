@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
-
-const TableCompo = () => {
+import { FaEdit } from 'react-icons/fa'
+export const ZoneTable = ({data}) => {
    // FaEdit
   return (
     <Table striped bordered hover>
@@ -13,10 +13,15 @@ const TableCompo = () => {
     </tr>
   </thead>
   <tbody>
-    
+   {data.map( zone =>
+    (<tr>
+      {console.log(zone)}
+      <td><FaEdit /></td>
+      <td>{zone.desc}</td>
+      <td>{zone.domainName}</td>
+    </tr>
+    ))}
   </tbody>
 </Table>
   )
 }
-
-export default TableCompo
