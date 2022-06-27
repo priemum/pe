@@ -8,7 +8,8 @@ const Zones = () => {
   const [zones, setZones] = useContext(ZonesContext)
   return (
     <Container>
-        <Link to='/zones/add'><AddBtn/></Link>
+      {console.log(zones)}
+        <Link to='/zones/add'><AddBtn content='اضافة نطاق جديد'/></Link>
         <ZoneTable data={zones}/>
     </Container>
   )

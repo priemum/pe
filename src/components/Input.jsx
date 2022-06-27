@@ -13,14 +13,14 @@ export function Input({labelName,value,type, setValue, name}) {
   </Form.Group>
     );
 }
-export function Textarea({name,value,type, setValue}){
+export function Textarea({name,value,type, setValue, label}){
   const inputOnChanget = e => {
     setValue({... value, [name] :`${e.target.value}`})
   }
 return (
   <>
 <textarea onChange={inputOnChanget}></textarea>
-<label className='ms-auto my-5'>ملاحظات</label>
+<label className='ms-auto my-5'>{label}</label>
 </>
 );
 }
@@ -31,9 +31,12 @@ export function SelectInput({name,value,type, setValue, data, label}){
 return (
   <Form.Group className="mb-3">
     <Form.Label>{label}</Form.Label>
-    <Form.Select >
-      {data.map(zone => <option>{zone.domainName}</option>)}
-    </Form.Select>
+    <Form.Control 
+    as="select"
+    onChange={inputOnChanget}
+    >
+      {data.map(zone => <option value={zone.domainName}>{zone.domainName}</option>)}
+    </Form.Control>
   </Form.Group>
 );
 }
