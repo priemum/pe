@@ -6,11 +6,6 @@
 a{
   text-decoration: none;
 }
-.App{
-  height: 100vh;
-  overflow: scroll;
-  position: relative;
-}
 .navbar, footer{
   background: url('./images/motif.jpg');
   position: absolute;
@@ -20,11 +15,6 @@ main{
 }
 main .container-fluid{
   margin: 100px 0;
-  height: 60vh;
-}
-footer{
-  bottom: 0;
-  z-index: 3;
 }
 
 .dropdown-menu {
@@ -79,14 +69,6 @@ footer{
   justify-content: right;
   align-items: center;
   border-radius: 8px;
-}
-main .add-card{
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 @media screen and (min-width: 992px) {
   #basic-navbar-nav a:hover{

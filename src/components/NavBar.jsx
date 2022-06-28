@@ -21,16 +21,8 @@ const NavBar = ({ setActiveNav }) => {
           route: "areas",
         },
         {
-          text: "اضافة مندوب جديد",
-          route: "courierdata",
-        },
-        {
           text: "المندوبين",
           route: "couriers",
-        },
-        {
-          text: "اضافة عميل جديد",
-          route: "customerdata",
         },
         {
           text: "العملاء",

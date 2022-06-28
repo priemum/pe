@@ -8,11 +8,12 @@ import { Badge, Container } from 'react-bootstrap';
 import { useState } from 'react';
 import Company from './pages/Company';
 import Zones from './pages/Zones';
-import {AddingArea, AddingCourier, AddingZone} from './components/AddingCard';
+import {AddingArea, AddingCourier, AddingZone, AddingCustomer} from './components/AddingCard';
 import { ZonesProvider } from './contexts/ZonesContext';
 import Areas from './pages/Areas';
 import { AreasProvider } from './contexts/AreasContext';
 import Couriers from './pages/Couriers';
+import Customers from './pages/Customers';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -36,6 +37,8 @@ function App() {
                   <Route path='/areas/add' element={<AddingArea />}/>
                   <Route path='/couriers' element={<Couriers />}/>
                   <Route path='/couriers/add' element={<AddingCourier />}/>
+                  <Route path='/customers' element={<Customers />}/>
+                  <Route path='/customers/add' element={<AddingCustomer />}/>
                   <Route element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>
           </Container>
