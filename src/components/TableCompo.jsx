@@ -1,6 +1,5 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
-import { FaEdit } from 'react-icons/fa'
 import { Input } from './Input'
 export const ZoneTable = ({data}) => {
    // FaEdit
@@ -17,7 +16,7 @@ export const ZoneTable = ({data}) => {
    {data.map( zone =>
     (<tr>
       {console.log(zone)}
-      <td><FaEdit /></td>
+      <td>تعديل</td>
       <td>{zone.desc}</td>
       <td>{zone.domainName}</td>
     </tr>
