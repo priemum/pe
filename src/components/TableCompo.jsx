@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
+import { FaEdit } from 'react-icons/fa'
 import { Input } from './Input'
-Import { FaEdit } from 'react-icons/fa'
 export const ZoneTable = ({data}) => {
    // FaEdit
   return (
