@@ -5,23 +5,23 @@ export const ZonesContext = createContext()
 export const ZonesProvider = (props) => {
     const [zones, setZones] = useState([
       {
-        domainName: 'القاهرة و الجيزة',
+        name: 'القاهرة و الجيزة',
         desc: ''
       },
       {
-        domainName: 'اسكندرية',
+        name: 'اسكندرية',
         desc: ''
       },
       {
-        domainName: 'محافظات الدلتا',
+        name: 'محافظات الدلتا',
         desc: ''
       },
       {
-        domainName: 'مدن جديدة / ضواحي القاهره و الجيزه',
+        name: 'مدن جديدة / ضواحي القاهره و الجيزه',
         desc: ''
       },
       {
-        domainName: 'مدن القناه',
+        name: 'مدن القناه',
         desc: ''
       }
     ])

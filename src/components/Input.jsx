@@ -18,10 +18,10 @@ export function Textarea({name,value,type, setValue, label}){
     setValue({... value, [name] :`${e.target.value}`})
   }
 return (
-  <>
+  <div className='d-flex'>
 <textarea onChange={inputOnChanget}></textarea>
 <label className='ms-auto my-5'>{label}</label>
-</>
+</div>
 );
 }
 export function SelectInput({name,value,type, setValue, data, label}){
@@ -35,7 +35,7 @@ return (
     as="select"
     onChange={inputOnChanget}
     >
-      {data.map(zone => <option value={zone.domainName}>{zone.domainName}</option>)}
+      {data.map(zone => <option value={zone.name}>{zone.name}</option>)}
     </Form.Control>
   </Form.Group>
 );

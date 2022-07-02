@@ -20,7 +20,7 @@ return (
   <Container fluid className='add-card '>
       {console.log(inputsValue)}
         <Form onSubmit={formSubmit}>
-            <Input name='domainName' labelName=':اسم النطاق' type='text' value={inputsValue} setValue={setInputsValue}/>
+            <Input name='name' labelName=':اسم النطاق' type='text' value={inputsValue} setValue={setInputsValue}/>
             <div className='d-flex align-items-center'>
             <Textarea name='desc' value={inputsValue} setValue={setInputsValue}/>
             

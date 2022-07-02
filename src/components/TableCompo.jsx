@@ -19,7 +19,7 @@ export const ZoneTable = ({data}) => {
       {console.log(zone)}
       <td><FaEdit /></td>
       <td>{zone.desc}</td>
-      <td>{zone.domainName}</td>
+      <td>{zone.name}</td>
     </tr>
     ))}
   </tbody>
@@ -67,7 +67,7 @@ export const CourierTable = ({data}) => {
    (<tr>
      <td><Input /></td>
      <td><Input /></td>
-     <td>{zone.domainName}</td>
+     <td>{zone.name}</td>
    </tr>
    ))}
  </tbody>
