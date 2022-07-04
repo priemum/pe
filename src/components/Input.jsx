@@ -28,6 +28,7 @@ export function SelectInput({name,value,type, setValue, data, label}){
   const inputOnChanget = e => {
     setValue({... value, [name] :`${e.target.value}`})
   }
+  console.log(typeof(data[0]))
 return (
   <Form.Group className="mb-3 d-flex flex-row-reverse">
     <Form.Label>{label}</Form.Label>
@@ -35,7 +36,9 @@ return (
     as="select"
     onChange={inputOnChanget}
     >
-      {data.map(zone => <option value={zone.name}>{zone.name}</option>)}
+      {data.map(zone => typeof(zone) === "object"? <option value={zone.name}>{zone.name}</option> : 
+      <option value={zone}>{zone}</option>
+      )}
     </Form.Control>
   </Form.Group>
 );

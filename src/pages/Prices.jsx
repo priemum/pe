@@ -7,7 +7,10 @@ import { BranchesContext } from '../contexts/BranchesContext'
 export const DefaultPrices = () => {
   const [branches, setBranches] = useContext(BranchesContext)
     return (
-    <Form className='my-form'>
+    <Form className='my-form' onSubmit={e => {
+  e.preventDefault()
+  
+ }}>
         <SelectInput data={branches} label='الفرع'/>
         <div className='d-flex flex-row-reverse align-items-center'>
             <Input labelName='قيمة الشحن على وزن' type='text'/><h6>كيلو جرام</h6>
@@ -20,7 +23,10 @@ export const DefaultPrices = () => {
 export const CustomerPrices = () => {
     const [branches, setBranches] = useContext(BranchesContext)
       return (
-      <Form className='my-form'>
+      <Form className='my-form' onSubmit={e => {
+  e.preventDefault()
+  
+ }}>
           <SelectInput data={branches} label='الفرع'/>
           <SelectInput data={branches} label='العميل'/>
           <Row>
