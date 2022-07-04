@@ -11,6 +11,10 @@ a{
   position: absolute;
   width: 100%;
 }
+footer{
+  position: absolute;
+  bottom: 0;
+}
 main{
 }
 main .container-fluid{

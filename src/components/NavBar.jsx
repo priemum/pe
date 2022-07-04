@@ -62,7 +62,7 @@ const NavBar = ({ setActiveNav }) => {
       items: [
         {
           text: "اسعار الشحن الافتراضية",
-          route: "defultprices",
+          route: "defaultprices",
         },
         {
           text: "اسعار الشحن العملاء",

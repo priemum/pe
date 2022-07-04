@@ -1,10 +1,10 @@
 import React, {useContext, useState} from 'react'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Row, Col } from 'react-bootstrap'
 import AddBtn from '../components/AddBtn';
 import {Input, SelectInput} from '../components/Input'
 import Tabels from '../components/Tabels'
 import { BranchesContext } from '../contexts/BranchesContext';
-
+import {Link, useNavigate} from 'react-router-dom'
 const Branches = () => {
   const [branches, setBranches] = useContext(BranchesContext)
   const [branch, setBranch] = useState(null)
@@ -35,7 +35,7 @@ const Branches = () => {
     }
     ]
   const headsArr = [
-    "يبدأ ترقيم بوالص الفرع",
+    "يبدأ الترقيم",
     "البريد الالكترونى",
     "رقم الفاكس",
     "رقم التليفون",
@@ -60,8 +60,58 @@ const Branches = () => {
 export const Transfer = () => {
   const [branches, setBranches] = useContext(BranchesContext)
   return <>
-  <AddBtn content='اضافة شيت تسليم فرع'/>
-    <SelectInput data={branches}/>
+ <Link to='/sheets/add'> <AddBtn content='اضافة شيت تسليم فرع'/>
+ </Link>
+    <SelectInput data={branches} label='الي فرع'/>
+  </>
+}
+
+
+
+
+
+export const TransferFrom = () => {
+  const [branches, setBranches] = useContext(BranchesContext)
+  const navigate = useNavigate()
+  return <>
+ <Form className='my-form' onSubmit={e => {
+  e.preventDefault()
+  
+ }}>
+    <SelectInput data={branches} label='الي فرع'/>
+    <Row>
+      <Col md='6' sm='12'>
+        <Input labelName='الي' type='date'/>
+      </Col>
+      <Col md='6' sm='12'>
+        <Input labelName='الفترة من' type='date'/>
+      </Col>
+      <Col sm='12'>
+        <Input labelName='رقم الشيت' type='text'/>
+      </Col>
+    </Row>
+    <Button type='submit'>بحث</Button>
+  </Form>
+  </>
+}
+
+
+
+export const BranchReturn = () => {
+  const [branches, setBranches] = useContext(BranchesContext)
+  const navigate = useNavigate()
+  return <>
+  <Link to='/branchreturn/add'>
+ <AddBtn content='إضافة امر توريد شحنات'/>
+ </Link>
+ <Form className='my-form' onSubmit={e => {
+  e.preventDefault()
+  
+ }}>
+    <SelectInput data={branches} label='الي فرع'/>
+    <SelectInput data={branches} label='من فرع'/>
+        <Input labelName='رقم البوليصة' type='text'/>
+  </Form>
   </>
 }
 

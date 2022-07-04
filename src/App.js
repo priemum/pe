@@ -8,16 +8,17 @@ import { Badge, Container } from 'react-bootstrap';
 import { useState } from 'react';
 import Company from './pages/Company';
 import Zones from './pages/Zones';
-import {AddingArea, AddingCourier, AddingZone, AddingCustomer} from './components/AddingCard';
+import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingSheet, AddingBranchReturn} from './components/AddingCard';
 import Areas from './pages/Areas';
 import Couriers from './pages/Couriers';
 import Customers from './pages/Customers';
 import Status from './pages/Status';
-import Branches, { Transfer } from './pages/Branches';
+import Branches, { BranchReturn, Transfer, TransferFrom } from './pages/Branches';
 import { ZonesProvider } from './contexts/ZonesContext';
 import { AreasProvider } from './contexts/AreasContext';
 import { StatusProvider } from './contexts/StatusContext';
 import { BranchesProvider } from './contexts/BranchesContext';
+import { CustomerPrices, DefaultPrices } from './pages/Prices';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -49,6 +50,13 @@ function App() {
                   <Route path='/status/add' element={<AddingZone />}/>
                   <Route path='/branchs' element={<Branches />}/>
                   <Route path='/transfer' element={<Transfer />}/>
+                  <Route path='/sheets/add' element={<AddingSheet/>}/>
+                  <Route path='/transferfrom' element={<TransferFrom/>}/>
+                  <Route path='/branchreturn' element={<BranchReturn/>}/>
+                  <Route path='/branchreturn/add' element={<AddingBranchReturn/>}/>
+                  <Route path='/customerprices' element={<CustomerPrices/>}/>
+                  <Route path='/defaultprices' element={<DefaultPrices/>}/>
+                  
                   <Route element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>
           </Container>

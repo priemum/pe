@@ -3,6 +3,7 @@ import { Container, Form, Button, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { ZonesContext } from '../contexts/ZonesContext'
 import { AreasContext } from '../contexts/AreasContext'
+import { BranchesContext } from '../contexts/BranchesContext'
 import {Input, Textarea, SelectInput} from './Input'
 import { CourierTable } from './TableCompo'
 
@@ -65,6 +66,7 @@ return (
 export const AddingCourier = () => {
   const [areas, setAreas] = useContext(AreasContext)
   const [zones, setZones] = useContext(ZonesContext)
+  const [branches, setBranches] = useContext(BranchesContext)
   const [inputsValue, setInputsValue] = useState({})
   const navigator = useNavigate()
 
@@ -100,7 +102,7 @@ return (
         <Row className='flex-row-reverse'>
           <Col>
             <Form>
-            <SelectInput label='الفرع' data={[]}/>
+            <SelectInput label='الفرع' data={branches}/>
               {inputs.map(input => <Input type={input.type} labelName={input.labelName}/>)}
               <Textarea label='ملاحظات'/>
               <Button>حفظ</Button>
@@ -183,3 +185,100 @@ return (
   )
 }
 
+
+export const AddingSheet = () => {
+  const [branches, setBranches] = useContext(BranchesContext)
+  const [sheet, setSheet] = useState(null)
+  const inputs = [
+    {
+      label:'رقم الشيت',
+      name: 'sheetCode',
+      type: 'text',
+    },
+    {
+      label: 'تاريخ الشيت',
+      type: 'date',
+    },
+    {
+      label: 'كود البوليصة',
+      name: 'shipmentCode',
+      type: 'text',
+    },
+    ]
+  return <Form onSubmit={e => {
+    e.preventDefault()
+    console.log()
+  }}>
+    <SelectInput data={branches}/>
+    {
+      inputs.map(input => <Input name={input.name} labelName={input.label} type={input.type} value={sheet} setValue={setSheet}/>)
+    }
+    {['ملاحظات','مراجعة العمليات'].map(textarea => <Textarea label={textarea} value={sheet} setValue={setSheet}/>)}
+    <Button>طباعة</Button>
+    <Button type='submit' className='mx-1'>حفظ</Button>
+  </Form>
+}
+
+
+export const AddingBranchReturn = () => {
+  const [branches, setBranches] = useContext(BranchesContext)
+
+  const formSubmit = e => {
+    e.preventDefault()
+    console.log()
+  }
+  return(
+    <>
+        <Form  className='my-form' onSubmit={formSubmit}>
+      <Input labelName='رقم التوريد' type='number' readonly={true}/>
+      <Input labelName='تاريخ التوريد' type='date' />
+      <SelectInput data={branches} label='من فرع'/>
+      <SelectInput data={branches} label='الي فرع'/>
+      <Row>
+        <Col>
+        <Textarea label='بوالص لم يتم توريدها'/>
+        </Col>
+        <Col>
+        <Button>ادراج</Button>
+        </Col>
+      </Row>
+      <Row>
+<Col>
+عدد البوالص : <small className='text-danger'>0</small></Col>
+        <Col>
+        اجمالى المبلغ : <small className='text-danger'>0</small></Col>
+<Col>
+اجمالى قيمة الشحن : <small className='text-danger'>0</small></Col>
+<Col>
+الصافى : <small className='text-danger'>0</small></Col>
+      </Row>
+      <Input labelName=':البيان'/>
+      <Button type='submit'>حفظ</Button>
+    </Form>
+    <fieldset>
+      <legend>تأكيد استلام البوالص فى امر التوريد</legend>
+      <Form className='my-form'>
+      <Row>
+        <Col>
+        <Textarea label='البوالص التي تم استلامها'/>
+        </Col>
+        <Col>
+        <Button>ادراج</Button>
+        </Col>
+      </Row>
+      <Row>
+<Col>
+عدد البوالص : <small className='text-danger'>0</small></Col>
+        <Col>
+        اجمالى المبلغ : <small className='text-danger'>0</small></Col>
+<Col>
+اجمالى قيمة الشحن : <small className='text-danger'>0</small></Col>
+<Col>
+الصافى : <small className='text-danger'>0</small></Col>
+      </Row>
+      <Button type='submit'>استلام</Button>
+      </Form>
+    </fieldset>
+    </>
+  )
+}
