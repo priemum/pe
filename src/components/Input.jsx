@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form} from 'react-bootstrap';
+import {Form, Col, Row} from 'react-bootstrap';
 
 export function Input({labelName,value,type, setValue, name, readonly}) {
   const inputOnChange = e => {
@@ -42,4 +42,18 @@ return (
     </Form.Control>
   </Form.Group>
 );
+}
+
+export function FromToCompo({fromLabel, toLabel, type}) {
+
+  return(
+    <Row className='flex-row-reverse align-items-center'>
+      <Col>
+      <Input labelName={fromLabel} type={type}/>
+      </Col>
+      <Col>
+      <Input labelName={toLabel} type={type}/>
+      </Col>
+  </Row>
+  )
 }

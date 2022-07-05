@@ -19,7 +19,7 @@ import { AreasProvider } from './contexts/AreasContext';
 import { StatusProvider } from './contexts/StatusContext';
 import { BranchesProvider } from './contexts/BranchesContext';
 import { CustomerPrices, DefaultPrices } from './pages/Prices';
-import { AddPickup, PickupList } from './pages/Pickup';
+import { AddPickup, CustomersRequest, PickupList } from './pages/Pickup';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -59,6 +59,7 @@ function App() {
                   <Route path='/defaultprices' element={<DefaultPrices/>}/>
                   <Route path='/pickupdata' element={<AddPickup/>}/>
                   <Route path='/pickuplist' element={<PickupList/>}/>
+                  <Route path='/customersrequests' element={<CustomersRequest/>}/>
                   
                   <Route element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>

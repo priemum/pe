@@ -15,10 +15,14 @@ footer{
   position: absolute;
   bottom: 0;
 }
+.App{
+  height: 100vh;
+  overflow: scroll;
+}
 main{
+  padding: 100px 0;
 }
 main .container-fluid{
-  margin: 100px 0;
 }
 
 .dropdown-menu {
@@ -49,6 +53,8 @@ main .container-fluid{
   transform: translate(0, 2%);
 }
 .my-form{
+  width: 400px;
+  margin: auto;
   background: #efefef;
   padding: 20px;
   border-radius: 10px;

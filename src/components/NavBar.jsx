@@ -84,7 +84,7 @@ const NavBar = ({ setActiveNav }) => {
         },
         {
           text: "طلبات الشحن المرسلة اون لاين",
-          route: "customersrequsts",
+          route: "customersrequests",
         },
         {
           text: "مصروفات العملاء من الفلايرز",
