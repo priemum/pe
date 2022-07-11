@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ZonesContext } from '../contexts/ZonesContext'
 import { AreasContext } from '../contexts/AreasContext'
 import { BranchesContext } from '../contexts/BranchesContext'
-import {Input, Textarea, SelectInput} from './Input'
+import {Input, Textarea, SelectInput, FromToCompo, RadioInputs} from './Input'
 import { CourierTable } from './TableCompo'
 
 export const AddingZone = () => {
@@ -185,7 +185,6 @@ return (
   )
 }
 
-
 export const AddingSheet = () => {
   const [branches, setBranches] = useContext(BranchesContext)
   const [sheet, setSheet] = useState(null)
@@ -218,7 +217,6 @@ export const AddingSheet = () => {
     <Button type='submit' className='mx-1'>حفظ</Button>
   </Form>
 }
-
 
 export const AddingBranchReturn = () => {
   const [branches, setBranches] = useContext(BranchesContext)
@@ -255,9 +253,9 @@ export const AddingBranchReturn = () => {
       <Input labelName=':البيان'/>
       <Button type='submit'>حفظ</Button>
     </Form>
-    <fieldset>
-      <legend>تأكيد استلام البوالص فى امر التوريد</legend>
       <Form className='my-form'>
+    <fieldset className='border'>
+      <legend>تأكيد استلام البوالص فى امر التوريد</legend>
       <Row>
         <Col>
         <Textarea label='البوالص التي تم استلامها'/>
@@ -277,8 +275,113 @@ export const AddingBranchReturn = () => {
 الصافى : <small className='text-danger'>0</small></Col>
       </Row>
       <Button type='submit'>استلام</Button>
-      </Form>
     </fieldset>
+      </Form>
     </>
   )
+}
+
+export const AddFlyerData = () => {
+  const [branches, setBranches] = useContext(BranchesContext)
+
+  return <Form className='my-form'>
+    <SelectInput label='الفرع' data={branches}/>
+        <SelectInput label='العميل' data={['اختار العميل']}/>
+    <Input labelName='تاريخ الصرف' type='date'/>
+    <Input labelName='عدد الفلايرات' type='text'/>
+    <FromToCompo label='ارقام البوالص' fromLabel='من' toLabel='الي'/> 
+    <Input labelName='ملاحظات' type='text'/>
+    <Button type='submit'>حفظ</Button>
+     </Form>
+}
+
+export const AddShipment = () => {
+  const [branches, setBranches] = useContext(BranchesContext)
+  const [zones, setZones] = useContext(ZonesContext)
+  const [areas, setAreas] = useContext(AreasContext)
+
+  return <Form className='my-form'>
+    <fieldset>
+      <legend>
+      بيانات البوليصة
+      </legend>
+      <Col md={6}>
+      <RadioInputs label='نوع التكويد' radioesArr={['اتوماتيك','يدوى']} name='shipmentRadioes'/>
+      </Col>
+      <Col md={6}>
+      <SelectInput label='الفرع' data={branches} />
+      </Col>
+      <Col md={6}>
+      <SelectInput label='رقم البيك اب' data={['لا يوجد', '14', '15']} />
+      </Col>
+      <Col md={6}>
+      <Input labelName='رقم البوليصة' readonly={true} value='auto' type='text'/>
+      </Col>
+      <Col md={6}>
+      </Col>
+      <Input labelName='Client Ref' type='date'/>
+      <Col md={6}>
+      <SelectInput label='نوع البوليصة' data={['مبلغ مقابل طرد', 'طرد مقابل طرد', 'طرد بدون مقابل']} />
+      </Col>
+      <Col md={6}>
+      <Input labelName='الوزن' type='text'/>
+      </Col>
+      <Col md={6}>
+      <Input labelName='عدد القطع' type='text'/>
+      </Col>
+      <Col md={6}>
+      <Textarea label='البيان'/>
+      </Col>
+      <Col md={6}>
+      <SelectInput label='الحالة الحالية' data={[]}/>
+      </Col>
+    </fieldset>
+    <fieldset>
+      <legend>
+      بيانات المرسل الية
+      </legend>
+      <Row>
+      <Col md={6}>
+      <Input type='text' labelName='اسم المرسل اليه'/>
+      </Col>
+      <Col md={6}>
+      <SelectInput label='النطاق' data={zones}/>
+      </Col>
+      <Col md={6}>
+      <Textarea label='العنوان'/>
+      </Col>
+      <Col md={6}>
+      <SelectInput label='المنطقة' data={areas}/>
+      </Col>
+      <Col md={6}>
+      <Input type='text' labelName='رقم الموبايل' />
+      </Col>
+      <Col md={6}>
+      <Input type='text' labelName='رقم الموبايل2' />
+      </Col>
+      </Row>
+    </fieldset>
+    <fieldset>
+      <legend>
+      بيانات العميل
+      </legend>
+      <Col md='6'>
+      <SelectInput label='العميل' data={['اختار']}/>
+      </Col>
+      <Col md='6'>
+      <RadioInputs label='نوع التكويد' radioesArr={['المبلغ بدون قيمة الشحن','المبلغ شامل قيمة الشحن']} name='shipmentRadioes'/>
+      </Col>
+      <Col md='4'>
+      <Input type='text' labelName='المبلغ' />
+      </Col>
+      <Col md='4'>
+      <Input type='text' labelName='قيمة الشحن' />
+      </Col>
+      <Col md='4'>
+      <Input type='text' labelName='الصافي' />
+      </Col>
+    </fieldset>
+    <Button>حفظ و خروج</Button>
+    <Button>حفظ و اضافة جديد</Button>
+  </Form>
 }

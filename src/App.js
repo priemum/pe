@@ -8,7 +8,7 @@ import { Badge, Container } from 'react-bootstrap';
 import { useState } from 'react';
 import Company from './pages/Company';
 import Zones from './pages/Zones';
-import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingSheet, AddingBranchReturn} from './components/AddingCard';
+import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingSheet, AddingBranchReturn, AddFlyerData, AddShipment} from './components/AddingCard';
 import Areas from './pages/Areas';
 import Couriers from './pages/Couriers';
 import Customers from './pages/Customers';
@@ -19,7 +19,8 @@ import { AreasProvider } from './contexts/AreasContext';
 import { StatusProvider } from './contexts/StatusContext';
 import { BranchesProvider } from './contexts/BranchesContext';
 import { CustomerPrices, DefaultPrices } from './pages/Prices';
-import { AddPickup, CustomersRequest, PickupList } from './pages/Pickup';
+import { AddPickup, CustomersFlyers, CustomersRequest, FlyersBalances, PickupList } from './pages/Pickup';
+import { Shipments, ShipmentsImport, ShipmentsMulti, ShipmentsStatus } from './pages/Shipments';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -60,6 +61,14 @@ function App() {
                   <Route path='/pickupdata' element={<AddPickup/>}/>
                   <Route path='/pickuplist' element={<PickupList/>}/>
                   <Route path='/customersrequests' element={<CustomersRequest/>}/>
+                  <Route path='/customersflyers' element={<CustomersFlyers/>}/>
+                  <Route path='/customersflyers/add' element={<AddFlyerData/>}/>
+                  <Route path='/flyersbalances' element={<FlyersBalances/>}/>
+                  <Route path='/shipments' element={<Shipments/>}/>
+                  <Route path='/shipments/add' element={<AddShipment/>}/>
+                  <Route path='/shipments/import' element={<ShipmentsImport/>}/>
+                  <Route path='/shipments/multi' element={<ShipmentsMulti/>}/>
+                  <Route path='/shipmentstatus' element={<ShipmentsStatus/>}/>
                   
                   <Route element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>

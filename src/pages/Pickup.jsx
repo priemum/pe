@@ -96,3 +96,29 @@ export const CustomersRequest = () => {
         </>
     )
 }
+
+export const CustomersFlyers = () => {
+    const [branches, setBranches] = useContext(BranchesContext)
+
+    return (
+        <>
+        <Link to='/customersflyers/add'>
+            <AddBtn content='إضافة اذن صرف فلايرات جديد'/>
+        </Link>
+        <Form className='my-form'>
+        <SelectInput label='الفرع' data={branches}/>
+        <SelectInput label='العميل' data={['اختار العميل']}/>
+        </Form>
+        </>
+    )
+}
+
+export const FlyersBalances = () => {
+    const [branches, setBranches] = useContext(BranchesContext)
+    return(
+        <Form className='my-form'>
+        <SelectInput label='الفرع' data={branches}/>
+        <SelectInput label='العميل' data={['اختار العميل']}/>
+        </Form>
+    )
+}

@@ -102,7 +102,7 @@ const NavBar = ({ setActiveNav }) => {
       items: [
         {
           text: "اضافة بوليصة شحن جديدة",
-          route: "shipmentdata",
+          route: "shipments/add",
         },
         {
           text: "مراجعة بوالص الشحن",
@@ -110,11 +110,11 @@ const NavBar = ({ setActiveNav }) => {
         },
         {
           text: "استيراد بوالص الشحن من ملف اكسل",
-          route: "import",
+          route: "shipments/import",
         },
         {
           text: "تحديث حالات بوالص الشحن بارقام متعددة",
-          route: "multi",
+          route: "shipments/multi",
         },
         {
           text: "حذف سجل حركات بوليصة",
@@ -128,19 +128,19 @@ const NavBar = ({ setActiveNav }) => {
       items: [
         {
           text: "اضافة شيت تسليم جديد",
-          route: "company",
+          route: "sheets/delivery/add",
         },
         {
           text: "شيتات تسليم اوردارات",
-          route: "zones",
+          route: "sheets/delivery",
         },
         {
           text: "اضافة شيت مرتجع جديد",
-          route: "areas",
+          route: "sheets/return/add",
         },
         {
           text: "شيتات تسليم مرتجع",
-          route: "courierdata",
+          route: "sheets/return",
         },
         {
           text: "عودة مندوب وتحديث حالات البوالص",
