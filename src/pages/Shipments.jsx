@@ -41,7 +41,7 @@ export const ShipmentsMulti = () => {
         <Textarea label= 'اكواد البوالص فى سطور' />
         <Button className='d-block me-auto'>ادراج</Button>
     </Form>
-    <Row className='flex-row-reverse'>
+    <Row className=''>
     {['عدد البوالص','اجمالى المبلغ','اجمالى قيمة الشحن','الصافى'].map(e => <Col><p style={{whiteSpace: 'pre'}}>{e}</p><span className='text-danger'>0</span></Col>)}
     </Row>
     </>

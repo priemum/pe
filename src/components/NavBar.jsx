@@ -36,7 +36,7 @@ const NavBar = ({ setActiveNav }) => {
     },
     {
       text: "الفروع",
-      navRoute: "initialdata",
+      navRoute: "branches",
       items: [
         {
           text: "الفروع",
@@ -58,7 +58,7 @@ const NavBar = ({ setActiveNav }) => {
     },
     {
       text: "اسعار الشحن",
-      navRoute: "initialdata",
+      navRoute: "prices",
       items: [
         {
           text: "اسعار الشحن الافتراضية",
@@ -72,7 +72,7 @@ const NavBar = ({ setActiveNav }) => {
     },
     {
       text: "ادوات البيك اب",
-      navRoute: "initialdata",
+      navRoute: "pickup",
       items: [
         {
           text: "اضافة اذن بيك اب جديد",
@@ -98,7 +98,7 @@ const NavBar = ({ setActiveNav }) => {
     },
     {
       text: "بوالص الشحن",
-      navRoute: "initialdata",
+      navRoute: "shipments",
       items: [
         {
           text: "اضافة بوليصة شحن جديدة",
@@ -124,7 +124,7 @@ const NavBar = ({ setActiveNav }) => {
     },
     {
       text: "شيتات العمل اليومية",
-      navRoute: "initialdata",
+      navRoute: "sheets",
       items: [
         {
           text: "اضافة شيت تسليم جديد",
@@ -162,23 +162,23 @@ const NavBar = ({ setActiveNav }) => {
     },
     {
       text: "الحسابات",
-      navRoute: "initialdata",
+      navRoute: "accounting",
       items: [
         {
           text: "تحصيل مبالغ بوالص الشحن فى شيت معين",
-          route: "company",
+          route: "sheets/collections",
         },
         {
           text: "تحديث حالات بوالص الشحن بارقام متعددة(حسابات)",
-          route: "multi",
+          route: "accounting/multi",
         },
         {
           text: "اضافه فاتورة جديدة",
-          route: "invoicedata",
+          route: "accounting/add",
         },
         {
           text: "فواتير العملاء",
-          route: "invoices",
+          route: "accounting/invoices",
         },
       ],
     },
@@ -352,14 +352,14 @@ const NavBar = ({ setActiveNav }) => {
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg" sticky='top' collapseOnSelect={true}>
-      <Container className="flex-row-reverse" fluid>
+      <Container className="" fluid>
         <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 " />
         <Navbar.Collapse id="basic-navbar-nav" >
-          <Nav className="ms-auto flex-lg-row-reverse">
+          <Nav className="">
             {navs.map((nav, index) => (
               <NavDropdown
-              className='text-light'
+              className='text-light mx-1'
               key={index}
                 renderMenuOnMount={true}
                 title={nav.text}

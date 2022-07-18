@@ -7,7 +7,7 @@ import { BranchesContext } from '../contexts/BranchesContext';
 import {Link, useNavigate} from 'react-router-dom'
 const Branches = () => {
   const [branches, setBranches] = useContext(BranchesContext)
-  const [branch, setBranch] = useState(null)
+  const [branch, setBranch] = useState()
   const inputs = [
     {
       label: 'اسم الفرع',
@@ -42,11 +42,12 @@ const Branches = () => {
     "العنوان",
     "اسم الفرع",
   ]  
+  console.log(headsArr.map(head => console.log(head)));
     return (
       <>
       <Form className='my-form' style={{overflow: 'scroll'}} onSubmit={(e) => {
         e.preventDefault()
-
+        console.log({branches, branch});
         setBranches([... branches, branch])
       }}>
        {inputs.map((input, index) => <Input key={index} labelName={input.label} type={input.type} value={branch} setValue={setBranch} name={input.label}/> )}

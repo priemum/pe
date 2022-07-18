@@ -5,6 +5,8 @@
 }
 a{
   text-decoration: none;
+  max-width: max-content;
+  display: inline-block;
 }
 .navbar, footer{
   background: url('./images/motif.jpg');
@@ -22,17 +24,15 @@ footer{
 main{
   padding: 100px 0;
 }
-main .container-fluid{
-}
 
 .dropdown-menu {
+  width: max-content;
   padding: 0;
   border: none;
 }
 .dropdown  a{
-  text-align: right;
+  width: max-content;
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
   color: inherit;
@@ -53,7 +53,8 @@ main .container-fluid{
   transform: translate(0, 2%);
 }
 .my-form{
-  width: 400px;
+  width: max-content;
+  max-width: 100%;
   margin: auto;
   background: #efefef;
   padding: 20px;
@@ -64,19 +65,20 @@ main .container-fluid{
 }
 .form-group{
   height: min(45px, auto);
-  margin-left: auto;
   align-items: center;
 }
 .form-control{
-  width: 75%;
   height: 35px;
   border-radius: 10px;
 }
+.textarea{
+  width: 75%;
+  border-radius: 10px;
+}
 .add-btn{
-  margin-right: auto;
   width: 200px;
   display: flex;
-  justify-content: right;
+  justify-content: space-around;
   align-items: center;
   border-radius: 8px;
 }
@@ -91,7 +93,9 @@ main .container-fluid{
   .navbar-dark .navbar-nav .nav-link{
     color: #fff;
   }
-  
+  .nav-link::after{
+    display: none;
+  }
   .dropdown:hover .dropdown-menu{
     display: block;
     color: #000;

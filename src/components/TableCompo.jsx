@@ -8,18 +8,18 @@ export const ZoneTable = ({data}) => {
     <Table striped bordered hover>
   <thead>
     <tr>
-      <th className='bg-primary text-light'>تعديل</th>
-      <th className='bg-primary text-light'>الوصف</th>
       <th className='bg-primary text-light'>اسم النطاق</th>
+      <th className='bg-primary text-light'>الوصف</th>
+      <th className='bg-primary text-light'>تعديل</th>
     </tr>
   </thead>
   <tbody>
    {data.map( zone =>
     (<tr>
       {console.log(zone)}
-      <td><FaEdit /></td>
-      <td>{zone.desc}</td>
       <td>{zone.name}</td>
+      <td>{zone.desc}</td>
+      <td><FaEdit /></td>
     </tr>
     ))}
   </tbody>

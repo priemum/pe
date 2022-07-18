@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { ZonesContext } from '../contexts/ZonesContext'
 import { AreasContext } from '../contexts/AreasContext'
 import { BranchesContext } from '../contexts/BranchesContext'
-import {Input, Textarea, SelectInput, FromToCompo, RadioInputs} from './Input'
+import { CouriersContext } from '../contexts/CouriersContext'
+import {Input, Textarea, SelectInput, FromToCompo, RadioInputs, MultiSelect, CheckboxInputs} from './Input'
 import { CourierTable } from './TableCompo'
 
 export const AddingZone = () => {
@@ -22,8 +23,8 @@ const formSubmit = e => {
 return (
   <Container fluid className='add-card '>
       {console.log(inputsValue)}
-        <Form onSubmit={formSubmit}>
-            <Input name='name' labelName=':اسم النطاق' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <Form onSubmit={formSubmit} className='my-form'>
+            <Input name='name' labelName='اسم النطاق' type='text' value={inputsValue} setValue={setInputsValue}/>
             <div className='d-flex align-items-center'>
             <Textarea name='desc' value={inputsValue} setValue={setInputsValue} label='ملاحظات'/>
             
@@ -99,7 +100,7 @@ const formSubmit = e => {
 return (
   <Container fluid className='add-card '>
       {console.log(inputsValue)}
-        <Row className='flex-row-reverse'>
+        <Row className=''>
           <Col>
             <Form>
             <SelectInput label='الفرع' data={branches}/>
@@ -185,42 +186,9 @@ return (
   )
 }
 
-export const AddingSheet = () => {
-  const [branches, setBranches] = useContext(BranchesContext)
-  const [sheet, setSheet] = useState(null)
-  const inputs = [
-    {
-      label:'رقم الشيت',
-      name: 'sheetCode',
-      type: 'text',
-    },
-    {
-      label: 'تاريخ الشيت',
-      type: 'date',
-    },
-    {
-      label: 'كود البوليصة',
-      name: 'shipmentCode',
-      type: 'text',
-    },
-    ]
-  return <Form onSubmit={e => {
-    e.preventDefault()
-    console.log()
-  }}>
-    <SelectInput data={branches}/>
-    {
-      inputs.map(input => <Input name={input.name} labelName={input.label} type={input.type} value={sheet} setValue={setSheet}/>)
-    }
-    {['ملاحظات','مراجعة العمليات'].map(textarea => <Textarea label={textarea} value={sheet} setValue={setSheet}/>)}
-    <Button>طباعة</Button>
-    <Button type='submit' className='mx-1'>حفظ</Button>
-  </Form>
-}
-
 export const AddingBranchReturn = () => {
   const [branches, setBranches] = useContext(BranchesContext)
-
+  
   const formSubmit = e => {
     e.preventDefault()
     console.log()
@@ -383,5 +351,126 @@ export const AddShipment = () => {
     </fieldset>
     <Button>حفظ و خروج</Button>
     <Button>حفظ و اضافة جديد</Button>
+  </Form>
+}
+
+export const AddingSheet = () => {
+  const [branches, setBranches] = useContext(BranchesContext)
+  const [sheet, setSheet] = useState(null)
+  const inputs = [
+    {
+      label:'رقم الشيت',
+      name: 'sheetCode',
+      type: 'text',
+    },
+    {
+      label: 'تاريخ الشيت',
+      type: 'date',
+    },
+    {
+      label: 'كود البوليصة',
+      name: 'shipmentCode',
+      type: 'text',
+    },
+    ]
+  return <Form onSubmit={e => {
+    e.preventDefault()
+    console.log()
+  }}>
+    <SelectInput data={branches} label='الفرع'/>
+    {
+      inputs.map(input => <Input name={input.name} labelName={input.label} type={input.type} value={sheet} setValue={setSheet}/>)
+    }
+    <Row>
+    {['ملاحظات','مراجعة العمليات'].map(textarea => <Col md={6}><Textarea label={textarea} value={sheet} setValue={setSheet}/>
+    </Col>
+    )}
+    </Row>
+    <Button>طباعة</Button>
+    <Button type='submit' className='mx-1'>حفظ</Button>
+  </Form>
+}
+export const AddingDeliverySheet = () => {
+      const [branches, setBranches] = useContext(BranchesContext)
+      const [areas, setAreas] = useContext(AreasContext)
+      const [sheet, setSheet] = useState(null)
+      const inputs = [
+        {
+          label:'رقم الشيت',
+          name: 'sheetCode',
+          type: 'text',
+        },
+        {
+          label: 'تاريخ الشيت',
+          type: 'date',
+        }
+        ]
+      return <><Form className='my-form' onSubmit={e => {
+        e.preventDefault()
+        console.log()
+      }}>
+        <Row className='d-flex'>
+        <Col className='d-flex align-items-center' md={6} >
+        <SelectInput data={branches} label='الفرع'/>
+        </Col>
+        <Col className='d-flex align-items-center' md={6} >
+        <SelectInput data={[]} label='المندوب'/>
+        </Col>
+        {
+          inputs.map(input => <Col md={6}> <Input name={input.name} labelName={input.label} type={input.type} value={sheet} setValue={setSheet}/> </Col>)
+        }
+        <Col className='d-flex align-items-center' md={6} >
+          <MultiSelect label='المنظقة' data={areas}/>
+          <Button className='d-block '>فحص</Button>
+          </Col>
+          <Col className='d-flex align-items-center' md={6} >
+          <Textarea label='كود البوليصة' />
+          <Button className='d-block '>ادراج</Button>
+          </Col>
+        {['ملاحظات','مراجعة العمليات'].map(textarea => <Col className='d-flex align-items-center' md={6} >
+          <Textarea label={textarea} value={sheet} setValue={setSheet}/>
+          </Col>
+          )}
+        <Form.Group className='d-flex'>
+          <Form.Check type='checkbox'/>
+          <Form.Label>ارسل SMS للمرسل الية</Form.Label>
+        </Form.Group>
+      </Row>
+        <Button>طباعة</Button>
+        <Button type='submit' className='mx-1'>حفظ</Button>
+      </Form>
+      <Form className='d-flex justify-content-start my-1 align-items-center my-3'>
+        <Input labelName='رقم الشيت' type='text'/>
+        <Button type='submit' className='me-2 mb-2'>تحويل الي شيت اخر</Button>
+      </Form>
+      </>
+    }
+
+export const AddingInvoice = () => {
+  const [branches] = useContext(BranchesContext)
+  const [couriers] = useContext(CouriersContext)
+  return <Form>
+      <Input labelName='رقم الفاتورة' type='text'/>
+      <Input labelName='تاريخ الفاتورة' type='date'/>
+      <SelectInput label='الفرع' data={branches}/>
+      <SelectInput label='طريقة التوريد' data={["الكل", "تسليم مكتب", "عن طريق مندوب", "ايداع بنكي"]}/>
+      <CheckboxInputs label='ايام التسوية' checkboxArr={["السبت", "الاحد", "الاثنين", "الثلاثاء", "الاربعاء","الخميس","الجمعة"]} name='addingInvoiceCheckbox'/>  
+      <SelectInput label='العميل' data={[]}/>
+    <Col className='d-flex'>
+    <Textarea label='بوالص لم يتم دفعها'/>
+    <Button>ادراج</Button>
+    </Col>
+    <Row className='d-flex'>
+    {['عدد البوالص','اجمالى المبلغ','اجمالى قيمة الشحن','الصافى '].map(e => <Col><p style={{whiteSpace: 'pre'}}>{e}</p><span className='text-danger'>0</span></Col>)}
+    </Row>
+    <Input labelName='البيان' type='text'/>
+    <Input labelName='خدمة التوصيل' type='text'/>
+    <SelectInput label='المندوب' data={couriers}/>
+    <Input labelName='اجمالي الفاتورة' type='text'/>
+    <Form.Check 
+    type='checkbox'
+    label='انشاء بوليصة للفاتورة'
+    />
+    <Button>بحث</Button>
   </Form>
 }

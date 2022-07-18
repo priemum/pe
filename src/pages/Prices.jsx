@@ -12,7 +12,7 @@ export const DefaultPrices = () => {
   
  }}>
         <SelectInput data={branches} label='الفرع'/>
-        <div className='d-flex flex-row-reverse align-items-center'>
+        <div className='d-flex  align-items-center'>
             <Input labelName='قيمة الشحن على وزن' type='text'/><h6>كيلو جرام</h6>
         </div>
         <Button type='submit'>حفظ</Button>
