@@ -7,6 +7,8 @@ import { BranchesContext } from '../contexts/BranchesContext'
 import { CouriersContext } from '../contexts/CouriersContext'
 import {Input, Textarea, SelectInput, FromToCompo, RadioInputs, MultiSelect, CheckboxInputs} from './Input'
 import { CourierTable } from './TableCompo'
+import { ComplexContext } from '../contexts/ComplexContexts'
+import { CustomerContext } from '../contexts/CustomersContext'
 
 export const AddingZone = () => {
   const [zones, setZones] = useContext(ZonesContext)
@@ -472,5 +474,25 @@ export const AddingInvoice = () => {
     label='انشاء بوليصة للفاتورة'
     />
     <Button>بحث</Button>
+  </Form>
+}
+
+export const AddingComplaint = () => {
+  const [branches] = useContext(BranchesContext)
+  const {complType, complGeha} = useContext(ComplexContext)
+  const [customers] = useContext(CustomerContext)
+  const customersArr = (arr) => arr.map(cust => cust.name)
+  return <Form className='my-form'>
+    <SelectInput data={branches} label='الفرع'/>
+    <Input labelName='تاريخ الشكوي' type='date'/>
+    <SelectInput data={customersArr(customers)} label='العميل'/>
+     <SelectInput data={complType} label='نوع الشكوي'/>
+    <SelectInput data={complGeha} label='جهة الشكوي'/>
+    <Textarea label='موضوع الشكوى'/>
+    <Textarea label='تفاصيل الشكوى'/>
+    <Textarea label='الرد علي الشكوى'/>
+    <Form.Check label='تم حل وانهاء الشكوى'/>
+    <Form.Check label='اخطار العميل برسالة'/>
+    <Button>حفظ</Button>
   </Form>
 }

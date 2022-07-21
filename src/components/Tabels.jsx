@@ -11,7 +11,7 @@ const Tabels = ({data, headers}) => {
 "العنوان": "ــــــــــــــــــ"
 ​
 "رقم التليفون": "ــــــــــــــــــ"
-​
+​ 
 "رقم الفاكس": "ــــــــــــــــــ"
 ​
 "يبدأ ترقيم بوالص الفرع": "ــــــــــــــــــ"
@@ -21,21 +21,23 @@ const Tabels = ({data, headers}) => {
     <Table striped bordered hover responsive='sm'>
  <thead>
      <tr>
-     <th className='bg-primary text-light'>تعديل</th>
     {headers.map( key => (
-     <th className='bg-primary text-light'>{key}</th>
-     ))}
+      <th className='bg-primary text-light'>{key}</th>
+      ))}
+      <th className='bg-primary text-light'>تعديل</th>
    </tr>
  </thead>
  <tbody>
-  {data.map( d =>
-   (<tr>
-    <td><FaEdit /></td>
+  {data.map( d => typeof(d) === 'object' ? <tr>
     {
-        Object.values(d).map(val => <td>{val}</td>)
+      Object.values(d).map(val => <td>{val}</td>)
     }
+    <td><FaEdit /></td>
+   </tr> : <tr>
+    <td>{d}</td>
+    <td><FaEdit /></td>
    </tr>
-   ))}
+   )}
  </tbody>
 </Table>
   )

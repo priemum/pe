@@ -184,49 +184,53 @@ const NavBar = ({ setActiveNav }) => {
     },
     {
       text: "خدمة العملاء",
-      navRoute: "initialdata",
+      navRoute: "customerservices",
       items: [
         {
           text: "البحث",
-          route: "shipmentdata",
+          route: "customerservices/search",
         },
         {
-          text: "مراجعة حالات بوليصة الشحن",
-          route: "shipments",
+          text: "مراجعة حالات بوليصة ",
+          route: "tracking",
         },
         {
           text: "انواع الشكاوى",
-          route: "import",
+          route: "customerservices/compltypes",
         },
         {
           text: "جهات الشكاوى",
-          route: "multi",
+          route: "customerservices/complgeha",
         },
         {
           text: "اضافة شكوى/اقتراح جديد",
-          route: "shipmentstatus",
+          route: "customerservices/complaint/add",
         },
         {
           text: "الشكاوى",
-          route: "shipmentstatus",
+          route: "customerservices/complaint/",
         },
         {
           text: "ارشيف الشكاوى",
-          route: "shipmentstatus",
+          route: "customerservices/complaint/archive",
         },
       ],
     },
     {
       text: "تقارير",
-      navRoute: "initialdata",
+      navRoute: "frmreports",
       items: [
         {
+          text: "قائمة العملاء",
+          route: "frmreports/RptCustomers",
+        },
+        {
           text: "بوالص الشحن خلال فترة معينة",
-          route: "company",
+          route: "frmreports/shipmentsduringperiod",
         },
         {
           text: "طباعة شيت يومى لمندوب",
-          route: "multi",
+          route: "frmreports/courierssheets",
         },
         {
           text: "ارصدة العملاء المستحقة",

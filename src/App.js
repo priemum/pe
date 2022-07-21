@@ -8,9 +8,10 @@ import { Badge, Container } from 'react-bootstrap';
 import { useState } from 'react';
 import Company from './pages/Company';
 import Zones from './pages/Zones';
-import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingSheet,AddingDeliverySheet, AddingBranchReturn, AddFlyerData, AddShipment, AddingInvoice} from './components/AddingCard';
+import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingDeliverySheet, AddingBranchReturn, AddFlyerData, AddShipment, AddingComplaint} from './components/AddingCard';
 import Areas from './pages/Areas';
 import Couriers from './pages/Couriers';
+import { CustomersSearch, Tracking, Compltypes, Complgeha, Complaint, ComplaintArchive} from './pages/CustomerServices';
 import Customers from './pages/Customers';
 import Status from './pages/Status';
 import Branches, { BranchReturn, Transfer, TransferFrom } from './pages/Branches';
@@ -21,9 +22,10 @@ import { BranchesProvider } from './contexts/BranchesContext';
 import { CustomerPrices, DefaultPrices } from './pages/Prices';
 import { AddPickup, CustomersFlyers, CustomersRequest, FlyersBalances, PickupList } from './pages/Pickup';
 import { Shipments, ShipmentsImport, ShipmentsMulti, ShipmentsStatus } from './pages/Shipments';
+import { ComplexProvider } from './contexts/ComplexContexts';
 import { CouriersProvider } from './contexts/CouriersContext';
-import { CourierStatusUpdate, PendingSheets, ReturnStatusUpdate, Sheets, SheetsCollections } from './pages/Sheets';
-import { Invoices } from './pages/Accounting';
+import { CustomerProvider } from './contexts/CustomersContext';
+import { CourierSheet, RptCustomers, ShipmentsDuringPeriod } from './pages/Reports';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -32,7 +34,9 @@ function App() {
                     <AreasProvider>
                     <StatusProvider>
                     <BranchesProvider>
+                    <CustomerProvider>
                     <CouriersProvider>
+                    <ComplexProvider>
     <div className="App">
       <header>
         <NavBar setActiveNav={setActiveNav} />
@@ -43,6 +47,7 @@ function App() {
             <Badge className = 'active-nav position-absolute'>{activeNav}</Badge>
                 <Routes>
                   <Route path='/company' element={<Company/>}/>
+
                   <Route path='/zones' element={<Zones />}/>
                   <Route path='/zones/add' element={<AddingZone />}/>
                   <Route path='/areas' element={<Areas />}/>
@@ -55,17 +60,10 @@ function App() {
                   <Route path='/status/add' element={<AddingZone />}/>
                   <Route path='/branchs' element={<Branches />}/>
                   <Route path='/transfer' element={<Transfer />}/>
-                  <Route path='/sheets/add/' element={<AddingSheet/>}/>
-                  <Route path='/sheets/delivery/' element={<Sheets/>}/>
-                  <Route path='/sheets/return/' element={<Sheets/>}/>
                   <Route path='/sheets/delivery/add' element={<AddingDeliverySheet/>}/>
-                  <Route path='/sheets/return/add' element={<AddingDeliverySheet/>}/>
                   <Route path='/transferfrom' element={<TransferFrom/>}/>
                   <Route path='/branchreturn' element={<BranchReturn/>}/>
                   <Route path='/branchreturn/add' element={<AddingBranchReturn/>}/>
-                  <Route path='/returnstatusupdate' element={<ReturnStatusUpdate/>}/>
-                  <Route path='/pendingsheets' element={<PendingSheets/>}/>
-                  <Route path='/courierstatusupdate' element={<CourierStatusUpdate/>}/>
                   <Route path='/customerprices' element={<CustomerPrices/>}/>
                   <Route path='/defaultprices' element={<DefaultPrices/>}/>
                   <Route path='/pickupdata' element={<AddPickup/>}/>
@@ -78,11 +76,18 @@ function App() {
                   <Route path='/shipments/add' element={<AddShipment/>}/>
                   <Route path='/shipments/import' element={<ShipmentsImport/>}/>
                   <Route path='/shipments/multi' element={<ShipmentsMulti/>}/>
-                  <Route path='/accounting/multi' element={<ShipmentsMulti/>}/>
-                  <Route path='/shipmentstatus' element={<ShipmentsStatus/>}/>
-                  <Route path='/sheets/collections' element={<SheetsCollections/>}/>
-                  <Route path='/accounting/add' element={<AddingInvoice/>}/>
-                  <Route path='/accounting/invoices' element={<Invoices/>}/>
+                  <Route path='/customerservices/search' element={<CustomersSearch/>}/>
+                  <Route path='/tracking' element={<Tracking/>}/>
+                  <Route path='/customerservices/compltypes' element={<Compltypes/>}/>
+                  <Route path='/customerservices/complgeha' element={<Complgeha/>}/>
+                  <Route path='/customerservices/complaint/' element={<Complaint/>}/>
+                  <Route path='/customerservices/complaint/archive' element={<ComplaintArchive/>}/>
+                  <Route path='/customerservices/complaint/add' element={<AddingComplaint/>}/>
+                  <Route path='frmreports/RptCustomers' element={<RptCustomers/>}/>
+                  <Route path='frmreports/shipmentsduringperiod' element={<ShipmentsDuringPeriod/>}/>
+                  <Route path='frmreports/courierssheets' element={<CourierSheet/>}/>
+                  
+                  <Route element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>
           </Container>
           
@@ -92,7 +97,9 @@ function App() {
        <Footer />
       </footer>
     </div>
+    </ComplexProvider>
     </CouriersProvider>
+    </CustomerProvider>
     </BranchesProvider>
     </StatusProvider>
     </AreasProvider>

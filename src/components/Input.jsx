@@ -36,6 +36,7 @@ return (
     as="select"
     onChange={inputOnChanget}
     >
+      <option value=''>اختار</option>
       {data.map(zone => typeof(zone) === "object"? <option value={zone.name}>{zone.name}</option> : 
       <option value={zone}>{zone}</option>
       )}
