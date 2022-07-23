@@ -234,124 +234,110 @@ const NavBar = ({ setActiveNav }) => {
         },
         {
           text: "ارصدة العملاء المستحقة",
-          route: "invoicedata",
+          route: "frmreports/clientsreserved",
         },
         {
           text: "تقارير المدفوعات للعملاء",
-          route: "invoices",
+          route: "frmreports/clientsbills",
         },
         {
           text: "بيان بالمصروفات خلال فترة معينة",
-          route: "financialyear",
+          route: "frmreports/feesduringperiod",
         },
         {
           text: "القيود اليومية خلال فترة",
-          route: "masroufat",
+          route: "frmreports/sagelsrpt",
         },
         {
           text: "كشف حركة حساب خلال فترة",
-          route: "acctree",
+          route: "frmreports/statementsrpt",
         },
         {
           text: "حساب الاستاذ العام",
-          route: "segals",
+          route: "frmreports/generalledeger",
         },
         {
           text: "ارصدة الحسابات",
-          route: "safeoutData",
+          route: "frmreports/accountsbalances",
         },
         {
           text: "ميزان المراجعة",
-          route: "safeout",
+          route: "frmreports/myzan",
         },
         {
           text: "الميزانية العمومية",
-          route: "safeinData",
+          route: "frmreports/myzania",
         },
         {
           text: "قائمة الدخل",
-          route: "safein",
+          route: "frmreports/income",
         },
       ],
     },
     {
       text: "احصائيات",
-      navRoute: "initialdata",
+      navRoute: "frmreports",
       items: [
         {
           text: "احصائيات عامة",
-          route: "company",
+          route: "statistics",
         },
         {
           text: "احصائيات طلبات الشحن خلال فترة",
-          route: "multi",
+          route: "pickup/requeststat",
         },
         {
           text: "احصائيات بوالص الشحن خلال فترة",
-          route: "invoicedata",
+          route: "shipments/shipmentsstat",
         },
         {
           text: "احصائيات عدد بوالص الشحن حسب الحالة",
-          route: "invoices",
+          route: "operations",
         },
         {
           text: "احصائيات بوالص الشحن للعملاء",
-          route: "financialyear",
+          route: "frmreports/zonesstat",
         },
         {
           text: "احصائيات عدد البوالص لمدخلين البيانات",
-          route: "masroufat",
+          route: "frmreports/entryrpt",
         },
         {
           text: "احصائيات الحالات فى الفروع",
-          route: "acctree",
+          route: "frmreports/branchsstat",
         },
       ],
     },
     {
       text: "اعدادات",
-      navRoute: "initialdata",
+      navRoute: "Admin",
       items: [
         {
           text: "مجموعات المستخدمين",
-          route: "company",
+          route: "Admin/URoles",
         },
         {
           text: "اضافة اسم مستخدم جديد",
-          route: "multi",
+          route: "Admin/CreateUser",
         },
         {
           text: "المستخدمين",
-          route: "invoicedata",
+          route: "Admin/Users",
         },
         {
           text: "صلاحيات الظهور",
-          route: "invoices",
+          route: "Admin/pagesForRole",
         },
         {
           text: "صلاحيات الاضافة والتعديل و الحذف",
-          route: "financialyear",
+          route: "Admin/Userpages",
         },
         {
           text: "logs",
           route: "masroufat",
         },
       ],
-    },
-    {
-      text: "اقسام البرنامج",
-      navRoute: "initialdata",
-      items: [
-        {
-          text: "اقسام البرنامج",
-          route: "company",
-        },
-        {
-          text: "الصفحات",
-          route: "multi",
-        },
-      ],
-    },
+    }
   ];
 
   return (

@@ -25,7 +25,9 @@ import { Shipments, ShipmentsImport, ShipmentsMulti, ShipmentsStatus } from './p
 import { ComplexProvider } from './contexts/ComplexContexts';
 import { CouriersProvider } from './contexts/CouriersContext';
 import { CustomerProvider } from './contexts/CustomersContext';
-import { CourierSheet, RptCustomers, ShipmentsDuringPeriod } from './pages/Reports';
+import { ClientsBills, ClientsReserved, CourierSheet, FeesDuringPeriod, RptCustomers, ShipmentsDuringPeriod, SagelsRpt, StatementsRpt, GeneralLedeger, AccountsBalances, Myzan } from './pages/Reports';
+import { BranchsStat, Entryrpt, RequestStat, ShipmentsStat, Statistics, ZonesStat } from './pages/Statistics';
+import { CreateUser, URoles } from './pages/Admin';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -83,11 +85,31 @@ function App() {
                   <Route path='/customerservices/complaint/' element={<Complaint/>}/>
                   <Route path='/customerservices/complaint/archive' element={<ComplaintArchive/>}/>
                   <Route path='/customerservices/complaint/add' element={<AddingComplaint/>}/>
-                  <Route path='frmreports/RptCustomers' element={<RptCustomers/>}/>
-                  <Route path='frmreports/shipmentsduringperiod' element={<ShipmentsDuringPeriod/>}/>
-                  <Route path='frmreports/courierssheets' element={<CourierSheet/>}/>
+                  <Route path='/frmreports/RptCustomers' element={<RptCustomers/>}/>
+                  <Route path='/frmreports/shipmentsduringperiod' element={<ShipmentsDuringPeriod/>}/>
+                  <Route path='/frmreports/courierssheets' element={<CourierSheet/>}/>
+                  <Route path='/frmreports/clientsreserved' element={<ClientsReserved/>}/>
+                  <Route path='/frmreports/clientsbills' element={<ClientsBills/>}/>
+                  <Route path='/frmreports/feesduringperiod' element={<FeesDuringPeriod/>}/>
+                  <Route path='/frmreports/sagelsrpt' element={<SagelsRpt/>}/>
+                  <Route path='/frmreports/statementsrpt' element={<StatementsRpt/>}/>
+                  <Route path='/frmreports/generalledeger' element={<GeneralLedeger/>}/>
+                  <Route path='/frmreports/accountsbalances' element={<AccountsBalances/>}/>
+                  <Route path='/frmreports/myzan' element={<Myzan/>}/>
+                  <Route path='/frmreports/myzania' element={<Myzan/>}/>
+                  <Route path='/frmreports/income' element={<Myzan/>}/>
+                  {
+                  ['/','statistics','operations'].map(route => <Route path={route} element={<Statistics/>}/>
+                  )}
+                  <Route path='pickup/requeststat' element={<RequestStat/>}/>
+                  <Route path='shipments/shipmentsstat' element={<ShipmentsStat/>}/>
+                  <Route path='frmreports/zonesstat' element={<ZonesStat/>}/>
+                  <Route path='frmreports/entryrpt' element={<Entryrpt/>}/>
+                  <Route path='frmreports/branchsstat' element={<BranchsStat/>}/>
+                  <Route path='Admin/URoles' element={<URoles/>}/>
+                  <Route path='/Admin/CreateUser' element={<CreateUser/>}/>
                   
-                  <Route element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
+                  <Route path='*' element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>
           </Container>
           

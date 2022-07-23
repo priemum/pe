@@ -73,3 +73,80 @@ export const CourierSheet = () => {
     </Form>
     )
 }
+
+export const ClientsReserved = () => {
+  const [zones] = useContext(ZonesContext)
+
+  return <Form className='my-form'>
+        <SelectInput label='نطاق العميل' data={zones}/>
+        <Button>تقرير</Button>
+  </Form>
+}
+
+export const ClientsBills = () => {
+  const [customers] = useContext(CustomerContext)
+    const [couriers] = useContext(CouriersContext)
+  const selectionArr = (arr) => arr.map(ob => ob.name)
+
+  return <Form className='my-form'>
+        <SelectInput label='العميل' data={selectionArr(customers)}/>
+        <SelectInput label='المندوب' data={couriers}/>
+        <FromToCompo label='الفترة' fromLabel='من' toLabel='الى' type='date'/>
+        <Button>تقرير</Button>
+  </Form> 
+}
+
+export const FeesDuringPeriod = () => {
+  const [customers] = useContext(CustomerContext)
+    const [couriers] = useContext(CouriersContext)
+
+  return <Form className='my-form'>
+        <SelectInput label='نوع المصروف' data={['الكل', 'نثريات', 'كهرباء', 'ايجار', 'انتقلات', 'انترنت', 'عهد', 'مرتبات', 'بوفيه', 'عمولات', 'مياه', 'فلايرات']}/>
+        <FromToCompo label='الفترة' fromLabel='من' toLabel='الى' type='date'/>
+        <Button>تقرير</Button>
+  </Form> 
+}
+
+export const SagelsRpt = () => {
+  const [customers] = useContext(CustomerContext)
+    const [couriers] = useContext(CouriersContext)
+
+  return <Form className='my-form'>
+        <Input labelName='رقم البوليصة' type='text' />
+        <FromToCompo label='الفترة' fromLabel='من' toLabel='الى' type='date'/>
+        <Button>تقرير</Button>
+  </Form> 
+}
+
+export const StatementsRpt = () => {
+  return <Form className='my-form'>
+        <SelectInput label='اسم الحساب' data={[]} />
+        <FromToCompo label='الفترة' fromLabel='من' toLabel='الى' type='date'/>
+        <SelectInput label='اسم الحساب' data={['الكل', 'الغير مغلق فقط']} />
+        <Button>تقرير</Button>
+  </Form> 
+}
+
+export const GeneralLedeger = () => {
+  return <Form className='my-form'>
+        <SelectInput label='اسم الحساب' data={[]} />
+        <Form.Check label='تضمين الحسابات الفرعية' type='checkbox' name='GeneralLedeger'/>
+        <FromToCompo label='الفترة' fromLabel='من' toLabel='الى' type='date'/>
+        <Button>تقرير</Button>
+  </Form> 
+}
+
+export const AccountsBalances = () => {
+  return <Form className='my-form'>
+        <SelectInput label='اسم الحساب' data={[]} />
+        <Button>تقرير</Button>
+  </Form> 
+}
+
+export const Myzan = () => {
+  return <Form className='my-form'>
+        <FromToCompo label='الفترة' fromLabel='من' toLabel='الى' type='date'/>
+        <SelectInput label='المستوى' data={['المستوى الاول', 'المستوى الثاني','المستوى الثالث', 'المستوى الرابع', 'المستوى الخامس']} />
+        <Button>تقرير</Button>
+  </Form> 
+}
