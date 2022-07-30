@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Container, Form, Button, Row, Col } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams} from 'react-router-dom'
 import { ZonesContext } from '../contexts/ZonesContext'
 import { AreasContext } from '../contexts/AreasContext'
 import { BranchesContext } from '../contexts/BranchesContext'
@@ -9,26 +9,29 @@ import {Input, Textarea, SelectInput, FromToCompo, RadioInputs, MultiSelect, Che
 import { CourierTable } from './TableCompo'
 import { ComplexContext } from '../contexts/ComplexContexts'
 import { CustomerContext } from '../contexts/CustomersContext'
+import { getFirestore, addDoc, collection } from 'firebase/firestore'
+import Tabels, { getItem } from './Tabels'
+import { useEffect } from 'react'
 
-export const AddingZone = () => {
-  const [zones, setZones] = useContext(ZonesContext)
-  const [inputsValue, setInputsValue] = useState({})
-  const navigator = useNavigate()
 
-const formSubmit = e => {
+const formSubmit = (nav, inputsValue, navigator) => e => {
   e.preventDefault()
-  console.log(inputsValue)
-  setZones([... zones, inputsValue])
-  navigator('/zones')
+const db = getFirestore()
+const docRef = addDoc(collection(db, nav), inputsValue)
+  navigator(`/${nav}`)
 } 
-
+export const AddingZone = () => {
+  const [inputsValue, setInputsValue] = useState({
+    name: '',
+    desc: ''
+  })
+  const navigator = useNavigate()
 return (
   <Container fluid className='add-card '>
-      {console.log(inputsValue)}
-        <Form onSubmit={formSubmit} className='my-form'>
+    <Form onSubmit={formSubmit('zones', inputsValue, navigator)} className='my-form'>
             <Input name='name' labelName='اسم النطاق' type='text' value={inputsValue} setValue={setInputsValue}/>
             <div className='d-flex align-items-center'>
-            <Textarea name='desc' value={inputsValue} setValue={setInputsValue} label='ملاحظات'/>
+              <Textarea name='desc' value={inputsValue} setValue={setInputsValue} label='ملاحظات'/>
             
             </div>
             <Button type='submit'  className='d-block mx-auto'>حفظ</Button>
@@ -39,22 +42,11 @@ return (
 }
 
 export const AddingArea = () => {
-  const [areas, setAreas] = useContext(AreasContext)
-  const [zones, setZones] = useContext(ZonesContext)
+  const [zones] = useContext(ZonesContext)
   const [inputsValue, setInputsValue] = useState({})
-  const navigator = useNavigate()
-
-const formSubmit = e => {
-  e.preventDefault()
-  console.log(inputsValue)
-  setAreas([... areas, inputsValue])
-  navigator('/areas')
-} 
-
 return (
   <Container fluid className='add-card '>
-      {console.log(inputsValue)}
-        <Form onSubmit={formSubmit}>
+        <Form onSubmit={formSubmit('areas', inputsValue, navigator)}>
             <Input name='areaName' labelName='اسم المنطقة' type='text' value={inputsValue} setValue={setInputsValue}/>
             <div className='d-flex align-items-center'>
             <SelectInput data={zones} name='areaDomain' label='النطاق' value={inputsValue} setValue={setInputsValue}/>
@@ -67,52 +59,69 @@ return (
 }
 
 export const AddingCourier = () => {
-  const [areas, setAreas] = useContext(AreasContext)
+  const [couriers, setCouriers] = useContext(CouriersContext)
   const [zones, setZones] = useContext(ZonesContext)
   const [branches, setBranches] = useContext(BranchesContext)
-  const [inputsValue, setInputsValue] = useState({})
+  const [comm, setComm] = useState({})
   const navigator = useNavigate()
-
+  const {id} = useParams()
+  const [inputsValue, setInputsValue] = useState({
+    name: '',
+    phone: '',
+    notes: '',
+    username: '',
+    password: '',
+    comm: {...comm},
+    unactive: false
+  })
+    useEffect( () => {
+     id && getItem('couriers', id, setInputsValue)
+    }, [id])
+    useEffect(() => {
+      setComm(inputsValue.comm)
+    }, [inputsValue])
+  console.log(comm);
   const inputs = [
     {
       labelName: ':اسم المندوب',
-      type: 'text'
+      type: 'text',
+      name: 'name'
     },
     {
       labelName: ':تليفون',
-      type: 'text'
+      type: 'text',
+      name: 'phone'
     },
     {
       labelName: ':اسم الدخول',
-      type: 'text'
+      type: 'text',
+      name: 'username'
     },
     {
       labelName: ':كلمة المرور',
-      type: 'text'
+      type: 'text',
+      name: 'password'
     },
   ]
-
-const formSubmit = e => {
-  e.preventDefault()
-  console.log(inputsValue)
-  setAreas([... areas, inputsValue])
-  navigator('/areas')
-} 
-
-return (
+  return (
   <Container fluid className='add-card '>
-      {console.log(inputsValue)}
         <Row className=''>
           <Col>
-            <Form>
-            <SelectInput label='الفرع' data={branches}/>
-              {inputs.map(input => <Input type={input.type} labelName={input.labelName}/>)}
-              <Textarea label='ملاحظات'/>
-              <Button>حفظ</Button>
+            <Form onSubmit={formSubmit('couriers', inputsValue, navigator)}>
+            <SelectInput label='الفرع' data={branches} setValue={setInputsValue} name='branches'/>
+              {inputs.map(input => <Input type={input.type} labelName={input.labelName} name={input.name} value={inputsValue} setValue={setInputsValue}/>)}
+              <Textarea label='ملاحظات' name='notes'/>
+              <Form.Check type='checkbox' label='غير فعال ' id='unactiveCourier' name='unactiveCourier'
+              onChange={() => setInputsValue({...inputsValue, unactive: !inputsValue.unactive})}
+              />
+              <Button type='submit'>حفظ</Button>
             </Form>
           </Col>
           <Col>
-          <CourierTable data={zones}/>
+          <CourierTable data={zones} comm={comm} setComm={setComm}/>
+          
+          {/* <Tabels data={zones} collName='couriers' headers={[{label: 'اسم النطاق', value: 'name'}, {label: 'عمولة المندوب فى حالة التسليم', value: 'deliveryComm'}, {label: 'عمولة المندوب فى حالة المرتجع بمقابل', value: 'returnComm'}]}/> */}
+
           </Col>
         </Row>
     </Container>

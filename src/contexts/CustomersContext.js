@@ -4,7 +4,7 @@ export const CustomerContext = createContext()
 
 export const CustomerProvider = (props) => {
     const [customer, setCustomer] = useState([
-        {
+        { 
             name: 'صفحة تيشيرتات Wingoo',
             date: '2022-04-18',
             respMan: 'محمود',

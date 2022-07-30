@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import { Route, Routes } from 'react-router-dom';
 import bg from './images/motif.jpg'
 import { Badge, Container } from 'react-bootstrap';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Company from './pages/Company';
 import Zones from './pages/Zones';
 import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingDeliverySheet, AddingBranchReturn, AddFlyerData, AddShipment, AddingComplaint} from './components/AddingCard';
@@ -23,7 +23,7 @@ import { CustomerPrices, DefaultPrices } from './pages/Prices';
 import { AddPickup, CustomersFlyers, CustomersRequest, FlyersBalances, PickupList } from './pages/Pickup';
 import { Shipments, ShipmentsImport, ShipmentsMulti, ShipmentsStatus } from './pages/Shipments';
 import { ComplexProvider } from './contexts/ComplexContexts';
-import { CouriersProvider } from './contexts/CouriersContext';
+import { CouriersContext, CouriersProvider } from './contexts/CouriersContext';
 import { CustomerProvider } from './contexts/CustomersContext';
 import { ClientsBills, ClientsReserved, CourierSheet, FeesDuringPeriod, RptCustomers, ShipmentsDuringPeriod, SagelsRpt, StatementsRpt, GeneralLedeger, AccountsBalances, Myzan } from './pages/Reports';
 import { BranchsStat, Entryrpt, RequestStat, ShipmentsStat, Statistics, ZonesStat } from './pages/Statistics';
@@ -53,9 +53,10 @@ function App() {
                   <Route path='/zones' element={<Zones />}/>
                   <Route path='/zones/add' element={<AddingZone />}/>
                   <Route path='/areas' element={<Areas />}/>
-                  <Route path='/areas/add' element={<AddingArea />}/>
+                  {<Route path='/areas/add' element={<AddingArea />}/>}
                   <Route path='/couriers' element={<Couriers />}/>
                   <Route path='/couriers/add' element={<AddingCourier />}/>
+                  <Route path='/couriers/update/:id' element={<AddingCourier />}/>
                   <Route path='/customers' element={<Customers />}/>
                   <Route path='/customers/add' element={<AddingCustomer />}/>
                   <Route path='/status' element={ <Status /> }/>

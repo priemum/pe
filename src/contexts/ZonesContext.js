@@ -1,30 +1,13 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
+import { getData } from '../db/firestoreHundle'
 
 export const ZonesContext = createContext()
 
 export const ZonesProvider = (props) => {
-    const [zones, setZones] = useState([
-      {
-        name: 'القاهرة و الجيزة',
-        desc: ''
-      },
-      {
-        name: 'اسكندرية',
-        desc: ''
-      },
-      {
-        name: 'محافظات الدلتا',
-        desc: ''
-      },
-      {
-        name: 'مدن جديدة / ضواحي القاهره و الجيزه',
-        desc: ''
-      },
-      {
-        name: 'مدن القناه',
-        desc: ''
-      }
-    ])
+    const [zones, setZones] = useState([])
+    useEffect(() => {
+      getData('zones', setZones)
+    }, [])
   return (
     <ZonesContext.Provider value={[zones, setZones]}>{props.children}</ZonesContext.Provider>
   )

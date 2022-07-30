@@ -4,13 +4,13 @@ import {Form, Col, Row} from 'react-bootstrap';
 
 export function Input({labelName,value,type, setValue, name, readonly}) {
   const inputOnChange = e => {
-    console.log(value)
-       setValue({... value, [name] :`${e.target.value}`})}
+    setValue({... value, [name] :`${e.target.value}`})}
+    
     
     return (
   <Form.Group className="mb-2 d-flex form-group" controlId="formBasicEmail">
-    <Form.Label>{labelName}</Form.Label>
-    <Form.Control type={type} onChange={inputOnChange} readonly={readonly || false}/>
+    <Form.Label style={{display: `${labelName ? 'block' : 'none'}`}}>{labelName}</Form.Label>
+    <Form.Control type={type}  onChange={inputOnChange} readOnly={readonly || false} value={value && typeof(value) === 'object' ? value[`${name}`] : value}/>
   </Form.Group>
     );
 }

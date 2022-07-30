@@ -1,45 +1,96 @@
-import React from 'react'
-import { FaEdit } from 'react-icons/fa'
-import { Table } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { FaEdit, FaTrash } from 'react-icons/fa'
+import { Button, Form, Table } from 'react-bootstrap'
+import { Input } from './Input'
+import firebase from '../db/firestore'
+import { useNavigate } from 'react-router-dom'
+import { getFirestore, doc, collection, getDoc } from 'firebase/firestore'
 
-const Tabels = ({data, headers}) => {
-    /*
-    "اسم الفرع": "ــــــــــــــــــ"
-​
-"البريد الالكترونى": "ــــــــــــــــــ"
-​
-"العنوان": "ــــــــــــــــــ"
-​
-"رقم التليفون": "ــــــــــــــــــ"
-​ 
-"رقم الفاكس": "ــــــــــــــــــ"
-​
-"يبدأ ترقيم بوالص الفرع": "ــــــــــــــــــ"
-    */
-   console.log(data);
+export const getItem = (nav, id, setInputsValue) => {
+  const db = getFirestore()
+  const docRef = doc(db, nav, id)
+ try {
+   getDoc(docRef).then(doc => {
+     const item = doc.data()
+     console.log(id)
+     console.log(item)
+    //  if(!item) return 
+    //  if(item) return setInputsValue(item)
+    setInputsValue(item)
+  })
+  
+ } catch (error) {
+  console.log(error)
+ }
+  
+}
+
+const EditableRow = ({editedRow, setEditRow,  setRowId, headers}) => {
+  
+return <tr>
+      {
+        headers.map((header, index) => (<td >
+          <Input key={header.value} type='text' name={header.value} value={editedRow} setValue={setEditRow}/>
+          </td>)) 
+      }
+      <td><Button type='submit'>حفظ</Button></td>
+      <td><Button type='button' onClick={() => {setRowId(null)}}>الغاء</Button></td>
+ </tr>
+}
+
+const Tabels = ({data, headers, collName, unEditable, nav}) => {
+  const [rowId, setRowId] = useState(null)
+  const [editedRow, setEditRow] = useState({
+    name: '',
+    desc: ''
+  })
+  useEffect(() => {
+    rowId && getItem(collName, rowId, setEditRow)
+  }, [rowId])
+  const navigate = useNavigate()
+
   return (
+    <Form onSubmit={e => {
+      e.preventDefault()
+      firebase.firestore().collection(collName).doc(rowId).update(editedRow)
+      setRowId(null)
+    }}>
+    
     <Table striped bordered hover responsive='sm'>
  <thead>
      <tr>
-    {headers.map( key => (
-      <th className='bg-primary text-light'>{key}</th>
+    {headers.map( item => (
+      <th className='bg-primary text-light'>{item.label}</th>
       ))}
       <th className='bg-primary text-light'>تعديل</th>
+      <th className='bg-primary text-light'>حذف</th>
    </tr>
  </thead>
  <tbody>
-  {data.map( d => typeof(d) === 'object' ? <tr>
-    {
-      Object.values(d).map(val => <td>{val}</td>)
-    }
-    <td><FaEdit /></td>
-   </tr> : <tr>
-    <td>{d}</td>
-    <td><FaEdit /></td>
-   </tr>
-   )}
+   {
+     data.map( (item) => (
+       
+          <>
+         { rowId === item.id ?  <EditableRow editedRow ={editedRow} setEditRow ={setEditRow} headers={headers} setRowId={setRowId} collName={collName}/> :
+       <tr key={item.id}>
+        {
+          headers.map((header) => (
+          <td>
+            {item[header.value]}
+            </td>
+            )) 
+          }
+        <td>{
+        unEditable ?  <FaEdit style={{cursor: 'pointer'}}  onClick={() => navigate(`/${nav}/${item.id}`)}/>
+         : <FaEdit style={{cursor: 'pointer'}}  onClick={() => setRowId(item.id)}/>}</td>
+        <td><FaTrash style={{cursor: 'pointer'}}  onClick={() => firebase.firestore().collection(collName).doc(item.id).delete()}/></td>
+   </tr>}
+  </>
+    ))
+   }
  </tbody>
 </Table>
+</Form>
   )
 }
 

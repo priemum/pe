@@ -1,4 +1,5 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
+import { getData } from '../db/firestoreHundle'
 
 export const CouriersContext = createContext()
 
@@ -10,6 +11,9 @@ export const CouriersProvider = (props) => {
             notes: '',
         } 
     ])
+    useEffect(() => {
+      getData('couriers', setCouriers)
+    }, [])
   return (
     <CouriersContext.Provider value={[couriers, setCouriers]}>{props.children}</CouriersContext.Provider>
   )

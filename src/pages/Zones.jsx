@@ -1,16 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext} from 'react'
 import { Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import AddBtn from '../components/AddBtn'
-import {ZoneTable} from '../components/TableCompo'
-import { ZonesContext, ZonesProvider } from '../contexts/ZonesContext'
+import Tabels from '../components/Tabels'
+import { ZonesContext } from '../contexts/ZonesContext'
 const Zones = () => {
-  const [zones, setZones] = useContext(ZonesContext)
+  const [zones] = useContext(ZonesContext)
   return (
     <Container>
-      {console.log(zones)}
         <Link to='/zones/add'><AddBtn content='اضافة نطاق جديد'/></Link>
-        <ZoneTable data={zones}/>
+        <Tabels data={zones} collName='zones' headers={[{label: 'اسم النطاق', value: 'name'}, {label: 'الوصف', value: 'desc'}]}/>
     </Container>
   )
 }

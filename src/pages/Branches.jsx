@@ -7,7 +7,7 @@ import { BranchesContext } from '../contexts/BranchesContext';
 import {Link, useNavigate} from 'react-router-dom'
 const Branches = () => {
   const [branches, setBranches] = useContext(BranchesContext)
-  const [branch, setBranch] = useState()
+  const [branch, setBranch] = useState({})
   const inputs = [
     {
       label: 'اسم الفرع',
@@ -34,15 +34,9 @@ const Branches = () => {
       type: 'text',
     }
     ]
-  const headsArr = [
-    "يبدأ الترقيم",
-    "البريد الالكترونى",
-    "رقم الفاكس",
-    "رقم التليفون",
-    "العنوان",
-    "اسم الفرع",
-  ]  
-  console.log(headsArr.map(head => console.log(head)));
+    // console.log(inputs.map(input => {input.label : '__________'}))
+  const headsArr = () => inputs.map(input => input.label)
+  console.log(headsArr);
     return (
       <>
       <Form className='my-form' style={{overflow: 'scroll'}} onSubmit={(e) => {
@@ -50,10 +44,11 @@ const Branches = () => {
         console.log({branches, branch});
         setBranches([... branches, branch])
       }}>
-       {inputs.map((input, index) => <Input key={index} labelName={input.label} type={input.type} value={branch} setValue={setBranch} name={input.label}/> )}
+       {inputs.map((input, index) => <Input  key={index} labelName={input.label} type={input.type} value={branch[`${input.label}`] } setValue={setBranch} name={input.label}/> )}
     <Button type='submit' >حفظ</Button>
     </Form>
-        <Tabels data={branches} headers={headsArr}/>
+    {console.log(branches)}
+        <Tabels data={branches} headers={headsArr()}/>
    </>
       )
 }
