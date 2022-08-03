@@ -1,19 +1,14 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
+import { getData } from '../db/firestoreHundle'
 
 export const CustomerContext = createContext()
 
 export const CustomerProvider = (props) => {
-    const [customer, setCustomer] = useState([
-        { 
-            name: 'صفحة تيشيرتات Wingoo',
-            date: '2022-04-18',
-            respMan: 'محمود',
-            zone: 'الفاهرة',
-            phone: '00021555962469',
-            notes: '',
-        } 
-    ])
+    const [customers, setCustomers] = useState()
+    useEffect(() => {
+      getData('customers', setCustomers)
+    }, [])
   return (
-    <CustomerContext.Provider value={[customer, setCustomer]}>{props.children}</CustomerContext.Provider>
+    <CustomerContext.Provider value={[customers, setCustomers]}>{props.children}</CustomerContext.Provider>
   )
 }

@@ -1,20 +1,55 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import {Link} from 'react-router-dom'
 import {Form} from 'react-bootstrap'
 import AddBtn from '../components/AddBtn'
 import {SelectInput, Input} from '../components/Input'
+import { BranchesContext } from '../contexts/BranchesContext'
+import Tabels from '../components/Tabels'
+import { CustomerContext } from '../contexts/CustomersContext'
 const Customers = () => {
   const [search, setSearch] = useState({})
-  return(
+  const [branches] = useContext(BranchesContext)
+  const [customers] = useContext(CustomerContext)
+
+  class TdCheckbox {
+    constructor(label, value, check){
+      this.label = label;
+      this.value = value;
+     const compo = <Form.Check type='checkbox' checked={check}/>
+    }
+  }
+
+  // const TdCheck = ({isCheck}) => <Form.Check type='checkbox' checked={isCheck} />
+
+  const headersArr= [
+    {label: 'رقم العميل', value: 'accountNumber'}, 
+    {label: 'اسم العميل', value: 'clientName'}, 
+    {label: 'تاريخ فتح الحساب', value: 'date'},
+    {label: 'الشخص المسئول', value: 'resPerson'},
+    {label: '	المنطقة', value: 'zones'},
+    {label: 'التليفون', value: 'teleNumber'},
+    {label: 'المحمول', value: 'phone'},
+    {label: 'عدد البوالص المستهدفة شهريا', value: 'targetedShipments'},
+    {label: 'ايام التسوية', value: '', 
+    compo: 'SetDays'
+    },
+    {label: 'فعال', value: 'active', check: false, compo: 'TdCheck'},
+    {label: 'مرفقات', value: 'notes'},
+  ]
+  const tableCompo = {}
+  return( 
+    <>
     <Form>
      <Link to='/customers/add'><AddBtn content='إضافة عميل جديد'/></Link>
-      <SelectInput label='الفرع' data={[]}/>
+      <SelectInput label='الفرع' data={branches}/>
       <SelectInput label='نوع العميل' data={[]}/>
       <SelectInput label='مسؤول المبيعات' data={[]}/>
       <SelectInput label='مسؤول خدمة العملاء' data={[]}/>
       <Input label='اسم/تليفون/رقم العميل' value={search} setValue={setSearch}/>
       <SelectInput label='الحالة' data={[]}/>
     </Form> 
+    <Tabels data={customers ? customers : []} collName='customers' headers={headersArr} unEditable={true} nav='customers/update'/>
+    </>
     )
 }
 export default Customers

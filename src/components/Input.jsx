@@ -2,15 +2,19 @@ import React, {useState} from 'react';
 import Select from 'react-select';
 import {Form, Col, Row} from 'react-bootstrap';
 
-export function Input({labelName,value,type, setValue, name, readonly}) {
+export function Input({labelName,value,type, setValue, name, readonly, onFocus}) {
+ 
   const inputOnChange = e => {
-    setValue({... value, [name] :`${e.target.value}`})}
+  (typeof(value) === 'object') ? setValue({... value, [name] :`${e.target.value}`})
+  :
+   setValue(`${e.target.value}`)
+  }
     
     
     return (
   <Form.Group className="mb-2 d-flex form-group" controlId="formBasicEmail">
     <Form.Label style={{display: `${labelName ? 'block' : 'none'}`}}>{labelName}</Form.Label>
-    <Form.Control type={type}  onChange={inputOnChange} readOnly={readonly || false} value={value && typeof(value) === 'object' ? value[`${name}`] : value}/>
+    <Form.Control onFocus={onFocus} type={type}  onChange={inputOnChange} readOnly={readonly || false} value={value && typeof(value) === 'object' ? value[`${name}`] : value}/>
   </Form.Group>
     );
 }
@@ -19,28 +23,33 @@ export function Textarea({name,value,type, setValue, label}){
     setValue({... value, [name] :`${e.target.value}`})
   }
 return (
-  <div className='d-flex w-100 align-items-center mb-3 textarea'>
-<label className='ms-5'>{label}</label>
-<textarea onChange={inputOnChanget}></textarea>
-</div>
+  <Form.Group className=' w-100 mb-3 '>
+<Form.Label className='ms-5'>{label}</Form.Label>
+<Form.Control as="textarea" value={value && value[name]} rows={3}  onChange={inputOnChanget}></Form.Control>
+</Form.Group>
 );
 }
-export function SelectInput({name,value,type, setValue, data, label}){
+export function SelectInput({name,value,selectedValue, setValue, data, label}){
+  
   const inputOnChanget = e => {
     setValue({... value, [name] :`${e.target.value}`})
   }
+
 return (
   <Form.Group className="mb-3 d-flex w-100">
     <Form.Label>{label}</Form.Label>
-    <Form.Control 
+    <Form.Select 
+    value={selectedValue && selectedValue[name] }
+    aria-label="Default select example"
     as="select"
     onChange={inputOnChanget}
+    
     >
       <option value=''>اختار</option>
-      {data.map(zone => typeof(zone) === "object"? <option value={zone.name}>{zone.name}</option> : 
-      <option value={zone}>{zone}</option>
+      {data.map(zone => typeof(zone) === "object"? <option  value={zone.name}>{zone.name}</option> : 
+      <option  value={zone}>{zone}</option>
       )}
-    </Form.Control>
+    </Form.Select>
   </Form.Group>
 );
 }

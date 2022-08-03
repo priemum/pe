@@ -53,20 +53,56 @@ export const AreaTable = ({data}) => {
  )
 }
 
-export const CourierTable = ({data, setComm, comm}) => {
-  // useEffect( () => {
-  //   inputsValue.comm && setComm(inputsValue.comm)
-  // },[inputsValue])
+export const CourierTable = ({data, setInputsValue, inputsValue}) => {
   // useEffect(() => setInputsValue({...inputsValue, comm: {
-  //   ...inputsValue.comm,
+    //   ...inputsValue.comm,
   //   [commZone]:  {
   //   deliveryComm: comm['deliveryComm'],
   //  returnComm: comm['returnComm']
   // }}}),[comm])
-  console.log('comm',comm)
-  const [deliveryComm, setDeliveryComm] = useState({})
-  const [returnComm, setReturnComm] = useState()
- return (
+  const [comm, setComm] = useState({})
+  const [deliveryComm, setDeliveryComm] = useState('')
+  const [returnComm, setReturnComm] = useState('')
+  const [domainComm, setDomainComm] = useState('')
+  
+  useEffect( () => {
+    inputsValue.comm && setComm(inputsValue.comm)
+  },[inputsValue])
+
+  useEffect(() => {
+    
+    if(domainComm === '') return
+    setInputsValue({... inputsValue,  
+      comm : { ... comm,
+      [domainComm.deliveryComm] : deliveryComm,
+    }
+  })
+  },[deliveryComm])
+
+  useEffect(() => {
+    
+    if(domainComm === '') return
+    setInputsValue({... inputsValue,  
+      comm : { ... comm,
+      [domainComm.returnComm] : returnComm,
+    }
+  })
+  },[returnComm])
+
+  useEffect(() => {
+    const comm = {}
+    data.map( zone =>
+      {
+        const domain = zone.name;
+       comm[domain] =  {
+        deliveryComm: '',
+        returnComm: ''
+       }
+      })
+      if(domainComm === '') return
+      setComm(comm)
+  }, [])
+  return (
    <Table striped bordered hover>
  <thead>
    <tr>
@@ -77,10 +113,10 @@ export const CourierTable = ({data, setComm, comm}) => {
  </thead>
  <tbody>
   {data.map( (zone, index) =>
-   (<tr>
+   (<tr key={index}>
      <td>{zone.name}</td>
-     <td><Input value={comm} setValue={setComm} name={`(${zone.name})ReliveryComm`}/></td>
-     <td><Input value={comm && comm[`(${zone.name})ReturnComm`]} setValue={setComm} name={`(${zone.name})ReturnComm`}/></td>
+     <td><Input onFocus ={() => setDomainComm(zone.name)} value={ comm[zone.name] && comm[zone.name].deliveryComm} setValue={setDeliveryComm} name={`reliveryComm`}/></td>
+     <td><Input onFocus ={() => setDomainComm(zone.name)} value={comm[zone.name] && comm[zone.name].returnComm} setValue={setReturnComm} name={`returnComm`}/></td>
    </tr>
    ))}
  </tbody>

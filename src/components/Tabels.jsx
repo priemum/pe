@@ -49,6 +49,16 @@ const Tabels = ({data, headers, collName, unEditable, nav}) => {
   }, [rowId])
   const navigate = useNavigate()
 
+
+  const TdCheck = ({isCheck}) => <Form.Check type='checkbox' checked={isCheck} />
+
+  const SetDays = ({setDays}) => <ul className='d-flex flex-wrap pe-3'>
+  {
+      Object.keys(setDays).map(day => setDays[day] && <li className='w-100'>{day}</li>)
+    
+  }
+</ul>
+
   return (
     <Form onSubmit={e => {
       e.preventDefault()
@@ -56,17 +66,18 @@ const Tabels = ({data, headers, collName, unEditable, nav}) => {
       setRowId(null)
     }}>
     
-    <Table striped bordered hover responsive='sm'>
+    <Table striped bordered hover >
  <thead>
      <tr>
     {headers.map( item => (
-      <th className='bg-primary text-light'>{item.label}</th>
+      <th className='bg-primary text-light w-100'>{item.label}</th>
       ))}
-      <th className='bg-primary text-light'>تعديل</th>
-      <th className='bg-primary text-light'>حذف</th>
+      <th className='bg-primary text-light w-100'>تعديل</th>
+      <th className='bg-primary text-light w-100'>حذف</th>
    </tr>
  </thead>
  <tbody>
+  {/* {console.log(headers.compo)} */}
    {
      data.map( (item) => (
        
@@ -74,15 +85,28 @@ const Tabels = ({data, headers, collName, unEditable, nav}) => {
          { rowId === item.id ?  <EditableRow editedRow ={editedRow} setEditRow ={setEditRow} headers={headers} setRowId={setRowId} collName={collName}/> :
        <tr key={item.id}>
         {
-          headers.map((header) => (
-          <td>
+          headers.map((header) => {
+            if(header.compo === 'TdCheck') 
+              return <td>
+                <TdCheck isCheck={item.active}/>
+              </td>
+
+            if(header.compo === 'SetDays') 
+            return <td>
+              <SetDays setDays={item.setDays}/>
+            </td>
+
+            return <td>
+            {/* {console.log(header.compo, header.check)} */}
             {item[header.value]}
             </td>
-            )) 
+}) 
           }
         <td>{
         unEditable ?  <FaEdit style={{cursor: 'pointer'}}  onClick={() => navigate(`/${nav}/${item.id}`)}/>
-         : <FaEdit style={{cursor: 'pointer'}}  onClick={() => setRowId(item.id)}/>}</td>
+         :
+          <FaEdit style={{cursor: 'pointer'}}  onClick={() => setRowId(item.id)}/>
+          }</td>
         <td><FaTrash style={{cursor: 'pointer'}}  onClick={() => firebase.firestore().collection(collName).doc(item.id).delete()}/></td>
    </tr>}
   </>

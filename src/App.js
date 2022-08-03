@@ -51,7 +51,7 @@ function App() {
                   <Route path='/company' element={<Company/>}/>
 
                   <Route path='/zones' element={<Zones />}/>
-                  <Route path='/zones/add' element={<AddingZone />}/>
+                  <Route path='/zones/add' element={<AddingZone nav='zones' labelName='اسم النطاق' />}/>
                   <Route path='/areas' element={<Areas />}/>
                   {<Route path='/areas/add' element={<AddingArea />}/>}
                   <Route path='/couriers' element={<Couriers />}/>
@@ -59,8 +59,9 @@ function App() {
                   <Route path='/couriers/update/:id' element={<AddingCourier />}/>
                   <Route path='/customers' element={<Customers />}/>
                   <Route path='/customers/add' element={<AddingCustomer />}/>
+                  <Route path='/customers/update/:id' element={<AddingCustomer />}/>
                   <Route path='/status' element={ <Status /> }/>
-                  <Route path='/status/add' element={<AddingZone />}/>
+                  <Route path='/status/add' element={<AddingZone nav='status' labelName='اسم الحالة' />}/>
                   <Route path='/branchs' element={<Branches />}/>
                   <Route path='/transfer' element={<Transfer />}/>
                   <Route path='/sheets/delivery/add' element={<AddingDeliverySheet/>}/>

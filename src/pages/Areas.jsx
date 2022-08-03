@@ -17,7 +17,7 @@ const Areas = () => {
             <SelectInput data={zones} label='النطاق'/>
             <Input value={area} setValue={setArea} labelName=':اسم المنطقة'/>
            <Link to='/areas/add'> <AddBtn content='اضافة منطقة جديدة'/> </Link>
-           <Tabels data={areas} collName='areas' headers={[{label: '	اسم المنطقة', value: 'areaName'}, {label: 'النطاق', value: 'areaDomain'}]}/>
+           <Tabels data={areas} collName='areas' headers={[{label: '	اسم المنطقة', value: 'name'}, {label: 'النطاق', value: 'domain'}]}/>
         </Form>
     </div>
   )

@@ -12,15 +12,17 @@ import { CustomerContext } from '../contexts/CustomersContext'
 import { getFirestore, addDoc, collection } from 'firebase/firestore'
 import Tabels, { getItem } from './Tabels'
 import { useEffect } from 'react'
+import firebase from '../db/firestore'
 
 
 const formSubmit = (nav, inputsValue, navigator) => e => {
   e.preventDefault()
+  
 const db = getFirestore()
 const docRef = addDoc(collection(db, nav), inputsValue)
   navigator(`/${nav}`)
 } 
-export const AddingZone = () => {
+export const AddingZone = ({nav, labelName}) => {
   const [inputsValue, setInputsValue] = useState({
     name: '',
     desc: ''
@@ -28,8 +30,8 @@ export const AddingZone = () => {
   const navigator = useNavigate()
 return (
   <Container fluid className='add-card '>
-    <Form onSubmit={formSubmit('zones', inputsValue, navigator)} className='my-form'>
-            <Input name='name' labelName='اسم النطاق' type='text' value={inputsValue} setValue={setInputsValue}/>
+    <Form onSubmit={formSubmit(`${nav}`, inputsValue, navigator)} className='my-form'>
+            <Input name='name' labelName={labelName} type='text' value={inputsValue} setValue={setInputsValue}/>
             <div className='d-flex align-items-center'>
               <Textarea name='desc' value={inputsValue} setValue={setInputsValue} label='ملاحظات'/>
             
@@ -44,12 +46,13 @@ return (
 export const AddingArea = () => {
   const [zones] = useContext(ZonesContext)
   const [inputsValue, setInputsValue] = useState({})
+  const navigator = useNavigate()
 return (
   <Container fluid className='add-card '>
         <Form onSubmit={formSubmit('areas', inputsValue, navigator)}>
-            <Input name='areaName' labelName='اسم المنطقة' type='text' value={inputsValue} setValue={setInputsValue}/>
+            <Input name='name' labelName='اسم المنطقة' type='text' value={inputsValue} setValue={setInputsValue}/>
             <div className='d-flex align-items-center'>
-            <SelectInput data={zones} name='areaDomain' label='النطاق' value={inputsValue} setValue={setInputsValue}/>
+            <SelectInput data={zones} name='domain' label='النطاق' value={inputsValue} setValue={setInputsValue}/>
             </div>
             <Button type='submit'  className='d-block mx-auto'>حفظ</Button>
             
@@ -62,25 +65,29 @@ export const AddingCourier = () => {
   const [couriers, setCouriers] = useContext(CouriersContext)
   const [zones, setZones] = useContext(ZonesContext)
   const [branches, setBranches] = useContext(BranchesContext)
-  const [comm, setComm] = useState({})
+  
   const navigator = useNavigate()
   const {id} = useParams()
   const [inputsValue, setInputsValue] = useState({
+    branches: '',
     name: '',
     phone: '',
     notes: '',
     username: '',
     password: '',
-    comm: {...comm},
+    comm: {},
     unactive: false
   })
     useEffect( () => {
      id && getItem('couriers', id, setInputsValue)
     }, [id])
+
     useEffect(() => {
-      setComm(inputsValue.comm)
-    }, [inputsValue])
-  console.log(comm);
+      id && inputsValue.name != '' && firebase.firestore().collection('couriers').doc(id).update(inputsValue)
+    },[inputsValue])
+    // useEffect(() => {
+    //   setComm(inputsValue.comm)
+    // }, [inputsValue])
   const inputs = [
     {
       labelName: ':اسم المندوب',
@@ -108,20 +115,25 @@ export const AddingCourier = () => {
         <Row className=''>
           <Col>
             <Form onSubmit={formSubmit('couriers', inputsValue, navigator)}>
-            <SelectInput label='الفرع' data={branches} setValue={setInputsValue} name='branches'/>
+            <SelectInput label='الفرع' data={branches} setValue={setInputsValue} name='branches' selectedValue={inputsValue} value={inputsValue}/>
+             
+             
               {inputs.map(input => <Input type={input.type} labelName={input.labelName} name={input.name} value={inputsValue} setValue={setInputsValue}/>)}
-              <Textarea label='ملاحظات' name='notes'/>
-              <Form.Check type='checkbox' label='غير فعال ' id='unactiveCourier' name='unactiveCourier'
+
+              <Textarea label='ملاحظات' name='notes' setValue={setInputsValue} value={inputsValue}/>
+              <Form.Check 
+              reverse
+              type='checkbox'
+               label='غير فعال '
+                id='unactiveCourier' name='unactiveCourier'
+              checked={inputsValue.unactive}
               onChange={() => setInputsValue({...inputsValue, unactive: !inputsValue.unactive})}
               />
-              <Button type='submit'>حفظ</Button>
+              <Button type='submit' className={`${id ? 'd-none' : 'd-block'}`}>حفظ</Button>
             </Form>
           </Col>
           <Col>
-          <CourierTable data={zones} comm={comm} setComm={setComm}/>
-          
-          {/* <Tabels data={zones} collName='couriers' headers={[{label: 'اسم النطاق', value: 'name'}, {label: 'عمولة المندوب فى حالة التسليم', value: 'deliveryComm'}, {label: 'عمولة المندوب فى حالة المرتجع بمقابل', value: 'returnComm'}]}/> */}
-
+          <CourierTable data={zones} inputsValue={inputsValue} setInputsValue={setInputsValue}/>
           </Col>
         </Row>
     </Container>
@@ -129,70 +141,150 @@ export const AddingCourier = () => {
 }
 
 export const AddingCustomer = () => {
-  const [areas, setAreas] = useContext(AreasContext)
-  const [zones, setZones] = useContext(ZonesContext)
-  const [inputsValue, setInputsValue] = useState({})
+  const [areas] = useContext(AreasContext)
+  const [zones] = useContext(ZonesContext)
+  const [branches] = useContext(BranchesContext)
+  const [inputsValue, setInputsValue] = useState({
+    accountNumber: '',
+    accountType: {
+      comp: false,
+      person: false
+    },
+    areas: '',
+    branches: '',
+    clientName: '',
+    resPerson: '',
+    zones: '',
+    mainAddress: '',
+    secondAddress: '',
+    thierdAddress: '',
+    teleNumber: '',
+    phone: '',
+    fax: '',
+    mail: '',
+    subMethod: {
+      office: false,
+      couriers: false,
+      bank: false,
+    },
+    targetedShipments: '',
+    setDays: {
+      str: false,
+      sun: false,
+      mon: false,
+      thu: false,
+      wed: false,
+      thr: false,
+      fri: false,
+    },
+    sendSms: false,
+    active: false,
+    activeOnNetwork: false,
+    registerSms: false,
+    username: '',
+    password: ''
+  })
   const navigator = useNavigate()
+  const { id } = useParams()
+  useEffect( () => {
+    id && getItem('customers', id, setInputsValue)
+   }, [id])
 
-const formSubmit = e => {
-  e.preventDefault()
-  console.log(inputsValue)
-  setAreas([... areas, inputsValue])
-  navigator('/costumers')
-} 
+  useEffect(() => {
+    id && inputsValue.accountNumber != '' && firebase.firestore().collection('customers').doc(id).update(inputsValue)
+  },[inputsValue])
 
 return (
   <Container fluid className='add-card '>
       {console.log(inputsValue)}
-        <Form onSubmit={formSubmit}>
-        <Input name='' labelName='رقم حساب العميل *:' type='text' value={inputsValue} setValue={setInputsValue}/>
-        <Input name='' labelName='اسم العميل *:' type='text' value={inputsValue} setValue={setInputsValue}/>
-        <div>
-        <label>نوع الحساب</label>
-         <Form.Check name='k' label='شركات' type='radio' />
-         <Form.Check name='k' label='افراد' type='radio' />
-        </div>
-        <SelectInput label='الفرع' data={[]}/>
-        <Input name='' labelName='الشخص المسئول *:' type='text' value={inputsValue} setValue={setInputsValue}/>
-        <SelectInput label='النطاق' data={zones}/>
-        <SelectInput label='المنطقة' data={areas}/>
-        <Textarea name='' value={inputsValue} setValue={setInputsValue} label='العنوان الرئيسي'/>
-        <Textarea name='' value={inputsValue} setValue={setInputsValue} label='العنوان 2'/>
-        <Textarea name='' value={inputsValue} setValue={setInputsValue} label='العنوان 3'/>
-        <Input name='' labelName='رقم التليفون :' type='text' value={inputsValue} setValue={setInputsValue}/>
-        <Input name='' labelName='رقم المحمول' type='text' value={inputsValue} setValue={setInputsValue}/>
-        <Input name='' labelName='رقم الفاكس' type='text' value={inputsValue} setValue={setInputsValue}/>
-        <Input name='' labelName='البريد الالكتروني' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <Form onSubmit={formSubmit('customers', inputsValue, navigator)}>
+        <Input name='accountNumber' labelName='رقم حساب العميل *:' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <Input name='clientName' labelName='اسم العميل *:' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <Form.Group name='accountType'>
+        <Form.Label>نوع الحساب</Form.Label>
+         <Form.Check name='k' onChange={() => setInputsValue({...inputsValue, accountType: {
+            comp: !inputsValue.accountType.comp,
+            person: false
+          }})} checked={inputsValue.accountType.comp} label='شركات' type='radio' />
+         <Form.Check name='k' onChange={() => setInputsValue({...inputsValue, accountType: {
+            person: !inputsValue.accountType.person,
+            comp: false
+          }})} checked={inputsValue.accountType.person} label='افراد' type='radio' />
+        </Form.Group>
+        <SelectInput value={inputsValue} label='الفرع' data={branches} setValue={setInputsValue} name='branches' selectedValue={inputsValue} />
+        <Input name='resPerson' labelName='الشخص المسئول *:' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <SelectInput value={inputsValue} label='النطاق' data={zones} setValue={setInputsValue} name='zones' selectedValue={inputsValue}/>
+        <SelectInput value={inputsValue} label='المنطقة' data={areas} setValue={setInputsValue} name='areas' selectedValue={inputsValue}/>
+        <Textarea name='mainAddress' value={inputsValue} setValue={setInputsValue} label='العنوان الرئيسي'/>
+        <Textarea name='secondAddress' value={inputsValue} setValue={setInputsValue} label='العنوان 2'/>
+        <Textarea name='thierdAddress' value={inputsValue} setValue={setInputsValue} label='العنوان 3'/>
+        <Input name='teleNumber' labelName='رقم التليفون :' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <Input name='phone' labelName='رقم المحمول' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <Input name='fax' labelName='رقم الفاكس' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <Input name='mail' labelName='البريد الالكتروني' type='text' value={inputsValue} setValue={setInputsValue}/>
         <SelectInput label='خدمة العملاء:' data={[]}/>
         <SelectInput label='مسئول المبيعات :' data={[]}/>
-        <div>
-        <label>طريقة التوريد *:</label>
-         <Input name='m' labelName='تسليم مكتب' type='radio' value={inputsValue} setValue={setInputsValue}/>
-         <Input name='m' labelName='عن طريق المندوب' type='radio' value={inputsValue} setValue={setInputsValue}/>
-         <Input name='m' labelName='ايداع بنكي' type='radio' value={inputsValue} setValue={setInputsValue}/>
-        </div>
-        <Input name='' labelName='عدد البوالص المستهدفة شهريا (التارجت)' type='text' value={inputsValue} setValue={setInputsValue}/>
-        <div>
-        <label>ايام التسوية*:</label>
-         <Form.Check name='day' label='السبت' type='checkbox' />
-         <Form.Check name='day' label='الاحد' type='checkbox' />
-         <Form.Check name='day' label='الاثنين' type='checkbox' />
-         <Form.Check name='day' label='الثلاثاء' type='checkbox' />
-         <Form.Check name='day' label='الاربعاء' type='checkbox' />
-         <Form.Check name='day' label='الخميس' type='checkbox' />
-         <Form.Check name='day' label='الجمعة' type='checkbox' />
-        </div>
+        <Form.Group>
+        <Form.Label>طريقة التوريد *:</Form.Label>
+         <Form.Check checked={inputsValue.subMethod.office} name='m' label='تسليم مكتب' type='radio' id='m' onChange={() => setInputsValue({...inputsValue, subMethod: {
+            office: !inputsValue.subMethod.office,
+            couriers: false,
+            bank: false
+          }})}/>
+         <Form.Check checked={inputsValue.subMethod.couriers} name='m' label='عن طريق المندوب' type='radio' id='m' onChange={() => setInputsValue({...inputsValue, subMethod: {
+            couriers: !inputsValue.subMethod.couriers,
+            office: false,
+            bank: false
+          }})}/>
+         <Form.Check checked={inputsValue.subMethod.bank} name='m' label='ايداع بنكي' type='radio' id='m' onChange={() => setInputsValue({...inputsValue, subMethod: {
+            bank: !inputsValue.subMethod.bank,
+            couriers: false,
+            office: false
+          }})}/>
+        </Form.Group>
+        <Input name='targetedShipments' labelName='عدد البوالص المستهدفة شهريا (التارجت)' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <Form.Group>
+        <Form.Label>ايام التسوية*:</Form.Label>
+         <Form.Check name='day' checked={inputsValue.setDays.str} onChange={() => setInputsValue({...inputsValue, setDays: {
+            ...inputsValue.setDays,
+            str: !inputsValue.setDays.str
+          }})} label='السبت' type='checkbox' />
+         <Form.Check name='day' checked={inputsValue.setDays.sun} onChange={() => setInputsValue({...inputsValue, setDays: {
+            ...inputsValue.setDays,
+            sun: !inputsValue.setDays.sun
+          }})} label='الاحد' type='checkbox' />
+         <Form.Check name='day' checked={inputsValue.setDays.mon} onChange={() => setInputsValue({...inputsValue, setDays: {
+            ...inputsValue.setDays,
+            mon: !inputsValue.setDays.mon
+          }})} label='الاثنين' type='checkbox' />
+         <Form.Check name='day' checked={inputsValue.setDays.thu} onChange={() => setInputsValue({...inputsValue, setDays: {
+            ...inputsValue.setDays,
+            thu: !inputsValue.setDays.thu
+          }})} label='الثلاثاء' type='checkbox' />
+         <Form.Check name='day' checked={inputsValue.setDays.wed} onChange={() => setInputsValue({...inputsValue, setDays: {
+            ...inputsValue.setDays,
+            wed: !inputsValue.setDays.wed
+          }})} label='الاربعاء' type='checkbox' />
+         <Form.Check name='day' checked={inputsValue.setDays.thr} onChange={() => setInputsValue({...inputsValue, setDays: {
+            ...inputsValue.setDays,
+            thr: !inputsValue.setDays.thr
+          }})} label='الخميس' type='checkbox' />
+         <Form.Check name='day' checked={inputsValue.setDays.fri} onChange={() => setInputsValue({...inputsValue, setDays: {
+            ...inputsValue.setDays,
+            fri: !inputsValue.setDays.fri
+          }})} label='الجمعة' type='checkbox' />
+        </Form.Group>
         
-         <Form.Check name='' label='Sms للمرسل الية :' type='checkbox' />
-         <Form.Check name='' label='فعال' type='checkbox' />
-         <Input name='' labelName='اسم الدخول' type='text' value={inputsValue} setValue={setInputsValue}/>
-         <Input name='' labelName='كلمة المرور' type='text' value={inputsValue} setValue={setInputsValue}/>
-         <Form.Check label='تنشيط الحساب على الانترنت :
-' name='' type='checkbox' />
-         <Form.Check name='' label='ارسل رسالة sms للعميل بالتسجيل :
-' type='checkbox' />
+         <Form.Check name='sendSms' onChange={() => setInputsValue({...inputsValue, sendSms: !inputsValue.sendSms})} checked={inputsValue.sendSms} label='Sms للمرسل الية :' type='checkbox' />
+         <Form.Check name='active' onChange={() => setInputsValue({...inputsValue, active: !inputsValue.active})} checked={inputsValue.active} label='فعال' type='checkbox' />
+         <Input name='username' labelName='اسم الدخول' type='text' value={inputsValue} setValue={setInputsValue}/>
+         <Input name='password' labelName='كلمة المرور' type='text' value={inputsValue} setValue={setInputsValue}/>
+         <Form.Check onChange={() => setInputsValue({...inputsValue, activeOnNetwork: !inputsValue.activeOnNetwork})} checked={inputsValue.activeOnNetwork} label='تنشيط الحساب على الانترنت :
+' name='activeOnNetwork' type='checkbox' />
+         <Form.Check name='registerSms' label='ارسل رسالة sms للعميل بالتسجيل :
+' type='checkbox' onChange={() => setInputsValue({...inputsValue, registerSms: !inputsValue.registerSms})} checked={inputsValue.registerSms}/>
+        <Button type='submit' className={`${id ? 'd-none' : 'd-block'}`}>حفظ</Button>
         </Form>
-        <Button type='submit'>حفظ</Button>
     </Container>
   )
 }
