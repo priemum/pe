@@ -26,7 +26,7 @@ const Customers = () => {
     {label: 'اسم العميل', value: 'clientName'}, 
     {label: 'تاريخ فتح الحساب', value: 'date'},
     {label: 'الشخص المسئول', value: 'resPerson'},
-    {label: '	المنطقة', value: 'zones'},
+    {label: '	المنطقة', value: 'areas'},
     {label: 'التليفون', value: 'teleNumber'},
     {label: 'المحمول', value: 'phone'},
     {label: 'عدد البوالص المستهدفة شهريا', value: 'targetedShipments'},
