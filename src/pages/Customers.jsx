@@ -23,7 +23,7 @@ const Customers = () => {
 
   const headersArr= [
     {label: 'رقم العميل', value: 'accountNumber'}, 
-    {label: 'اسم العميل', value: 'clientName'}, 
+    {label: 'اسم العميل', value: 'name'}, 
     {label: 'تاريخ فتح الحساب', value: 'date'},
     {label: 'الشخص المسئول', value: 'resPerson'},
     {label: '	المنطقة', value: 'areas'},

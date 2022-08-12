@@ -64,44 +64,53 @@ export const CourierTable = ({data, setInputsValue, inputsValue}) => {
   const [deliveryComm, setDeliveryComm] = useState('')
   const [returnComm, setReturnComm] = useState('')
   const [domainComm, setDomainComm] = useState('')
-  
+   
   useEffect( () => {
     inputsValue.comm && setComm(inputsValue.comm)
+    console.log(comm);
   },[inputsValue])
 
   useEffect(() => {
-    
-    if(domainComm === '') return
-    setInputsValue({... inputsValue,  
-      comm : { ... comm,
-      [domainComm.deliveryComm] : deliveryComm,
-    }
-  })
-  },[deliveryComm])
+ if(domainComm !== '') return setInputsValue({
+    ... inputsValue,
+    comm: {
+    ... comm,
+    [domainComm]: {
+             returnComm: returnComm.returnComm || returnComm,
+            deliveryComm: deliveryComm.deliveryComm || deliveryComm
+         }
+  }})
+  console.log(comm);
+  },[deliveryComm, returnComm])
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    if(domainComm === '') return
-    setInputsValue({... inputsValue,  
-      comm : { ... comm,
-      [domainComm.returnComm] : returnComm,
-    }
-  })
-  },[returnComm])
+  //   if(domainComm !== '') return
+  //   setInputsValue({... inputsValue,  
+  //     comm : { ... comm,
+  //     [domainComm]: {
+  //       returnComm: returnComm,
+  //       deliveryComm: deliveryComm
+  //     }
+  //   }
+    
+  // })
+  // },[returnComm])
 
-  useEffect(() => {
-    const comm = {}
-    data.map( zone =>
-      {
-        const domain = zone.name;
-       comm[domain] =  {
-        deliveryComm: '',
-        returnComm: ''
-       }
-      })
-      if(domainComm === '') return
-      setComm(comm)
-  }, [])
+  // useEffect(() => {
+  //   const comm = {}
+  //   data.map( zone =>
+  //     {
+  //       const domain = zone.name;
+  //      comm[domain] =  {
+  //       deliveryComm: '',
+  //       returnComm: ''
+  //      }
+  //     })
+  //     console.log(comm)
+  //     if(domainComm == '') return
+  //     setComm(comm)
+  // }, [])
   return (
    <Table striped bordered hover>
  <thead>
@@ -115,8 +124,8 @@ export const CourierTable = ({data, setInputsValue, inputsValue}) => {
   {data.map( (zone, index) =>
    (<tr key={index}>
      <td>{zone.name}</td>
-     <td><Input onFocus ={() => setDomainComm(zone.name)} value={ comm[zone.name] && comm[zone.name].deliveryComm} setValue={setDeliveryComm} name={`reliveryComm`}/></td>
-     <td><Input onFocus ={() => setDomainComm(zone.name)} value={comm[zone.name] && comm[zone.name].returnComm} setValue={setReturnComm} name={`returnComm`}/></td>
+     <td><Input onFocus ={() => setDomainComm(zone.name)} value={comm[zone.name]} setValue={setDeliveryComm} name={`deliveryComm`}/></td>
+     <td><Input onFocus ={() => setDomainComm(zone.name)} value={comm[zone.name]} setValue={setReturnComm} name={`returnComm`}/></td>
    </tr>
    ))}
  </tbody>

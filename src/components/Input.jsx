@@ -2,19 +2,21 @@ import React, {useState} from 'react';
 import Select from 'react-select';
 import {Form, Col, Row} from 'react-bootstrap';
 
-export function Input({labelName,value,type, setValue, name, readonly, onFocus}) {
+export function Input({labelName,value,type, setValue, name, readonly, onFocus, onBlur}) {
  
   const inputOnChange = e => {
-  (typeof(value) === 'object') ? setValue({... value, [name] :`${e.target.value}`})
+    console.log(value);
+  (typeof(value) === 'object') ? setValue(value=>{return {... value, [name] :`${e.target.value}`}})
   :
-   setValue(`${e.target.value}`)
+   setValue(`${e.target.value}`);
+
   }
     
     
     return (
   <Form.Group className="mb-2 d-flex form-group" controlId="formBasicEmail">
     <Form.Label style={{display: `${labelName ? 'block' : 'none'}`}}>{labelName}</Form.Label>
-    <Form.Control onFocus={onFocus} type={type}  onChange={inputOnChange} readOnly={readonly || false} value={value && typeof(value) === 'object' ? value[`${name}`] : value}/>
+    <Form.Control onBlur={onBlur} onFocus={onFocus} type={type}  onChange={inputOnChange} readOnly={readonly || false} value={value && typeof(value) === 'object' ? value[`${name}`] : value}/>
   </Form.Group>
     );
 }

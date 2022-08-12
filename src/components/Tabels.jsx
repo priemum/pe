@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import { Button, Form, Table } from 'react-bootstrap'
 import { Input } from './Input'
 import firebase from '../db/firestore'
 import { useNavigate } from 'react-router-dom'
-import { getFirestore, doc, collection, getDoc } from 'firebase/firestore'
+import { getFirestore, doc, collection, getDoc, addDoc } from 'firebase/firestore'
 
 export const getItem = (nav, id, setInputsValue) => {
   const db = getFirestore()
@@ -38,17 +38,17 @@ return <tr>
  </tr>
 }
 
-const Tabels = ({data, headers, collName, unEditable, nav}) => {
+const Tabels = ({data, headers, collName, unEditable, nav, updateAndDelete, setUpdatedData}) => {
   const [rowId, setRowId] = useState(null)
   const [editedRow, setEditRow] = useState({
     name: '',
     desc: ''
   })
+  const navigate = useNavigate()
+
   useEffect(() => {
     rowId && getItem(collName, rowId, setEditRow)
   }, [rowId])
-  const navigate = useNavigate()
-
 
   const TdCheck = ({isCheck}) => <Form.Check type='checkbox' checked={isCheck} />
 
@@ -59,27 +59,52 @@ const Tabels = ({data, headers, collName, unEditable, nav}) => {
   }
 </ul>
 
+  const TdInput = ({data, name, itemIndex, setUpdatedData}) => {
+    const [item, setItem] = useState(data[itemIndex].defaultPrices)
+    // const customerPrices =  
+
+    // useEffect(() => {
+    //    setItem(customerPrices)
+    // },[customerPrices])
+  return <Input value={item} setValue={setItem} type='text' name={name} 
+  // onFocus={() => setItem(item)} 
+  onBlur={() => {
+        
+        item &&  setUpdatedData({
+          ... data[itemIndex],
+          defaultPrices: item
+        })
+      //   firebase.firestore().collection(collName).doc(data[itemIndex].id).update({
+      // ... data[itemIndex],
+      // defaultPrices: item}) 
+      console.log(item);
+      console.log(data);
+  }}   
+  />
+}
+  
+
   return (
     <Form onSubmit={e => {
       e.preventDefault()
-      firebase.firestore().collection(collName).doc(rowId).update(editedRow)
+      firebase.firestore().collection(collName).doc(rowId).update(editedRow) 
       setRowId(null)
     }}>
     
-    <Table striped bordered hover >
- <thead>
+    <Table striped bordered hover responsive>
+ <thead style={{whiteSpace: 'pre' }}>
      <tr>
     {headers.map( item => (
       <th className='bg-primary text-light w-100'>{item.label}</th>
       ))}
-      <th className='bg-primary text-light w-100'>تعديل</th>
-      <th className='bg-primary text-light w-100'>حذف</th>
+      <th className='bg-primary text-light w-100' style={{ display:`${updateAndDelete && !updateAndDelete.update? 'none' : 'table-cell'}`}}>تعديل</th>
+      <th className='bg-primary text-light w-100' style={{ display:`${updateAndDelete && !updateAndDelete.delete? 'none' : 'table-cell'}`}}>حذف</th>
    </tr>
  </thead>
- <tbody>
+ <tbody style={{whiteSpace: 'pre' }}>
   {/* {console.log(headers.compo)} */}
    {
-     data.map( (item) => (
+     data.map( (item, itemIndex) => (
        
           <>
          { rowId === item.id ?  <EditableRow editedRow ={editedRow} setEditRow ={setEditRow} headers={headers} setRowId={setRowId} collName={collName}/> :
@@ -96,18 +121,28 @@ const Tabels = ({data, headers, collName, unEditable, nav}) => {
               <SetDays setDays={item.setDays}/>
             </td>
 
+            if(header.compo === 'TdInput') 
             return <td>
-            {/* {console.log(header.compo, header.check)} */}
+              <TdInput name={header.value} data={data} itemIndex={itemIndex} setUpdatedData={setUpdatedData}/>
+            </td>
+
+            if(header.compo && typeof(header.compo))
+            return <td>
+              {header.compo}
+            </td>
+
+            return <td>
             {item[header.value]}
+            
             </td>
 }) 
           }
-        <td>{
+        <td style={{ display:`${updateAndDelete && !updateAndDelete.update? 'none' : 'table-cell'}`}}>{
         unEditable ?  <FaEdit style={{cursor: 'pointer'}}  onClick={() => navigate(`/${nav}/${item.id}`)}/>
          :
-          <FaEdit style={{cursor: 'pointer'}}  onClick={() => setRowId(item.id)}/>
+          <FaEdit style={{cursor: 'pointer',}}  onClick={() => setRowId(item.id)}/>
           }</td>
-        <td><FaTrash style={{cursor: 'pointer'}}  onClick={() => firebase.firestore().collection(collName).doc(item.id).delete()}/></td>
+        <td style={{display:`${updateAndDelete && !updateAndDelete.delete? 'none' : 'table-cell'}`}}><FaTrash style={{cursor: 'pointer',}}  onClick={() => firebase.firestore().collection(collName).doc(item.id).delete()}/></td>
    </tr>}
   </>
     ))

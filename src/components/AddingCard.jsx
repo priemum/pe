@@ -17,7 +17,7 @@ import firebase from '../db/firestore'
 
 const formSubmit = (nav, inputsValue, navigator) => e => {
   e.preventDefault()
-  
+  console.log(inputsValue);
 const db = getFirestore()
 const docRef = addDoc(collection(db, nav), inputsValue)
   navigator(`/${nav}`)
@@ -25,7 +25,12 @@ const docRef = addDoc(collection(db, nav), inputsValue)
 export const AddingZone = ({nav, labelName}) => {
   const [inputsValue, setInputsValue] = useState({
     name: '',
-    desc: ''
+    desc: '',
+    defaultPrices: {
+      shipValue: '',
+    extraKgCost: '',
+    returnShipValue: ''
+    }
   })
   const navigator = useNavigate()
 return (
@@ -85,9 +90,7 @@ export const AddingCourier = () => {
     useEffect(() => {
       id && inputsValue.name != '' && firebase.firestore().collection('couriers').doc(id).update(inputsValue)
     },[inputsValue])
-    // useEffect(() => {
-    //   setComm(inputsValue.comm)
-    // }, [inputsValue])
+
   const inputs = [
     {
       labelName: ':اسم المندوب',
@@ -152,7 +155,7 @@ export const AddingCustomer = () => {
     },
     areas: '',
     branches: '',
-    clientName: '',
+    name: '',
     resPerson: '',
     zones: '',
     mainAddress: '',
@@ -182,8 +185,15 @@ export const AddingCustomer = () => {
     activeOnNetwork: false,
     registerSms: false,
     username: '',
-    password: ''
-  })
+    password: '',
+    defaultPrices:  zones ? zones.map(zone =>  ({
+        name: `${zone.name}`,
+        defaultPrices: { shipValue: '',
+        extraKgCost: '',
+        returnShipValue: ''}
+        })) : [],
+    }
+  )
   const navigator = useNavigate()
   const { id } = useParams()
   useEffect( () => {
@@ -199,7 +209,7 @@ return (
       {console.log(inputsValue)}
         <Form onSubmit={formSubmit('customers', inputsValue, navigator)}>
         <Input name='accountNumber' labelName='رقم حساب العميل *:' type='text' value={inputsValue} setValue={setInputsValue}/>
-        <Input name='clientName' labelName='اسم العميل *:' type='text' value={inputsValue} setValue={setInputsValue}/>
+        <Input name='name' labelName='اسم العميل *:' type='text' value={inputsValue} setValue={setInputsValue}/>
         <Form.Group name='accountType'>
         <Form.Label>نوع الحساب</Form.Label>
          <Form.Check name='k' onChange={() => setInputsValue({...inputsValue, accountType: {

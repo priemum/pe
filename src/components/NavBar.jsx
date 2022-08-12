@@ -34,28 +34,7 @@ const NavBar = ({ setActiveNav }) => {
         },
       ],
     },
-    {
-      text: "الفروع",
-      navRoute: "branches",
-      items: [
-        {
-          text: "الفروع",
-          route: "branchs",
-        },
-        {
-          text: "الشيتات المرسلة الي الفروع",
-          route: "transfer",
-        },
-        {
-          text: "الشيتات المستلمة من الفروع",
-          route: "transferfrom",
-        },
-        {
-          text: "توريد واعادة الشحنات الي الفرع",
-          route: "branchreturn",
-        },
-      ],
-    },
+    
     {
       text: "اسعار الشحن",
       navRoute: "prices",
