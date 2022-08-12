@@ -32,8 +32,7 @@ export const DefaultPrices = () => {
     
   
   useEffect(() => {
-    console.log(updatedDefaultPrices)
-    firebase.firestore().collection('zones').doc(updatedDefaultPrices.id).update(updatedDefaultPrices)
+   if(updatedDefaultPrices) firebase.firestore().collection('zones').doc(updatedDefaultPrices.id).update(updatedDefaultPrices)
   },[updatedDefaultPrices])
   
 
