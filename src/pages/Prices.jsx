@@ -15,6 +15,7 @@ export const DefaultPrices = () => {
   const tableForm = useRef()
   const [branches] = useContext(BranchesContext)
   const [zones] = useContext(ZonesContext)
+  const [customers] = useContext(CustomerContext)
   const [defaultPrices, setDefaultPrices] = useState(null)
   const [updatedDefaultPrices, setUpdatedDefaultPrices] = useState(null)
 
@@ -23,7 +24,21 @@ export const DefaultPrices = () => {
     {label: 'قيمة الشحن', value: 'shipValue', compo: 'TdInput'},
     {label: 'قيمة شحن الكيلوجرام زيادة', value: 'extraKgCost', compo: 'TdInput'},
     {label: 'قيمة الشحن للمرتجع', value: 'returnShipValue', compo: 'TdInput'},
-    {label: 'تطبيق علي كل العملاء', value: 'returnShipValue', compo: <Button style={{whiteSpace: 'pre' }}>تطبيق علي كل العملاء</Button>},
+    {label: 'تطبيق علي كل العملاء', value: '', compo: <Button style={{whiteSpace: 'pre' }} onClick={e => {
+      const targetPrices = Object.values(e.target.parentElement.parentElement.children).map(td => td)
+      const updatedZonePrices = {
+        name: targetPrices[0].innerText,
+        defaultPrices: {shipValue: targetPrices[1].lastElementChild.lastElementChild.value,
+        extraKgCost: targetPrices[2].lastElementChild.lastElementChild.value,
+        returnShipValue: targetPrices[3].lastElementChild.lastElementChild.value,}
+      }
+      const targetPricesIndex = e.target.parentElement.parentElement.rowIndex - 1
+      const newCustomers = customers.map(cus => ({
+        ... cus,
+        defaultPrices: cus.defaultPrices.map((p, index) => index === targetPricesIndex ? updatedZonePrices :  p)
+      }))
+      newCustomers.map( cus => firebase.firestore().collection('customers').doc(cus.id).update(cus))
+  }}>تطبيق علي كل العملاء</Button>},
   ] 
 
   useEffect( () => {
@@ -32,7 +47,8 @@ export const DefaultPrices = () => {
     
   
   useEffect(() => {
-   if(updatedDefaultPrices) firebase.firestore().collection('zones').doc(updatedDefaultPrices.id).update(updatedDefaultPrices)
+
+    if(updatedDefaultPrices)firebase.firestore().collection('zones').doc(updatedDefaultPrices.id).update(updatedDefaultPrices)
   },[updatedDefaultPrices])
   
 

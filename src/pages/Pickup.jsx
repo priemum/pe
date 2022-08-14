@@ -1,24 +1,32 @@
 import React from 'react'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Button, ButtonGroup, Col, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import AddBtn from '../components/AddBtn'
 import { SelectInput, Input, FromToCompo, Textarea } from '../components/Input'
 import { BranchesContext } from '../contexts/BranchesContext'
 import { ZonesContext } from '../contexts/ZonesContext'
+import { CustomerContext } from '../contexts/CustomersContext'
 
 
 
 export const AddPickup = () => {
-    const [branches, setBranches] = useContext(BranchesContext)
+    const [branches] = useContext(BranchesContext)
+    const [customers] = useContext(CustomerContext)
+    const [inputsValue, setInputsValue] = useState({
+        branch: '',
+        customer: '',
+        permissionDate: new Date(),
+        statement: '',
 
+    })
   return (
     <Form onSubmit={e => {
   e.preventDefault()
   
  }} className='my-form'>
         <SelectInput label='الفرع' data={branches}/>
-        <SelectInput label='العميل' data={['اختار العميل']}/>
+        <SelectInput label='العميل' data={customers || []}/>
         <Input labelName='تاريخ الاذن' type='date'/>
         <Input labelName='البيان' type='text'/>
         <FromToCompo fromLabel='استلام البيك اب من الساعة' toLabel='الي' type='time'/>
