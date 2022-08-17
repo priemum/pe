@@ -45,8 +45,14 @@ export const Statistics = () => {
             <span>{stat.name}</span>:<span>{stat.statistic}</span>
             </Col>)}
     </Row>
-    <Tabels headers={[{label: 'حالة الشحنة'}, {label: 'العدد'}]} data={[]}/>
-    <Tabels headers={[{label: 'التاريخ'}, {label: 'عدد البوالص اليومية'}]} data={[]}/>
+    <Tabels headers={[{label: 'حالة الشحنة', }, {label: 'العدد'}]} data={[]} updateAndDelete={{
+          delete: false,
+          update: false,
+        }}/>
+    <Tabels headers={[{label: 'التاريخ'}, {label: 'عدد البوالص اليومية'}]} data={[]} updateAndDelete={{
+          delete: false,
+          update: false,
+        }}/>
     </>
   )
 }

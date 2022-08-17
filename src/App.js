@@ -28,6 +28,8 @@ import { CustomerProvider } from './contexts/CustomersContext';
 import { ClientsBills, ClientsReserved, CourierSheet, FeesDuringPeriod, RptCustomers, ShipmentsDuringPeriod, SagelsRpt, StatementsRpt, GeneralLedeger, AccountsBalances, Myzan } from './pages/Reports';
 import { BranchsStat, Entryrpt, RequestStat, ShipmentsStat, Statistics, ZonesStat } from './pages/Statistics';
 import { CreateUser, URoles } from './pages/Admin';
+import ClientNavBar from './pages/clients/components/ClientNavBar';
+import Home from './pages/clients/Home';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -41,13 +43,18 @@ function App() {
                     <ComplexProvider>
     <div className="App">
       <header>
+        {window.location.href.indexOf('api') > -1 ?
+        <ClientNavBar setActiveNav={setActiveNav} />
+      :
         <NavBar setActiveNav={setActiveNav} />
+      }
       </header>
       <main style={{width: '100%'}}>
         <Container className='d-flex ' fluid>
           <Container className='m-auto border border-dark rounded  position-relative h-100 p-4'>
             <Badge className = 'active-nav position-absolute'>{activeNav}</Badge>
-                <Routes>
+            {
+            window.location.href.indexOf('api') <= -1 ?  <Routes>
                   <Route path='/company' element={<Company/>}/>
 
                   <Route path='/zones' element={<Zones />}/>
@@ -113,6 +120,11 @@ function App() {
                   
                   <Route path='*' element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>
+            :
+            <Routes>
+              <Route path='/api' element={<Home />} />
+            </Routes>    
+            }
           </Container>
           
         </Container>
