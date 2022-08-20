@@ -2,10 +2,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import bg from './images/motif.jpg'
 import { Badge, Container } from 'react-bootstrap';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Company from './pages/Company';
 import Zones from './pages/Zones';
 import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingDeliverySheet, AddingBranchReturn, AddFlyerData, AddShipment, AddingComplaint} from './components/AddingCard';
@@ -30,9 +30,30 @@ import { BranchsStat, Entryrpt, RequestStat, ShipmentsStat, Statistics, ZonesSta
 import { CreateUser, URoles } from './pages/Admin';
 import ClientNavBar from './pages/clients/components/ClientNavBar';
 import Home from './pages/clients/Home';
+import ShippingPrice from './pages/clients/ShippingPrice';
+import Sign from './pages/clients/Sign';
+import { NewPickupRequst, CustomerPickupList } from './pages/clients/PickupRequst';
+import NewShipReqeust from './pages/clients/NewShipReqeust';
+import ImportExel from './pages/clients/ImportExel';
+import { ClientShipmentsSearch } from './pages/clients/ClientShipments';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
+  const [userCustomer, setUserCustomer] = useState()
+
+  const ProtectedRoute = ({ children }) => {
+    const navigate = useNavigate()
+    useEffect(() => {
+      !userCustomer && navigate('/api/login')
+    },[])
+      if (!userCustomer) {
+      return <Routes><Route path='/api/login' element={<Sign setCustomer={setUserCustomer}/>}/></Routes>
+      // <Navigate to="/api/login" replace />
+    }
+    
+    return children;
+  };
+
   return (
                   <ZonesProvider>
                     <AreasProvider>
@@ -120,10 +141,20 @@ function App() {
                   
                   <Route path='*' element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>
-            :
+            : 
+            <ProtectedRoute>
             <Routes>
-              <Route path='/api' element={<Home />} />
-            </Routes>    
+            <Route path='/api/login' element={<Sign setCustomer={setUserCustomer}/>}/>
+              <Route path='/api' element={userCustomer ? <Home /> : <Navigate to="/api/login" replace />} />
+              <Route path='/api/pricelist' element={<ShippingPrice user={userCustomer}/>} />
+              <Route path='/api/pickupdata' element={<NewPickupRequst user={userCustomer}/>} />
+              <Route path='/api/pickuplist' element={<CustomerPickupList user={userCustomer}/>} />
+              <Route path='/api/newshipment' element={<NewShipReqeust user={userCustomer}/>} />
+              <Route path='/api/importexel' element={<ImportExel user={userCustomer}/>} />
+              <Route path='/api/shippmentsearch' element={<ClientShipmentsSearch user={userCustomer}/>} />
+            </Routes> 
+            </ProtectedRoute>
+             
             }
           </Container>
           
@@ -142,5 +173,7 @@ function App() {
                   </ZonesProvider>
   );
 }
+
+
 
 export default App;

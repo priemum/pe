@@ -377,9 +377,9 @@ export const AddFlyerData = () => {
 }
 
 export const AddShipment = () => {
-  const [branches, setBranches] = useContext(BranchesContext)
-  const [zones, setZones] = useContext(ZonesContext)
-  const [areas, setAreas] = useContext(AreasContext)
+  const [branches] = useContext(BranchesContext)
+  const [zones] = useContext(ZonesContext)
+  const [areas] = useContext(AreasContext)
 
   return <Form className='my-form'>
     <fieldset>

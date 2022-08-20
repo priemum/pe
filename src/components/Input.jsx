@@ -56,7 +56,7 @@ return (
 );
 }
 
-export function FromToCompo({fromLabel, toLabel, type, label}) {
+export function FromToCompo({fromLabel, toLabel, type, label, value, setValue}) {
 
   return(
     <Row className=' align-items-center'>
@@ -66,10 +66,10 @@ export function FromToCompo({fromLabel, toLabel, type, label}) {
       </span>
       </Col>
       <Col>
-      <Input labelName={fromLabel} type={type}/>
+      <Input labelName={fromLabel} type={type} value={value} setValue={setValue} name='from'/>
       </Col>
       <Col>
-      <Input labelName={toLabel} type={type}/>
+      <Input labelName={toLabel} type={type} name='to' value={value} setValue={setValue}/>
       </Col>
   </Row>
   )

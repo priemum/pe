@@ -6,7 +6,7 @@ const ClientNavBar = ({ setActiveNav }) => {
   const navs = [
     {
         text: "الرئيسية",
-        route: "/",
+        route: "",
       },
       {
         text: "اسعار الشحن",
@@ -133,7 +133,7 @@ const ClientNavBar = ({ setActiveNav }) => {
                   </Link>
                 ))}
               </NavDropdown>
-        return <Link  to={`/api/${nav.route}`}><Nav.Link style={{whiteSpace: 'pre', margin: '0 15px'}}>{nav.text}</Nav.Link></Link>  
+        return <Nav.Link href='#' onClick={() => setActiveNav(nav.text)}><Link to={`/api/${nav.route}`} style={{whiteSpace: 'pre', margin: '0 15px', color: '#adb5bd'}}>{nav.text}</Link></Nav.Link>  
 })}
           </Nav>
         </Navbar.Collapse>
