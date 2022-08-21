@@ -32,7 +32,6 @@ return (
 );
 }
 export function SelectInput({name,value,selectedValue, setValue, data, label}){
-  
   const inputOnChanget = e => {
     setValue({... value, [name] :`${e.target.value}`})
   }
@@ -41,7 +40,7 @@ return (
   <Form.Group className="mb-3 d-flex w-100">
     <Form.Label>{label}</Form.Label>
     <Form.Select 
-    value={selectedValue && selectedValue[name] }
+    value={selectedValue && selectedValue[name] || selectedValue && selectedValue.name}
     aria-label="Default select example"
     as="select"
     onChange={inputOnChanget}
@@ -75,7 +74,7 @@ export function FromToCompo({fromLabel, toLabel, type, label, value, setValue}) 
   )
 }
 
-export function RadioInputs ({label, radioesArr, name}){
+export function RadioInputs ({label, radioesArr, name, defaultCheckedIndex}){
 
   return <Row>
   <Col style={{display: `${label ? 'block' : 'none'}`}}>  
@@ -85,6 +84,8 @@ export function RadioInputs ({label, radioesArr, name}){
     radioesArr.map((radio, index) => <Col className='w-100'>
       <Form.Check
         inline
+        reverse='true'
+        defaultChecked={ defaultCheckedIndex == index && true}
         label={radio}
         name={name}
         type='radio'

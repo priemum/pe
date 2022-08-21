@@ -13,6 +13,7 @@ import { getFirestore, addDoc, collection } from 'firebase/firestore'
 import Tabels, { getItem } from './Tabels'
 import { useEffect } from 'react'
 import firebase from '../db/firestore'
+import { StatusContext } from '../contexts/StatusContext'
 
 
 const formSubmit = (nav, inputsValue, navigator) => e => {
@@ -20,7 +21,7 @@ const formSubmit = (nav, inputsValue, navigator) => e => {
   console.log(inputsValue);
 const db = getFirestore()
 const docRef = addDoc(collection(db, nav), inputsValue)
-  navigator(`/${nav}`)
+navigator && navigator(`/${nav}`)
 } 
 export const AddingZone = ({nav, labelName}) => {
   const [inputsValue, setInputsValue] = useState({
@@ -377,44 +378,78 @@ export const AddFlyerData = () => {
 }
 
 export const AddShipment = () => {
+  const navigator = useNavigate() 
   const [branches] = useContext(BranchesContext)
-  const [zones] = useContext(ZonesContext)
   const [areas] = useContext(AreasContext)
+  const [zones] = useContext(ZonesContext)
+  const [customers] = useContext(CustomerContext)
+  const [status] = useContext(StatusContext)
+  const date = new Date()
+  console.log(date.toDateString());
+  const [inputsValue, setInputsValue] = useState({
+    shipmentRadioes: '',
+    shippType: '',
+    shippCode: '',
+    pickupDate: `${date.toLocaleDateString()}`,
+    pickupNum: '',
+    clientName: '',
+    customerName: '',
+    statement: '',
+    phone: '',
+    area: '',
+    cost: '',
+    status: '',
+    addBy:  '',
+    updatedBy: '',
+    zone: '',
+    address: '',
+    phone: '',
+    phone2: '',
+    price: '',
+    shipCost: '',
+    amount: '',
+    piecesNum: '1',
+    weight: '1',
+    branches: '',
+    clientRef: '',
+    codeTypeRadioes: '',
+  })
 
-  return <Form className='my-form'>
+  return <Form className='my-form' onSubmit={formSubmit('shippments', inputsValue, navigator)}>
     <fieldset>
       <legend>
       بيانات البوليصة
       </legend>
       <Col md={6}>
-      <RadioInputs label='نوع التكويد' radioesArr={['اتوماتيك','يدوى']} name='shipmentRadioes'/>
+      <RadioInputs label='نوع التكويد' radioesArr={['اتوماتيك','يدوى']} defaultCheckedIndex={0} name='shipmentRadioes'  value={inputsValue} setValue={setInputsValue} />
       </Col>
       <Col md={6}>
-      <SelectInput label='الفرع' data={branches} />
+      <SelectInput label='الفرع' data={branches} selectedValue={branches[0]} value={inputsValue} setValue={setInputsValue} name='branches'/>
       </Col>
       <Col md={6}>
-      <SelectInput label='رقم البيك اب' data={['لا يوجد', '14', '15']} />
+      <SelectInput label='رقم البيك اب' data={['لا يوجد', '14', '15']}  value={inputsValue} setValue={setInputsValue} name='pickupNum' />
       </Col>
       <Col md={6}>
-      <Input labelName='رقم البوليصة' readonly={true} value='auto' type='text'/>
+      <Input labelName='رقم البوليصة' readonly={true} value='auto' type='text' setValue={setInputsValue} name='shippCode'/>
       </Col>
       <Col md={6}>
       </Col>
-      <Input labelName='Client Ref' type='date'/>
+      <Input labelName='Client Ref' type='text' value={inputsValue} setValue={setInputsValue} name='clientRef'/>
+      <Input labelName='تاريخ البيك اب' type='text' onFocus={e => e.target.type = 'date'} onBlur={e => e.target.type = 'text'} value={inputsValue} setValue={setInputsValue} name='pickupDate'/>
       <Col md={6}>
-      <SelectInput label='نوع البوليصة' data={['مبلغ مقابل طرد', 'طرد مقابل طرد', 'طرد بدون مقابل']} />
+      <SelectInput label='نوع البوليصة' data={['مبلغ مقابل طرد', 'طرد مقابل طرد', 'طرد بدون مقابل']}  value={inputsValue} setValue={setInputsValue} name='shippType'/>
       </Col>
       <Col md={6}>
-      <Input labelName='الوزن' type='text'/>
+      <Input labelName='الوزن' type='text' value={inputsValue} setValue={setInputsValue} name='weight'/>
       </Col>
       <Col md={6}>
-      <Input labelName='عدد القطع' type='text'/>
+      <Input labelName='عدد القطع' type='text' value={inputsValue} setValue={setInputsValue} name='piecesNum'/>
       </Col>
       <Col md={6}>
-      <Textarea label='البيان'/>
+      <Textarea label='البيان' value={inputsValue} setValue={setInputsValue} name='statement'/>
       </Col>
       <Col md={6}>
-      <SelectInput label='الحالة الحالية' data={[]}/>
+      <SelectInput label='الحالة الحالية' data={status || []} value={inputsValue} setValue={setInputsValue} name='status'/>
       </Col>
     </fieldset>
     <fieldset>
@@ -423,22 +458,22 @@ export const AddShipment = () => {
       </legend>
       <Row>
       <Col md={6}>
-      <Input type='text' labelName='اسم المرسل اليه'/>
+      <Input type='text' labelName='اسم المرسل اليه' value={inputsValue} setValue={setInputsValue} name='customerName'/>
       </Col>
       <Col md={6}>
-      <SelectInput label='النطاق' data={zones}/>
+      <SelectInput label='النطاق' data={zones || []} value={inputsValue} setValue={setInputsValue} name='zone'/>
       </Col>
       <Col md={6}>
-      <Textarea label='العنوان'/>
+      <Textarea label='العنوان' value={inputsValue} setValue={setInputsValue} name='address'/>
       </Col>
       <Col md={6}>
-      <SelectInput label='المنطقة' data={areas}/>
+      <SelectInput label='المنطقة' data={areas || []} value={inputsValue} setValue={setInputsValue} name='area'/>
       </Col>
       <Col md={6}>
-      <Input type='text' labelName='رقم الموبايل' />
+      <Input type='text' labelName='رقم الموبايل'  value={inputsValue} setValue={setInputsValue} name='phone'/>
       </Col>
       <Col md={6}>
-      <Input type='text' labelName='رقم الموبايل2' />
+      <Input type='text' labelName='رقم الموبايل2'  value={inputsValue} setValue={setInputsValue} name='phone2'/>
       </Col>
       </Row>
     </fieldset>
@@ -447,23 +482,26 @@ export const AddShipment = () => {
       بيانات العميل
       </legend>
       <Col md='6'>
-      <SelectInput label='العميل' data={['اختار']}/>
+      <SelectInput label='العميل' data={customers || []} value={inputsValue} setValue={setInputsValue} name='clientName'/>
       </Col>
       <Col md='6'>
-      <RadioInputs label='نوع التكويد' radioesArr={['المبلغ بدون قيمة الشحن','المبلغ شامل قيمة الشحن']} name='shipmentRadioes'/>
+      <RadioInputs label='نوع التكويد' radioesArr={['المبلغ بدون قيمة الشحن','المبلغ شامل قيمة الشحن']} name='codeTypeRadioes' value={inputsValue} setValue={setInputsValue} />
       </Col>
       <Col md='4'>
-      <Input type='text' labelName='المبلغ' />
+      <Input type='text' labelName='المبلغ'  value={inputsValue} setValue={setInputsValue} name='cost'/>
       </Col>
       <Col md='4'>
-      <Input type='text' labelName='قيمة الشحن' />
+      <Input type='text' labelName='قيمة الشحن'  value={inputsValue} setValue={setInputsValue} name='shipCost'/>
       </Col>
       <Col md='4'>
-      <Input type='text' labelName='الصافي' />
+      <Input type='text' labelName='الصافي'  value={inputsValue} setValue={setInputsValue} name='amount'/>
       </Col>
     </fieldset>
-    <Button>حفظ و خروج</Button>
-    <Button>حفظ و اضافة جديد</Button>
+    <Button type='submit'>حفظ و خروج</Button>
+    <Button onClick={() => {
+      formSubmit('shippments', inputsValue)
+      navigator('/shipments/add')
+    }}>حفظ و اضافة جديد</Button>
   </Form>
 }
 

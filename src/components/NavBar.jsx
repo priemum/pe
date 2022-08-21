@@ -77,27 +77,27 @@ const NavBar = ({ setActiveNav }) => {
     },
     {
       text: "بوالص الشحن",
-      navRoute: "shipments",
+      navRoute: "shippments",
       items: [
         {
           text: "اضافة بوليصة شحن جديدة",
-          route: "shipments/add",
+          route: "shippments/add",
         },
         {
           text: "مراجعة بوالص الشحن",
-          route: "shipments",
+          route: "shippments",
         },
         {
           text: "استيراد بوالص الشحن من ملف اكسل",
-          route: "shipments/import",
+          route: "shippments/import",
         },
         {
           text: "تحديث حالات بوالص الشحن بارقام متعددة",
-          route: "shipments/multi",
+          route: "shippments/multi",
         },
         {
           text: "حذف سجل حركات بوليصة",
-          route: "shipmentstatus",
+          route: "shippmentstatus",
         },
       ],
     },

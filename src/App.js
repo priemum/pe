@@ -36,6 +36,7 @@ import { NewPickupRequst, CustomerPickupList } from './pages/clients/PickupRequs
 import NewShipReqeust from './pages/clients/NewShipReqeust';
 import ImportExel from './pages/clients/ImportExel';
 import { ClientShipmentsSearch } from './pages/clients/ClientShipments';
+import { ShippmentsProvider } from './contexts/ShippmentsContexts';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -62,10 +63,11 @@ function App() {
                     <CustomerProvider>
                     <CouriersProvider>
                     <ComplexProvider>
+                      <ShippmentsProvider>
     <div className="App">
       <header>
         {window.location.href.indexOf('api') > -1 ?
-        <ClientNavBar setActiveNav={setActiveNav} />
+        userCustomer ? <ClientNavBar setActiveNav={setActiveNav} /> : <></>
       :
         <NavBar setActiveNav={setActiveNav} />
       }
@@ -104,7 +106,7 @@ function App() {
                   <Route path='/customersflyers' element={<CustomersFlyers/>}/>
                   <Route path='/customersflyers/add' element={<AddFlyerData/>}/>
                   <Route path='/flyersbalances' element={<FlyersBalances/>}/>
-                  <Route path='/shipments' element={<Shipments/>}/>
+                  <Route path='/shippments' element={<Shipments/>}/>
                   <Route path='/shipments/add' element={<AddShipment/>}/>
                   <Route path='/shipments/import' element={<ShipmentsImport/>}/>
                   <Route path='/shipments/multi' element={<ShipmentsMulti/>}/>
@@ -144,7 +146,6 @@ function App() {
             : 
             <ProtectedRoute>
             <Routes>
-            <Route path='/api/login' element={<Sign setCustomer={setUserCustomer}/>}/>
               <Route path='/api' element={userCustomer ? <Home /> : <Navigate to="/api/login" replace />} />
               <Route path='/api/pricelist' element={<ShippingPrice user={userCustomer}/>} />
               <Route path='/api/pickupdata' element={<NewPickupRequst user={userCustomer}/>} />
@@ -164,6 +165,7 @@ function App() {
        <Footer />
       </footer>
     </div>
+    </ShippmentsProvider>
     </ComplexProvider>
     </CouriersProvider>
     </CustomerProvider>
