@@ -93,20 +93,24 @@ export const ZonesStat = () => {
 }
 
 export const Entryrpt = () => {
+    return <>
     <SelectInput label='مدخل البيانات' data={[]}/>
-    return <Form className='my-form'>
+    <Form className='my-form'>
     <FromToCompo label='الفترة' fromLabel='من' toLabel='الى' type='date'/>
     <Button>احصائية حسب الفروع</Button>
 </Form>
+</>
 }
 
 export const BranchsStat = () => {
+    return <>
     <SelectInput label='مدخل البيانات' data={[]}/>
-    return <Form className='my-form'>
+    <Form className='my-form'>
     <FromToCompo label='الفترة' fromLabel='من' toLabel='الى' type='date'/>
     <ButtonGroup>
     <Button>احصائيات الحالات في الفروع</Button>
     <Button>احصائيات الحالات بالمناطق</Button>
     </ButtonGroup>
 </Form>
+</>
 }

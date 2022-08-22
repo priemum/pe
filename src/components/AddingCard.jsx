@@ -385,7 +385,6 @@ export const AddShipment = () => {
   const [customers] = useContext(CustomerContext)
   const [status] = useContext(StatusContext)
   const date = new Date()
-  console.log(date.toDateString());
   const [inputsValue, setInputsValue] = useState({
     shipmentRadioes: '',
     shippType: '',

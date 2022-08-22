@@ -20,8 +20,8 @@ export const Shipments = () => {
             value: 'shippCode'
         },
         {
-            label: 'اريخ البيك اب',
-            value: 'pikupDate'
+            label: 'تاريخ البيك اب',
+            value: 'pickupDate'
         },
         {
             label: 'العميل',

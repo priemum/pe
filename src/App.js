@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import bg from './images/motif.jpg'
 import { Badge, Container } from 'react-bootstrap';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Company from './pages/Company';
 import Zones from './pages/Zones';
 import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingDeliverySheet, AddingBranchReturn, AddFlyerData, AddShipment, AddingComplaint} from './components/AddingCard';
@@ -37,6 +37,7 @@ import NewShipReqeust from './pages/clients/NewShipReqeust';
 import ImportExel from './pages/clients/ImportExel';
 import { ClientShipmentsSearch } from './pages/clients/ClientShipments';
 import { ShippmentsProvider } from './contexts/ShippmentsContexts';
+import { PickupProvider } from './contexts/PickupContext';
 
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
@@ -64,6 +65,7 @@ function App() {
                     <CouriersProvider>
                     <ComplexProvider>
                       <ShippmentsProvider>
+                        <PickupProvider>
     <div className="App">
       <header>
         {window.location.href.indexOf('api') > -1 ?
@@ -165,6 +167,7 @@ function App() {
        <Footer />
       </footer>
     </div>
+    </PickupProvider>
     </ShippmentsProvider>
     </ComplexProvider>
     </CouriersProvider>
