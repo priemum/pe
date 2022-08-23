@@ -27,7 +27,7 @@ import { CouriersContext, CouriersProvider } from './contexts/CouriersContext';
 import { CustomerProvider } from './contexts/CustomersContext';
 import { ClientsBills, ClientsReserved, CourierSheet, FeesDuringPeriod, RptCustomers, ShipmentsDuringPeriod, SagelsRpt, StatementsRpt, GeneralLedeger, AccountsBalances, Myzan } from './pages/Reports';
 import { BranchsStat, Entryrpt, RequestStat, ShipmentsStat, Statistics, ZonesStat } from './pages/Statistics';
-import { CreateUser, URoles } from './pages/Admin';
+import { AddingGroup, CreateUser, URoles } from './pages/Admin';
 import ClientNavBar from './pages/clients/components/ClientNavBar';
 import Home from './pages/clients/Home';
 import ShippingPrice from './pages/clients/ShippingPrice';
@@ -142,6 +142,7 @@ function App() {
                   <Route path='frmreports/branchsstat' element={<BranchsStat/>}/>
                   <Route path='Admin/URoles' element={<URoles/>}/>
                   <Route path='/Admin/CreateUser' element={<CreateUser/>}/>
+                  <Route path='/Admin/RoleData' element={<AddingGroup/>}/>
                   
                   <Route path='*' element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>

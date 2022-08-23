@@ -131,6 +131,11 @@ const Tabels = ({data, headers, collName, unEditable, nav, updateAndDelete, setU
               {header.compo}
             </td>
 
+            if(!header.value)
+            return <td>
+              {item.label}
+            </td>
+
             return <td>
             {item[header.value]}
             
@@ -140,7 +145,7 @@ const Tabels = ({data, headers, collName, unEditable, nav, updateAndDelete, setU
         <td style={{ display:`${updateAndDelete && !updateAndDelete.update? 'none' : 'table-cell'}`}}>{
         unEditable ?  <FaEdit style={{cursor: 'pointer'}}  onClick={() => navigate(`/${nav}/${item.id}`)}/>
          :
-          <FaEdit style={{cursor: 'pointer',}}  onClick={() => setRowId(item.id)}/>
+          <FaEdit style={{cursor: 'pointer',}}  onClick={() => {console.log(item.id); setRowId(item.id)}}/>
           }</td>
         <td style={{display:`${updateAndDelete && !updateAndDelete.delete? 'none' : 'table-cell'}`}}><FaTrash style={{cursor: 'pointer',}}  onClick={() => firebase.firestore().collection(collName).doc(item.id).delete()}/></td>
    </tr>}

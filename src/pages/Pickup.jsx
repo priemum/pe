@@ -137,6 +137,10 @@ export const PickupList = () => {
             value: 'updatedBy'
         },
     ]
+     const pickupsWithArea = customers && pickups.map(el =>  {
+       const c = customers.filter(customer => customer.name == el.customer)
+       return {... el, area: `${c[0].areas}`, phone: `${c[0].phone}`}
+    })
     return(
         <>
         <Link to='/pickupdata'>
@@ -158,10 +162,7 @@ export const PickupList = () => {
             <Button >طباعة</Button>
         </ButtonGroup>
         </Form>
-        {
-          customers && console.log(customers.filter(el => el.name))
-        }
-        <Tabels data={pickups} headers={headersArr}/>
+        <Tabels data={pickupsWithArea || []} headers={headersArr}/>
         </>
     )
 }
