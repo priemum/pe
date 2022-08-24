@@ -73,7 +73,6 @@ export const AddingCourier = () => {
   const [branches, setBranches] = useContext(BranchesContext)
   
   const navigator = useNavigate()
-  const {id} = useParams()
   const [inputsValue, setInputsValue] = useState({
     branches: '',
     name: '',
@@ -84,6 +83,7 @@ export const AddingCourier = () => {
     comm: {},
     unactive: false
   })
+  const {id} = useParams()
     useEffect( () => {
      id && getItem('couriers', id, setInputsValue)
     }, [id])
@@ -599,29 +599,46 @@ export const AddingDeliverySheet = () => {
 export const AddingInvoice = () => {
   const [branches] = useContext(BranchesContext)
   const [couriers] = useContext(CouriersContext)
-  return <Form>
-      <Input labelName='رقم الفاتورة' type='text'/>
-      <Input labelName='تاريخ الفاتورة' type='date'/>
-      <SelectInput label='الفرع' data={branches}/>
-      <SelectInput label='طريقة التوريد' data={["الكل", "تسليم مكتب", "عن طريق مندوب", "ايداع بنكي"]}/>
-      <CheckboxInputs label='ايام التسوية' checkboxArr={["السبت", "الاحد", "الاثنين", "الثلاثاء", "الاربعاء","الخميس","الجمعة"]} name='addingInvoiceCheckbox'/>  
-      <SelectInput label='العميل' data={[]}/>
+  const [customers] = useContext(CustomerContext)
+  const [inputsValue, setInputsValue] = useState({
+    invoiceCode: '',
+    invoiceDate: '',
+    branches: '',
+    supplyMethod: '',
+    setDays: '',
+    customer: '',
+    unpaidShipments: '',
+    statement: '',
+    delivery: '',
+    courier: '',
+    total: '',
+    createShipment: false
+  })
+  const navigator = useNavigate()
+  return <Form onSubmit={formSubmit('invoices', inputsValue, navigator)}>
+      <Input labelName='رقم الفاتورة' type='text' value={inputsValue} setValue={setInputsValue} name='invoiceCode'/>
+      <Input labelName='تاريخ الفاتورة' type='date' value={inputsValue} setValue={setInputsValue} name='invoiceDate'/>
+      <SelectInput label='الفرع' data={branches} value={inputsValue} setValue={setInputsValue} name='branches'/>
+      <SelectInput label='طريقة التوريد' data={["الكل", "تسليم مكتب", "عن طريق مندوب", "ايداع بنكي"]} setValue={setInputsValue} name='supplyMethod'/>
+      <CheckboxInputs label='ايام التسوية' checkboxArr={["السبت", "الاحد", "الاثنين", "الثلاثاء", "الاربعاء","الخميس","الجمعة"]} name='setDays'/>  
+      <SelectInput label='العميل' data={customers} setValue={setInputsValue} name='customer'/>
     <Col className='d-flex'>
-    <Textarea label='بوالص لم يتم دفعها'/>
+    <Textarea label='بوالص لم يتم دفعها' value={inputsValue} setValue={setInputsValue} name='unpaidShipments'/>
     <Button>ادراج</Button>
     </Col>
     <Row className='d-flex'>
     {['عدد البوالص','اجمالى المبلغ','اجمالى قيمة الشحن','الصافى '].map(e => <Col><p style={{whiteSpace: 'pre'}}>{e}</p><span className='text-danger'>0</span></Col>)}
     </Row>
-    <Input labelName='البيان' type='text'/>
-    <Input labelName='خدمة التوصيل' type='text'/>
-    <SelectInput label='المندوب' data={couriers}/>
-    <Input labelName='اجمالي الفاتورة' type='text'/>
+    <Input labelName='البيان' type='text' value={inputsValue} setValue={setInputsValue} name='statement'/>
+    <Input labelName='خدمة التوصيل' type='text' value={inputsValue} setValue={setInputsValue} name='delivery'/>
+    <SelectInput label='المندوب' data={couriers} value={inputsValue} setValue={setInputsValue} name='courier'/>
+    <Input labelName='اجمالي الفاتورة' type='text' value={inputsValue} setValue={setInputsValue} name='total'/>
     <Form.Check 
     type='checkbox'
     label='انشاء بوليصة للفاتورة'
+    checked={inputsValue.createShipment}
     />
-    <Button>بحث</Button>
+    <Button type='submit'>حفظ</Button>
   </Form>
 }
 

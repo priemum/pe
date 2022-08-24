@@ -125,6 +125,13 @@ const Tabels = ({data, headers, collName, unEditable, nav, updateAndDelete, setU
             return <td>
               <TdInput name={header.value} data={data} itemIndex={itemIndex} setUpdatedData={setUpdatedData}/>
             </td>
+            
+            if(header.compo === 'ConditionTd') 
+            return <td>
+              {
+                item[header.value] ? <small>{header.trueValue}</small> : <small>{header.falseValue}</small>
+              }
+            </td>
 
             if(header.compo && typeof(header.compo))
             return <td>

@@ -8,26 +8,20 @@ import { Badge, Container } from 'react-bootstrap';
 import React, { useContext, useEffect, useState } from 'react';
 import Company from './pages/Company';
 import Zones from './pages/Zones';
-import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingDeliverySheet, AddingBranchReturn, AddFlyerData, AddShipment, AddingComplaint} from './components/AddingCard';
+import {AddingArea, AddingCourier, AddingZone, AddingCustomer, AddingDeliverySheet, AddingBranchReturn, AddFlyerData, AddShipment, AddingComplaint, AddingInvoice} from './components/AddingCard';
 import Areas from './pages/Areas';
 import Couriers from './pages/Couriers';
 import { CustomersSearch, Tracking, Compltypes, Complgeha, Complaint, ComplaintArchive} from './pages/CustomerServices';
 import Customers from './pages/Customers';
 import Status from './pages/Status';
 import Branches, { BranchReturn, Transfer, TransferFrom } from './pages/Branches';
-import { ZonesProvider } from './contexts/ZonesContext';
-import { AreasProvider } from './contexts/AreasContext';
-import { StatusProvider } from './contexts/StatusContext';
-import { BranchesProvider } from './contexts/BranchesContext';
 import { CustomerPrices, DefaultPrices } from './pages/Prices';
 import { AddPickup, CustomersFlyers, CustomersRequest, FlyersBalances, PickupList } from './pages/Pickup';
 import { Shipments, ShipmentsImport, ShipmentsMulti, ShipmentsStatus } from './pages/Shipments';
-import { ComplexProvider } from './contexts/ComplexContexts';
-import { CouriersContext, CouriersProvider } from './contexts/CouriersContext';
-import { CustomerProvider } from './contexts/CustomersContext';
+import { CustomerContext } from './contexts/CustomersContext';
 import { ClientsBills, ClientsReserved, CourierSheet, FeesDuringPeriod, RptCustomers, ShipmentsDuringPeriod, SagelsRpt, StatementsRpt, GeneralLedeger, AccountsBalances, Myzan } from './pages/Reports';
 import { BranchsStat, Entryrpt, RequestStat, ShipmentsStat, Statistics, ZonesStat } from './pages/Statistics';
-import { AddingGroup, CreateUser, URoles } from './pages/Admin';
+import { AddingGroup, CreateUser, URoles, Users } from './pages/Admin';
 import ClientNavBar from './pages/clients/components/ClientNavBar';
 import Home from './pages/clients/Home';
 import ShippingPrice from './pages/clients/ShippingPrice';
@@ -36,50 +30,47 @@ import { NewPickupRequst, CustomerPickupList } from './pages/clients/PickupRequs
 import NewShipReqeust from './pages/clients/NewShipReqeust';
 import ImportExel from './pages/clients/ImportExel';
 import { ClientShipmentsSearch } from './pages/clients/ClientShipments';
-import { ShippmentsProvider } from './contexts/ShippmentsContexts';
-import { PickupProvider } from './contexts/PickupContext';
-
+import { UsersContext } from './contexts/UsersContext';
 function App() {
   const [activeNav, setActiveNav] = useState('مرحبا')
   const [userCustomer, setUserCustomer] = useState()
-
-  const ProtectedRoute = ({ children }) => {
+  const [customer, setCustomer] = useState()
+  const [customers] = useContext(CustomerContext)
+  const [users] = useContext(UsersContext)
+  const ProtectedRoute = ({ children , customer, setCustomer, users, nav}) => {
     const navigate = useNavigate()
     useEffect(() => {
-      !userCustomer && navigate('/api/login')
+      !customer && navigate(`${nav}login`)
     },[])
-      if (!userCustomer) {
-      return <Routes><Route path='/api/login' element={<Sign setCustomer={setUserCustomer}/>}/></Routes>
-      // <Navigate to="/api/login" replace />
+      if (!customer) {
+      return <Routes><Route path={`${nav}login`} element={<Sign setCustomer={setCustomer} users={users} nav={nav}/>}/></Routes>
+     
     }
     
     return children;
   };
 
   return (
-                  <ZonesProvider>
-                    <AreasProvider>
-                    <StatusProvider>
-                    <BranchesProvider>
-                    <CustomerProvider>
-                    <CouriersProvider>
-                    <ComplexProvider>
-                      <ShippmentsProvider>
-                        <PickupProvider>
+                 
     <div className="App">
       <header>
+      {/*condition to make NavBar disappear if we in login route*/}
         {window.location.href.indexOf('api') > -1 ?
         userCustomer ? <ClientNavBar setActiveNav={setActiveNav} /> : <></>
       :
-        <NavBar setActiveNav={setActiveNav} />
+      customer ? <NavBar setActiveNav={setActiveNav} /> : <></>
       }
       </header>
       <main style={{width: '100%'}}>
         <Container className='d-flex ' fluid>
           <Container className='m-auto border border-dark rounded  position-relative h-100 p-4'>
             <Badge className = 'active-nav position-absolute'>{activeNav}</Badge>
-            {
-            window.location.href.indexOf('api') <= -1 ?  <Routes>
+            
+            {window.location.href.indexOf('api') <= -1 ?  
+            <ProtectedRoute customer={customer} setCustomer={setCustomer}
+            users={users || []} nav='/'>
+            <Routes>
+          
                   <Route path='/company' element={<Company/>}/>
 
                   <Route path='/zones' element={<Zones />}/>
@@ -142,12 +133,17 @@ function App() {
                   <Route path='frmreports/branchsstat' element={<BranchsStat/>}/>
                   <Route path='Admin/URoles' element={<URoles/>}/>
                   <Route path='/Admin/CreateUser' element={<CreateUser/>}/>
+                  <Route path='/Admin/CreateUser/:id' element={<CreateUser/>}/>
+                  <Route path='/Admin/Users' element={<Users/>}/>
                   <Route path='/Admin/RoleData' element={<AddingGroup/>}/>
+                  <Route path='/accounting/add' element={<AddingInvoice/>}/>
                   
                   <Route path='*' element={<h1>SOON!!!!!!!!!!!!!!!!</h1>}/>
                 </Routes>
+                </ProtectedRoute>
             : 
-            <ProtectedRoute>
+            <ProtectedRoute customer={userCustomer} setCustomer={setUserCustomer}
+            users={customers || []} nav='/api/'>
             <Routes>
               <Route path='/api' element={userCustomer ? <Home /> : <Navigate to="/api/login" replace />} />
               <Route path='/api/pricelist' element={<ShippingPrice user={userCustomer}/>} />
@@ -168,15 +164,7 @@ function App() {
        <Footer />
       </footer>
     </div>
-    </PickupProvider>
-    </ShippmentsProvider>
-    </ComplexProvider>
-    </CouriersProvider>
-    </CustomerProvider>
-    </BranchesProvider>
-    </StatusProvider>
-    </AreasProvider>
-                  </ZonesProvider>
+    
   );
 }
 

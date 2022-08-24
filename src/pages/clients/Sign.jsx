@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { CustomerContext } from '../../contexts/CustomersContext'
 
-const Sign = ({setCustomer}) => {
+const Sign = ({setCustomer, users,nav}) => {
     const [customers] = useContext(CustomerContext)
     const [inputsValue, setInputsValue] = useState({
         username: '',
@@ -15,15 +15,15 @@ const Sign = ({setCustomer}) => {
     const navigate = useNavigate()
     const foo = (customer) => {
       setCustomer(customer[0]) 
-       navigate('/api')
+       navigate(nav)
     }
   return (
     <Form className='my-form' onSubmit={(e) => {
       e.preventDefault()
-       const customer = customers.filter(customer => customer.username === inputsValue.username)
-       console.log(customer)
-       if(!customer[0]) return alert('اسم مستخدم غير صحيح')
-       customer[0].password == inputsValue.password ? foo(customer) : alert('كلمة مرور غير صحيحة')
+       const user = users.filter(user => user.username === inputsValue.username)
+       console.log(users)
+       if(!user[0]) return alert('اسم مستخدم غير صحيح')
+       user[0].password == inputsValue.password ? foo(user) : alert('كلمة مرور غير صحيحة')
        
     }}>
         <Input labelName='اسم المستخدم' name='username' value={inputsValue} setValue={setInputsValue} type='text'/>

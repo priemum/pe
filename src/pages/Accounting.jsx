@@ -9,7 +9,7 @@ import { BranchesContext } from '../contexts/BranchesContext'
 export const Invoices = () => {
     const [branches] = useContext(BranchesContext)
   return (
-    <>
+    <> 
     <Link to='/accounting/add'>
         <AddBtn content='اضافة فاتورة جديدة'/>
     </Link>
