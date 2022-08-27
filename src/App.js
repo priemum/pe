@@ -100,7 +100,8 @@ function App() {
                   <Route path='/customersflyers/add' element={<AddFlyerData/>}/>
                   <Route path='/flyersbalances' element={<FlyersBalances/>}/>
                   <Route path='/shippments' element={<Shipments/>}/>
-                  <Route path='/shipments/add' element={<AddShipment/>}/>
+                  <Route path='/shippments/add' element={<AddShipment/>}/>
+                  <Route path='/shippments/add/:id' element={<AddShipment/>}/>
                   <Route path='/shipments/import' element={<ShipmentsImport/>}/>
                   <Route path='/shipments/multi' element={<ShipmentsMulti/>}/>
                   <Route path='/customerservices/search' element={<CustomersSearch/>}/>

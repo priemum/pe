@@ -9,20 +9,31 @@ import {Input, Textarea, SelectInput, FromToCompo, RadioInputs, MultiSelect, Che
 import { CourierTable } from './TableCompo'
 import { ComplexContext } from '../contexts/ComplexContexts'
 import { CustomerContext } from '../contexts/CustomersContext'
-import { getFirestore, addDoc, collection } from 'firebase/firestore'
+import { getFirestore, addDoc, collection, setDoc, doc } from 'firebase/firestore'
 import Tabels, { getItem } from './Tabels'
 import { useEffect } from 'react'
 import firebase from '../db/firestore'
 import { StatusContext } from '../contexts/StatusContext'
+import { useDynamicID } from '../hooks/useDynamicID'
 
 
-const formSubmit = (nav, inputsValue, navigator) => e => {
+export const formSubmit = (nav, inputsValue, navigator, targetedNav ) => e => {
   e.preventDefault()
   console.log(inputsValue);
 const db = getFirestore()
 const docRef = addDoc(collection(db, nav), inputsValue)
-navigator && navigator(`/${nav}`)
+navigator && navigator(targetedNav ? `/${targetedNav}` : `/${nav}`)
 } 
+export const submitWithCustomId = (nav, id, setID, inputsValue, navigator, targetedNav) => e => {
+ e.preventDefault() 
+ const db = getFirestore()
+setDoc(doc(db, nav, `${id}`), inputsValue).catch(error => {
+  console.log(error);
+})
+setID()
+console.log(id);
+ navigator && navigator(targetedNav ? `/${targetedNav}` : `/${nav}`)
+}
 export const AddingZone = ({nav, labelName}) => {
   const [inputsValue, setInputsValue] = useState({
     name: '',
@@ -385,10 +396,11 @@ export const AddShipment = () => {
   const [customers] = useContext(CustomerContext)
   const [status] = useContext(StatusContext)
   const date = new Date()
+  const {shippmentsId, setID} = useDynamicID()
   const [inputsValue, setInputsValue] = useState({
     shipmentRadioes: '',
     shippType: '',
-    shippCode: '',
+    shippCode: shippmentsId,
     pickupDate: `${date.toLocaleDateString()}`,
     pickupNum: '',
     clientName: '',
@@ -413,8 +425,11 @@ export const AddShipment = () => {
     clientRef: '',
     codeTypeRadioes: '',
   })
-
-  return <Form className='my-form' onSubmit={formSubmit('shippments', inputsValue, navigator)}>
+  const { id } = useParams()
+  useEffect( () => {
+    id && getItem('shippments', id, setInputsValue)
+   }, [id])
+  return <Form className='my-form' onSubmit={submitWithCustomId('shippments', shippmentsId, setID, inputsValue, navigator)}>
     <fieldset>
       <legend>
       بيانات البوليصة
@@ -429,7 +444,7 @@ export const AddShipment = () => {
       <SelectInput label='رقم البيك اب' data={['لا يوجد', '14', '15']}  value={inputsValue} setValue={setInputsValue} name='pickupNum' />
       </Col>
       <Col md={6}>
-      <Input labelName='رقم البوليصة' readonly={true} value='auto' type='text' setValue={setInputsValue} name='shippCode'/>
+      <Input labelName='رقم البوليصة' readonly={true} value={inputsValue}  type='text' setValue={setInputsValue} name='shippCode'/>
       </Col>
       <Col md={6}>
       </Col>
@@ -498,8 +513,8 @@ export const AddShipment = () => {
     </fieldset>
     <Button type='submit'>حفظ و خروج</Button>
     <Button onClick={() => {
-      formSubmit('shippments', inputsValue)
-      navigator('/shipments/add')
+      submitWithCustomId('shippments', shippmentsId, setID, inputsValue,)
+      navigator('/shippments/add')
     }}>حفظ و اضافة جديد</Button>
   </Form>
 }
@@ -646,18 +661,40 @@ export const AddingComplaint = () => {
   const [branches] = useContext(BranchesContext)
   const {complType, complGeha} = useContext(ComplexContext)
   const [customers] = useContext(CustomerContext)
-  const customersArr = (arr) => arr.map(cust => cust.name)
-  return <Form className='my-form'>
-    <SelectInput data={branches} label='الفرع'/>
-    <Input labelName='تاريخ الشكوي' type='date'/>
-    <SelectInput data={customersArr(customers)} label='العميل'/>
-     <SelectInput data={complType} label='نوع الشكوي'/>
-    <SelectInput data={complGeha} label='جهة الشكوي'/>
-    <Textarea label='موضوع الشكوى'/>
-    <Textarea label='تفاصيل الشكوى'/>
-    <Textarea label='الرد علي الشكوى'/>
-    <Form.Check label='تم حل وانهاء الشكوى'/>
-    <Form.Check label='اخطار العميل برسالة'/>
-    <Button>حفظ</Button>
+  const [inputsValue, setInputsValue] = useState({
+    branches: '',
+    date: '',
+    customer: '',
+    complaintType: '',
+    complaintGeha: '',
+    complaintCode: '',
+    subject: '',
+    details: '',
+    answer: '',
+    finished: false,
+    sendSms: false,
+    addBy: '',
+    updatedBy: '',
+    lastUpdateDate: ''
+  })
+  const navigator = useNavigate()
+  return <Form className='my-form' onSubmit={formSubmit('complaints', inputsValue, navigator)}>
+    <SelectInput data={branches} label='الفرع' value={inputsValue} setValue={setInputsValue} name='branch'/>
+    <Input labelName='تاريخ الشكوي' type='date' value={inputsValue} setValue={setInputsValue} name='date'/>
+    <SelectInput data={customers} label='العميل' value={inputsValue} setValue={setInputsValue} name='customer'/>
+     <SelectInput data={complType} label='نوع الشكوي' value={inputsValue} setValue={setInputsValue} name='complType'/>
+    <SelectInput data={complGeha} label='جهة الشكوي' value={inputsValue} setValue={setInputsValue} name='complGeha'/>
+    <Textarea label='موضوع الشكوى' value={inputsValue} setValue={setInputsValue} name='subject'/>
+    <Textarea label='تفاصيل الشكوى' value={inputsValue} setValue={setInputsValue} name='details'/>
+    <Textarea label='الرد علي الشكوى' value={inputsValue} setValue={setInputsValue} name='answer'/>
+    <Form.Check label='تم حل وانهاء الشكوى' value={inputsValue} onChange={() => setInputsValue({
+      ... inputsValue,
+      finished: !inputsValue.finished
+    })}/>
+    <Form.Check label='اخطار العميل برسالة' value={inputsValue} onChange={() => setInputsValue({
+      ... inputsValue,
+      sendSms: !inputsValue.sendSms
+    })}/>
+    <Button type='submit'>حفظ</Button>
   </Form>
 }

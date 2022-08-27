@@ -6,7 +6,7 @@ export function Input({labelName,value,type, setValue, name, readonly, onFocus, 
  
   const inputOnChange = e => {
     console.log(value);
-  (typeof(value) === 'object') ? setValue(value=>{return {... value, [name] :`${e.target.value}`}})
+  (typeof(value) === 'object') ? setValue(value=>{return {... value, [name] : name == 'username' ? `${e.target.value}`.trim().toLocaleLowerCase() : `${e.target.value}`.trim() }})
   :
    setValue(`${e.target.value}`);
 

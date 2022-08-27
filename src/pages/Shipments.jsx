@@ -64,7 +64,7 @@ export const Shipments = () => {
     ]
   return (
     <div>
-        <Link to='/shipments/add'>
+        <Link to='/shippments/add'>
         <AddBtn content='إضافة بوليصة شحن جديدة' />
         </Link>
         <Form classname='my-form'>
@@ -74,7 +74,8 @@ export const Shipments = () => {
             <Input labelName='رقم البوليصة'/>
             <Button type='submit'>بحث</Button>
         </Form>
-        {shippments ? <Tabels headers={tableHeaders} data={shippments}/> : <Badge>لا يوجد نتائج</Badge>}
+        {console.log(shippments)}
+        {shippments ? <Tabels headers={tableHeaders} data={shippments} nav='shippments/add' unEditable={true} collName='shippments'/> : <Badge>لا يوجد نتائج</Badge>}
         <Button>طباعة</Button>
     </div>
   )
