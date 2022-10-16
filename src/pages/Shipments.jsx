@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import { useState } from 'react'
 import { Badge, Button, Col, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { BranchesContext } from '../contexts/BranchesContext'
 import { CustomerContext } from '../contexts/CustomersContext'
 import { ShippmentsContext } from '../contexts/ShippmentsContexts'
 import { ZonesContext } from '../contexts/ZonesContext'
+import { useDynamicID } from '../hooks/useDynamicID'
 
 export const Shipments = () => {
     const [zones, setZones] = useContext(ZonesContext)
@@ -62,6 +63,10 @@ export const Shipments = () => {
         },
         
     ]
+    const {shippmentsId} = useDynamicID()
+    useEffect (() => {
+        console.log(shippmentsId)
+      },[shippmentsId])
   return (
     <div>
         <Link to='/shippments/add'>
@@ -74,7 +79,6 @@ export const Shipments = () => {
             <Input labelName='رقم البوليصة'/>
             <Button type='submit'>بحث</Button>
         </Form>
-        {console.log(shippments)}
         {shippments ? <Tabels headers={tableHeaders} data={shippments} nav='shippments/add' unEditable={true} collName='shippments'/> : <Badge>لا يوجد نتائج</Badge>}
         <Button>طباعة</Button>
     </div>

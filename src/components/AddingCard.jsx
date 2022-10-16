@@ -9,12 +9,14 @@ import {Input, Textarea, SelectInput, FromToCompo, RadioInputs, MultiSelect, Che
 import { CourierTable } from './TableCompo'
 import { ComplexContext } from '../contexts/ComplexContexts'
 import { CustomerContext } from '../contexts/CustomersContext'
-import { getFirestore, addDoc, collection, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, addDoc, collection, setDoc, doc, Firestore } from 'firebase/firestore'
 import Tabels, { getItem } from './Tabels'
 import { useEffect } from 'react'
 import firebase from '../db/firestore'
 import { StatusContext } from '../contexts/StatusContext'
 import { useDynamicID } from '../hooks/useDynamicID'
+import { DynamicIdContext } from '../contexts/DynamicIdContext'
+import { getData } from '../db/firestoreHundle'
 
 
 export const formSubmit = (nav, inputsValue, navigator, targetedNav ) => e => {
@@ -26,12 +28,19 @@ navigator && navigator(targetedNav ? `/${targetedNav}` : `/${nav}`)
 } 
 export const submitWithCustomId = (nav, id, setID, inputsValue, navigator, targetedNav) => e => {
  e.preventDefault() 
- const db = getFirestore()
-setDoc(doc(db, nav, `${id}`), inputsValue).catch(error => {
-  console.log(error);
-})
-setID()
-console.log(id);
+ const db = firebase.firestore()
+// setDoc(doc(db, nav, `${id}`), inputsValue).then(() => {
+//   setID(id + 1)
+//   console.log(id);
+// }).catch(error => {
+//   console.log(error);
+// })
+const increment = firebase.firestore.FieldValue.increment(1)
+const decrement = firebase.firestore.FieldValue.increment(-1)
+
+const idRef = db.collection('dynaminsId').doc('shippmentsId')
+idRef.update({count: increment})
+console.log(idRef.id)
  navigator && navigator(targetedNav ? `/${targetedNav}` : `/${nav}`)
 }
 export const AddingZone = ({nav, labelName}) => {
@@ -396,11 +405,12 @@ export const AddShipment = () => {
   const [customers] = useContext(CustomerContext)
   const [status] = useContext(StatusContext)
   const date = new Date()
-  const {shippmentsId, setID} = useDynamicID()
+  const [count, setCount] = useState()
+  const {dynamicsId, setShippmentsId} = useContext(DynamicIdContext)
   const [inputsValue, setInputsValue] = useState({
     shipmentRadioes: '',
     shippType: '',
-    shippCode: shippmentsId,
+    shippCode: `${id}` ,
     pickupDate: `${date.toLocaleDateString()}`,
     pickupNum: '',
     clientName: '',
@@ -426,10 +436,18 @@ export const AddShipment = () => {
     codeTypeRadioes: '',
   })
   const { id } = useParams()
+  useEffect(() => {
+    getData('cuont', setCount)
+    console.log(count);
+  }, [])
   useEffect( () => {
     id && getItem('shippments', id, setInputsValue)
    }, [id])
-  return <Form className='my-form' onSubmit={submitWithCustomId('shippments', shippmentsId, setID, inputsValue, navigator)}>
+  return <Form className='my-form' onSubmit={
+    submitWithCustomId('shippments',  dynamicsId.shippmentsId, setShippmentsId, inputsValue, navigator)
+  // formSubmit('shippments', inputsValue, navigator)
+  }>
+    {/* {console.log( dynamicsId)} */}
     <fieldset>
       <legend>
       بيانات البوليصة
@@ -444,7 +462,7 @@ export const AddShipment = () => {
       <SelectInput label='رقم البيك اب' data={['لا يوجد', '14', '15']}  value={inputsValue} setValue={setInputsValue} name='pickupNum' />
       </Col>
       <Col md={6}>
-      <Input labelName='رقم البوليصة' readonly={true} value={inputsValue}  type='text' setValue={setInputsValue} name='shippCode'/>
+      <Input labelName='رقم البوليصة' readonly={true} value={inputsValue}  type='text' setValue={setInputsValue} name='id'/>
       </Col>
       <Col md={6}>
       </Col>
@@ -513,9 +531,10 @@ export const AddShipment = () => {
     </fieldset>
     <Button type='submit'>حفظ و خروج</Button>
     <Button onClick={() => {
-      submitWithCustomId('shippments', shippmentsId, setID, inputsValue,)
-      navigator('/shippments/add')
-    }}>حفظ و اضافة جديد</Button>
+      console.log('click');
+      submitWithCustomId('shippments',  dynamicsId.shippmentsId, setShippmentsId, inputsValue, navigator, 'shippments/add')
+    }
+    }>حفظ و اضافة جديد</Button>
   </Form>
 }
 

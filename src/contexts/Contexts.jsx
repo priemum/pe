@@ -9,6 +9,7 @@ import { BranchesProvider } from './BranchesContext';
 import { CustomerProvider } from './CustomersContext';
 import { ShippmentsProvider } from './ShippmentsContexts';
 import { UsersProvider } from "./UsersContext";
+import { DynamicIdProvider } from "./DynamicIdContext";
 
 const Contexts = ({ children }) => {
   return (
@@ -21,9 +22,11 @@ const Contexts = ({ children }) => {
               <CouriersProvider>
                 <ComplexProvider>
                   <ShippmentsProvider>
+                    <DynamicIdProvider>
                         <PickupProvider>
                             {children}
                         </PickupProvider>
+                    </DynamicIdProvider>    
                   </ShippmentsProvider>
                 </ComplexProvider>
               </CouriersProvider>

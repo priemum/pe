@@ -10,12 +10,6 @@ export const ZonesProvider = (props) => {
     useEffect(() => {
       getData('zones', setZones)
     }, [])
-    // useCallback(() => {
-    //     console.log('update');
-    //     const db = getFirestore()
-    //    zones.map( zone => addDoc(collection(db, 'zones'), zone))
-
-    // },[zones])
   return (
     <ZonesContext.Provider value={[zones, setZones]}>{props.children}</ZonesContext.Provider>
   )

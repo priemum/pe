@@ -5,6 +5,6 @@ export const useDynamicID = (iv) => {
   useEffect (() => {
     console.log(shippmentsId)
   },[shippmentsId])
-  const setID = () => {setShippmentsId(shippmentsId + 1); console.log(shippmentsId);}
+  const setID = () => {setShippmentsId(id => id + 1); console.log(shippmentsId);}
   return { shippmentsId, setID }
 }
