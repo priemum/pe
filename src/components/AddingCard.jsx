@@ -17,6 +17,7 @@ import { StatusContext } from '../contexts/StatusContext'
 import { useDynamicID } from '../hooks/useDynamicID'
 import { DynamicIdContext } from '../contexts/DynamicIdContext'
 import { getData } from '../db/firestoreHundle'
+import { ShippmentsContext } from '../contexts/ShippmentsContexts'
 
 
 export const formSubmit = (nav, inputsValue, navigator, targetedNav ) => e => {
@@ -26,21 +27,15 @@ const db = getFirestore()
 const docRef = addDoc(collection(db, nav), inputsValue)
 navigator && navigator(targetedNav ? `/${targetedNav}` : `/${nav}`)
 } 
-export const submitWithCustomId = (nav, id, setID, inputsValue, navigator, targetedNav) => e => {
+export const submitWithCustomId = (nav, id, inputsValue, navigator, targetedNav) => e => {
  e.preventDefault() 
- const db = firebase.firestore()
-// setDoc(doc(db, nav, `${id}`), inputsValue).then(() => {
-//   setID(id + 1)
-//   console.log(id);
-// }).catch(error => {
-//   console.log(error);
-// })
-const increment = firebase.firestore.FieldValue.increment(1)
-const decrement = firebase.firestore.FieldValue.increment(-1)
+ const db = getFirestore()
+setDoc(doc(db, nav, `${id + 1}`), inputsValue).then(() => {
+  setDoc(doc(db, nav, 'shipp-count'), {shippCount : id + 1})
+}).catch(error => {
+  console.log(error);
+})
 
-const idRef = db.collection('dynaminsId').doc('shippmentsId')
-idRef.update({count: increment})
-console.log(idRef.id)
  navigator && navigator(targetedNav ? `/${targetedNav}` : `/${nav}`)
 }
 export const AddingZone = ({nav, labelName}) => {
@@ -405,6 +400,7 @@ export const AddShipment = () => {
   const [customers] = useContext(CustomerContext)
   const [status] = useContext(StatusContext)
   const date = new Date()
+  const [shippments] = useContext(ShippmentsContext) 
   const [count, setCount] = useState()
   const {dynamicsId, setShippmentsId} = useContext(DynamicIdContext)
   const [inputsValue, setInputsValue] = useState({
@@ -437,17 +433,18 @@ export const AddShipment = () => {
   })
   const { id } = useParams()
   useEffect(() => {
-    getData('cuont', setCount)
+    const count = shippments.filter(sh => sh.id === 'shipp-count')
     console.log(count);
-  }, [])
+    setCount(count[0].shippCount)
+  }, [shippments])
   useEffect( () => {
     id && getItem('shippments', id, setInputsValue)
    }, [id])
   return <Form className='my-form' onSubmit={
-    submitWithCustomId('shippments',  dynamicsId.shippmentsId, setShippmentsId, inputsValue, navigator)
+    submitWithCustomId('shippments',  count, inputsValue, navigator)
   // formSubmit('shippments', inputsValue, navigator)
   }>
-    {/* {console.log( dynamicsId)} */}
+    {console.log(count)}
     <fieldset>
       <legend>
       بيانات البوليصة
@@ -462,7 +459,7 @@ export const AddShipment = () => {
       <SelectInput label='رقم البيك اب' data={['لا يوجد', '14', '15']}  value={inputsValue} setValue={setInputsValue} name='pickupNum' />
       </Col>
       <Col md={6}>
-      <Input labelName='رقم البوليصة' readonly={true} value={inputsValue}  type='text' setValue={setInputsValue} name='id'/>
+      <Input labelName='رقم البوليصة' readonly={true} value={count + 1 }  type='text' setValue={setInputsValue} name='id'/>
       </Col>
       <Col md={6}>
       </Col>

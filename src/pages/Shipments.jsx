@@ -12,13 +12,14 @@ import { ZonesContext } from '../contexts/ZonesContext'
 import { useDynamicID } from '../hooks/useDynamicID'
 
 export const Shipments = () => {
-    const [zones, setZones] = useContext(ZonesContext)
-    const [shippments, setShippments] = useContext(ShippmentsContext)
+    const [zones] = useContext(ZonesContext)
+    const [shippments] = useContext(ShippmentsContext)
     const [customers] = useContext(CustomerContext)
+    const [count, setCount] = useState()
     const tableHeaders = [
         {
             label: 'رقم البوليصة',
-            value: 'shippCode'
+            value: 'id'
         },
         {
             label: 'تاريخ البيك اب',
@@ -63,10 +64,9 @@ export const Shipments = () => {
         },
         
     ]
-    const {shippmentsId} = useDynamicID()
-    useEffect (() => {
-        console.log(shippmentsId)
-      },[shippmentsId])
+    useEffect(() => {
+        setCount(shippments.filter(sh => sh.id === 'shipp-count')[0].shippCount)
+    },[shippments])
   return (
     <div>
         <Link to='/shippments/add'>
@@ -79,7 +79,7 @@ export const Shipments = () => {
             <Input labelName='رقم البوليصة'/>
             <Button type='submit'>بحث</Button>
         </Form>
-        {shippments ? <Tabels headers={tableHeaders} data={shippments} nav='shippments/add' unEditable={true} collName='shippments'/> : <Badge>لا يوجد نتائج</Badge>}
+        {shippments ? <Tabels headers={tableHeaders} data={shippments.filter(sh => sh.id !== 'shipp-count')} nav='shippments/add' elementsCount={count} unEditable={true} collName='shippments'/> : <Badge>لا يوجد نتائج</Badge>}
         <Button>طباعة</Button>
     </div>
   )

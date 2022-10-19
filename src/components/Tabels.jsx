@@ -4,7 +4,7 @@ import { Button, Form, Table } from 'react-bootstrap'
 import { Input } from './Input'
 import firebase from '../db/firestore'
 import { useNavigate } from 'react-router-dom'
-import { getFirestore, doc, collection, getDoc, addDoc } from 'firebase/firestore'
+import { getFirestore, doc, collection, getDoc, addDoc, setDoc } from 'firebase/firestore'
 
 export const getItem = (nav, id, setInputsValue) => {
   const db = getFirestore()
@@ -38,7 +38,7 @@ return <tr>
  </tr>
 }
 
-const Tabels = ({data, headers, collName, unEditable, nav, updateAndDelete, setUpdatedData}) => {
+const Tabels = ({data, headers, collName, unEditable, nav, updateAndDelete, setUpdatedData, elementsCount}) => {
   const [rowId, setRowId] = useState(null)
   const [editedRow, setEditRow] = useState({
     name: '',
@@ -154,7 +154,16 @@ const Tabels = ({data, headers, collName, unEditable, nav, updateAndDelete, setU
          :
           <FaEdit style={{cursor: 'pointer',}}  onClick={() => {console.log(item.id); setRowId(item.id)}}/>
           }</td>
-        <td style={{display:`${updateAndDelete && !updateAndDelete.delete? 'none' : 'table-cell'}`}}><FaTrash style={{cursor: 'pointer',}}  onClick={() => firebase.firestore().collection(collName).doc(item.id).delete()}/></td>
+        <td style={{display:`${updateAndDelete && !updateAndDelete.delete? 'none' : 'table-cell'}`}}><FaTrash style={{cursor: 'pointer',}}  onClick={() => {
+          //delete document
+          firebase.firestore().collection(collName).doc(item.id).delete()
+          // decrement shippCount if count defind
+          console.log(elementsCount);
+          if(elementsCount){
+            const db = getFirestore()
+          setDoc(doc(db, collName, 'shipp-count'), {shippCount: elementsCount - 1})
+        }
+          }}/></td>
    </tr>}
   </>
     ))

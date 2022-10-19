@@ -118,7 +118,7 @@ export function CheckboxInputs ({label, checkboxArr, name}){
 
 export function MultiSelect ({data, label}){
   const options =  []
-     data.map(ob => options.push({value: `${ob['areaName']}`, label: `${ob['areaName'].toUpperCase()}`}))
+     data.map(ob => options.push({value: `${ob['name']}`, label: `${ob['name'].toUpperCase()}`}))
   return <Col className='d-flex w-100 my-3'>
   <Form.Label>{label}</Form.Label>
   <Select
