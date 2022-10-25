@@ -54,7 +54,7 @@ const Tabels = ({data, headers, collName, unEditable, nav, updateAndDelete, setU
 
   const SetDays = ({setDays}) => <ul className='d-flex flex-wrap pe-3'>
   {
-      Object.keys(setDays).map(day => setDays[day] && <li className='w-100'>{day}</li>)
+    setDays && Object.keys(setDays).map(day => setDays[day] && <li className='w-100'>{day}</li>)
     
   }
 </ul>
@@ -155,14 +155,14 @@ const Tabels = ({data, headers, collName, unEditable, nav, updateAndDelete, setU
           <FaEdit style={{cursor: 'pointer',}}  onClick={() => {console.log(item.id); setRowId(item.id)}}/>
           }</td>
         <td style={{display:`${updateAndDelete && !updateAndDelete.delete? 'none' : 'table-cell'}`}}><FaTrash style={{cursor: 'pointer',}}  onClick={() => {
-          //delete document
-          firebase.firestore().collection(collName).doc(item.id).delete()
           // decrement shippCount if count defind
           console.log(elementsCount);
           if(elementsCount){
             const db = getFirestore()
-          setDoc(doc(db, collName, 'shipp-count'), {shippCount: elementsCount - 1})
+          setDoc(doc(db, collName, `${collName}-id-count`), {[`${collName}Count`]: Number(item.id) - 1})
         }
+          //delete document
+          firebase.firestore().collection(collName).doc(item.id).delete()
           }}/></td>
    </tr>}
   </>

@@ -6,6 +6,7 @@ import {SelectInput, Input} from '../components/Input'
 import { BranchesContext } from '../contexts/BranchesContext'
 import Tabels from '../components/Tabels'
 import { CustomerContext } from '../contexts/CustomersContext'
+import { useDynamicID } from '../hooks/useDynamicID'
 const Customers = () => {
   const [search, setSearch] = useState({})
   const [branches] = useContext(BranchesContext)
@@ -22,7 +23,7 @@ const Customers = () => {
   // const TdCheck = ({isCheck}) => <Form.Check type='checkbox' checked={isCheck} />
 
   const headersArr= [
-    {label: 'رقم العميل', value: 'accountNumber'}, 
+    {label: 'رقم العميل', value: 'id'}, 
     {label: 'اسم العميل', value: 'name'}, 
     {label: 'تاريخ فتح الحساب', value: 'date'},
     {label: 'الشخص المسئول', value: 'resPerson'},
@@ -36,7 +37,7 @@ const Customers = () => {
     {label: 'فعال', value: 'active', check: false, compo: 'TdCheck'},
     {label: 'مرفقات', value: 'notes'},
   ]
-  const tableCompo = {}
+  const count = useDynamicID('customers', customers)
   return( 
     <>
     <Form>
@@ -48,7 +49,7 @@ const Customers = () => {
       <Input label='اسم/تليفون/رقم العميل' value={search} setValue={setSearch}/>
       <SelectInput label='الحالة' data={[]}/>
     </Form> 
-    <Tabels data={customers ? customers : []} collName='customers' headers={headersArr} unEditable={true} nav='customers/update'/>
+    <Tabels data={customers ? customers.filter(c => c.id !== 'customers-id-count') : []} collName='customers' headers={headersArr} unEditable={true} nav='customers/update' elementsCount={count}/>
     </>
     )
 }

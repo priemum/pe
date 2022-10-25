@@ -18,6 +18,7 @@ import { useDynamicID } from '../hooks/useDynamicID'
 import { DynamicIdContext } from '../contexts/DynamicIdContext'
 import { getData } from '../db/firestoreHundle'
 import { ShippmentsContext } from '../contexts/ShippmentsContexts'
+import { useGetItem } from '../hooks/useGetItem'
 
 
 export const formSubmit = (nav, inputsValue, navigator, targetedNav ) => e => {
@@ -31,7 +32,7 @@ export const submitWithCustomId = (nav, id, inputsValue, navigator, targetedNav)
  e.preventDefault() 
  const db = getFirestore()
 setDoc(doc(db, nav, `${id + 1}`), inputsValue).then(() => {
-  setDoc(doc(db, nav, 'shipp-count'), {shippCount : id + 1})
+  setDoc(doc(db, nav, `${nav}-id-count`), {[`${nav}Count`] : id + 1})
 }).catch(error => {
   console.log(error);
 })
@@ -98,14 +99,17 @@ export const AddingCourier = () => {
     comm: {},
     unactive: false
   })
-  const {id} = useParams()
-    useEffect( () => {
-     id && getItem('couriers', id, setInputsValue)
-    }, [id])
+  const {id} = useGetItem('couriers', inputsValue, setInputsValue)
+  
+  //   useEffect( () => {
+  //     //get current id item
+  //    id && getItem('couriers', id, setInputsValue)
+  //   }, [id])
 
-    useEffect(() => {
-      id && inputsValue.name != '' && firebase.firestore().collection('couriers').doc(id).update(inputsValue)
-    },[inputsValue])
+  //   useEffect(() => {
+  //     //update current id item
+  //     id && inputsValue.name != '' && firebase.firestore().collection('couriers').doc(id).update(inputsValue)
+  //   },[inputsValue])
 
   const inputs = [
     {
@@ -163,8 +167,8 @@ export const AddingCustomer = () => {
   const [areas] = useContext(AreasContext)
   const [zones] = useContext(ZonesContext)
   const [branches] = useContext(BranchesContext)
+  const [customers] = useContext(CustomerContext)
   const [inputsValue, setInputsValue] = useState({
-    accountNumber: '',
     accountType: {
       comp: false,
       person: false
@@ -211,19 +215,20 @@ export const AddingCustomer = () => {
     }
   )
   const navigator = useNavigate()
-  const { id } = useParams()
-  useEffect( () => {
-    id && getItem('customers', id, setInputsValue)
-   }, [id])
+  const {id} = useGetItem('customers', inputsValue, setInputsValue)
+  const count = useDynamicID('customers', customers)
+  // useEffect( () => {
+  //   id && getItem('customers', id, setInputsValue)
+  //  }, [id])
 
-  useEffect(() => {
-    id && inputsValue.accountNumber != '' && firebase.firestore().collection('customers').doc(id).update(inputsValue)
-  },[inputsValue])
+  // useEffect(() => {
+  //   id && inputsValue.accountNumber != '' && firebase.firestore().collection('customers').doc(id).update(inputsValue)
+  // },[inputsValue])
 
 return (
   <Container fluid className='add-card '>
       {console.log(inputsValue)}
-        <Form onSubmit={formSubmit('customers', inputsValue, navigator)}>
+        <Form onSubmit={submitWithCustomId('customers', count, inputsValue, navigator)}>
         <Input name='accountNumber' labelName='رقم حساب العميل *:' type='text' value={inputsValue} setValue={setInputsValue}/>
         <Input name='name' labelName='اسم العميل *:' type='text' value={inputsValue} setValue={setInputsValue}/>
         <Form.Group name='accountType'>
@@ -401,8 +406,8 @@ export const AddShipment = () => {
   const [status] = useContext(StatusContext)
   const date = new Date()
   const [shippments] = useContext(ShippmentsContext) 
-  const [count, setCount] = useState()
-  const {dynamicsId, setShippmentsId} = useContext(DynamicIdContext)
+  // const [count, setCount] = useState(0)
+  // const {dynamicsId, setShippmentsId} = useContext(DynamicIdContext)
   const [inputsValue, setInputsValue] = useState({
     shipmentRadioes: '',
     shippType: '',
@@ -431,15 +436,16 @@ export const AddShipment = () => {
     clientRef: '',
     codeTypeRadioes: '',
   })
-  const { id } = useParams()
-  useEffect(() => {
-    const count = shippments.filter(sh => sh.id === 'shipp-count')
-    console.log(count);
-    setCount(count[0].shippCount)
-  }, [shippments])
-  useEffect( () => {
-    id && getItem('shippments', id, setInputsValue)
-   }, [id])
+  const {id} = useGetItem('shippments', inputsValue, setInputsValue)
+  const count = useDynamicID('shippments', shippments)
+  // useEffect(() => {
+  //   const count = shippments.filter(sh => sh.id === 'shippments-id-count')
+    
+  //   count.length > 0 && setCount(count[0].shippCount)
+  // }, [shippments])
+  // useEffect( () => {
+  //   id && getItem('shippments', id, setInputsValue)
+  //  }, [id])
   return <Form className='my-form' onSubmit={
     submitWithCustomId('shippments',  count, inputsValue, navigator)
   // formSubmit('shippments', inputsValue, navigator)
@@ -529,7 +535,7 @@ export const AddShipment = () => {
     <Button type='submit'>حفظ و خروج</Button>
     <Button onClick={() => {
       console.log('click');
-      submitWithCustomId('shippments',  dynamicsId.shippmentsId, setShippmentsId, inputsValue, navigator, 'shippments/add')
+      // submitWithCustomId('shippments',  dynamicsId.shippmentsId, setShippmentsId, inputsValue, navigator, 'shippments/add')
     }
     }>حفظ و اضافة جديد</Button>
   </Form>
