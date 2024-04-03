@@ -9,7 +9,7 @@ export const NewPickupRequst = () => {
     to: ''
   })
   const [inputsValue, setInputsValue] = useState({
-    date: new Date,
+    date: new Date,         
     notice: '',
     clock: clock,
     flyersNum: '0',
